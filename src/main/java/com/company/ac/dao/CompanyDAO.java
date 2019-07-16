@@ -8,13 +8,9 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
-
 import javax.naming.NamingException;
-
 import com.company.ac.datasource.AccountsDataSource;
-import com.company.ac.exceptions.DateFormatException;
 import com.company.ac.models.company.Company;
-import com.company.ac.utils.DateManager;
 import com.company.ac.utils.DateUtil;
 
 

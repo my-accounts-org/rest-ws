@@ -1,16 +1,14 @@
 package com.company.ac.utils;
 
-import java.sql.Date;
+import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class DateUtil {
 	
 	private static SimpleDateFormat uiDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	private static SimpleDateFormat sdf = new SimpleDateFormat();
-	private static DateUtil util = new DateUtil();
 	
 	private DateUtil() {}
 	
@@ -29,15 +27,14 @@ public class DateUtil {
 		sdf.applyPattern(pattern);
 		return sdf.format(date);
 		
-	}
-	
+	}	
 	
 	public static void main(String[] args) {
 		String date = "2019-03-31T18:30:00.000Z";
 		String formatted = DateUtil.format(date, "yyyy-MMMM-dd");
 		System.out.println("Date => "+formatted);
-		
-		Date today = new Date(2019-1900, 04, 16);
-		System.out.println(DateUtil.format(today, "dd MMM, yyyy"));
+		Calendar cal = Calendar.getInstance();
+		cal.set(2019, 04, 16);		
+		System.out.println(DateUtil.format(cal.getTime(), "dd MMM, yyyy")); 
 	}
 }
