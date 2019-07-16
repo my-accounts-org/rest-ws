@@ -8,6 +8,7 @@ import javax.ws.rs.core.Application;
 
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
+import com.company.ac.exceptions.mappers.AuthenticationExceptionMapper;
 import com.company.ac.resources.AuthenticationResource;
 import com.company.ac.resources.CompanyResource;
 import com.company.ac.resources.GroupResource;
@@ -25,6 +26,7 @@ public class AccountApplication extends Application {
         classes.add(CompanyResource.class);
         classes.add(GroupResource.class);
         classes.add(LedgerResource.class);
+        classes.add(AuthenticationExceptionMapper.class);
         return classes;
     }
 }

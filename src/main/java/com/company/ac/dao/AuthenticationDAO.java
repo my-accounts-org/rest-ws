@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import javax.naming.NamingException;
 
 import com.company.ac.datasource.AccountsDataSource;
+import com.company.ac.exceptions.AuthenticationException;
 import com.company.ac.models.User;
 
 public class AuthenticationDAO implements QueryNames {
@@ -30,7 +31,8 @@ public class AuthenticationDAO implements QueryNames {
 			r = s.executeQuery();
 			if(r.next()) {
 				found = new User(r.getString(1), r.getString(2), r.getInt(3) == 0? false: true);
-			}
+			} 
+				
 		} catch (NamingException e) {			
 			e.printStackTrace();
 		} catch (SQLException e) {			
