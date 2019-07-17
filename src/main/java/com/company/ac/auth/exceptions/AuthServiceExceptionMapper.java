@@ -1,19 +1,18 @@
-package com.company.ac.exceptions.mappers;
+package com.company.ac.auth.exceptions;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.company.ac.exceptions.AuthServiceException;
-import com.company.ac.exceptions.ErrorResponse;
+import com.company.ac.models.ErrorMessage;
 
 @Provider
 public class AuthServiceExceptionMapper implements ExceptionMapper<AuthServiceException>{
 
 	@Override
 	public Response toResponse(AuthServiceException ex) {
-		ErrorResponse response = new ErrorResponse("404", ex.getMessage());
+		ErrorMessage response = new ErrorMessage(404, ex.getMessage());
 		return Response.status(Status.UNAUTHORIZED).entity(response).build();
 	}
 

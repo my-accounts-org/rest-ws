@@ -1,6 +1,6 @@
-package com.company.ac.services;
+package com.company.ac.auth.service;
 
-import com.company.ac.exceptions.AuthServiceException;
+import com.company.ac.auth.exceptions.AuthServiceException;
 import com.company.ac.models.User;
 
 public interface AuthService {

@@ -8,11 +8,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.company.ac.auth.exceptions.AuthServiceException;
+import com.company.ac.auth.exceptions.AuthServiceExceptionMapper;
+import com.company.ac.auth.impl.AuthServiceImpl;
 import com.company.ac.dao.AuthenticationDAO;
-import com.company.ac.exceptions.AuthServiceException;
-import com.company.ac.exceptions.mappers.AuthServiceExceptionMapper;
 import com.company.ac.models.User;
-import com.company.ac.services.impl.AuthServiceImpl;
 
 @Path("login")
 public class AuthenticationResource {

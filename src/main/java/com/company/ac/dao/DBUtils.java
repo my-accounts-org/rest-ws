@@ -196,7 +196,9 @@ public class DBUtils {
 			c = AccountsDataSource.getMySQLConnection();
 			s = c.createStatement();
 			r = s.executeQuery(sql);
-			company = convert(r, new Company());
+			if(r.next()) {
+				company = convert(r, new Company());
+			}
 		} catch (NamingException e) {			
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -222,7 +224,7 @@ public class DBUtils {
 	}
 	
 	private Company convert(ResultSet r, Company company) throws SQLException {
-		int index = 0;			
+		int index = 0;	
 		company.setId(r.getLong(++index));
 		company.setName(r.getString(++index));
 		company.setMailingName(r.getString(++index));
@@ -233,6 +235,7 @@ public class DBUtils {
 		company.setPassword(r.getString(++index));
 		company.setStatus(r.getInt(++index));
 		company.setIsDefault(r.getInt(++index));		
+	
 		return company;
 	}
 	

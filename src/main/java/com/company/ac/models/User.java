@@ -1,10 +1,14 @@
 package com.company.ac.models;
 
+import com.company.ac.models.company.Company;
+
 public class User {
 
 	private String email;
 	private String password;
 	private boolean active;
+	
+	private Company company;
 	
 	public User() {}
 	
@@ -39,9 +43,17 @@ public class User {
 		this.active = active;
 	}
 
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
 	@Override
 	public String toString() {
-		return "User [email=" + email + ", password=" + password + ", active=" + active + "]";
+		return "User [email=" + email + ", password=" + password + ", active=" + active + ", company=" + company + "]";
 	}	
 	
 	

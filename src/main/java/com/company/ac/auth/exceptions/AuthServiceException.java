@@ -1,4 +1,4 @@
-package com.company.ac.exceptions;
+package com.company.ac.auth.exceptions;
 
 public class AuthServiceException extends RuntimeException  {
 
