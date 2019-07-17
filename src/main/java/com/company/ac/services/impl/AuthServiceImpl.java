@@ -1,11 +1,11 @@
 package com.company.ac.services.impl;
 
 import com.company.ac.dao.AuthenticationDAO;
-import com.company.ac.exceptions.AuthenticationException;
+import com.company.ac.exceptions.AuthServiceException;
 import com.company.ac.models.User;
-import com.company.ac.services.AuthenticationService;
+import com.company.ac.services.AuthService;
 
-public class AuthenticationImpl implements AuthenticationService{
+public class AuthServiceImpl implements AuthService{
 
 	private AuthenticationDAO dao = new AuthenticationDAO();
 	
@@ -15,7 +15,7 @@ public class AuthenticationImpl implements AuthenticationService{
 		 User found = dao.authenticate(user);
 		 
 		 if(found == null) {
-			 throw new AuthenticationException(user.getEmail()+" not found! Please verify username/password!");
+			 throw new AuthServiceException(user.getEmail()+" not found! Please verify username/password!");
 		 }
 		 
 		 return user;

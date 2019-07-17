@@ -9,15 +9,15 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.company.ac.dao.AuthenticationDAO;
-import com.company.ac.exceptions.AuthenticationException;
-import com.company.ac.exceptions.mappers.AuthenticationExceptionMapper;
+import com.company.ac.exceptions.AuthServiceException;
+import com.company.ac.exceptions.mappers.AuthServiceExceptionMapper;
 import com.company.ac.models.User;
-import com.company.ac.services.impl.AuthenticationImpl;
+import com.company.ac.services.impl.AuthServiceImpl;
 
 @Path("login")
 public class AuthenticationResource {
 
-	private AuthenticationImpl auth = new AuthenticationImpl();
+	private AuthServiceImpl auth = new AuthServiceImpl();
 	
 	@POST
 	@Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
