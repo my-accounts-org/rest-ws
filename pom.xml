@@ -27,17 +27,17 @@
 	</build>
 
 	<dependencies>
-	
-	<dependency>
-		<groupId>javax</groupId>
-		<artifactId>javaee-api</artifactId>
-		<version>7.0</version>		
-	</dependency>
+
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.glassfish.jersey.bundles/jaxrs-ri -->
 		<dependency>
-		    <groupId>org.glassfish.jersey.bundles</groupId>
-		    <artifactId>jaxrs-ri</artifactId>
-		    <version>2.29</version>		   
+			<groupId>org.glassfish.jersey.bundles</groupId>
+			<artifactId>jaxrs-ri</artifactId>
+			<version>2.29</version>
 		</dependency>
 
 		<dependency>
@@ -58,6 +58,28 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.44</version>
 		</dependency>
+
+		<!-- Jars for JSON Web Tokens (JWT) -->
+		<!-- <dependency> <groupId>io.jsonwebtoken</groupId> <artifactId>jjwt-api</artifactId> 
+			<version>0.10.7</version> </dependency> <dependency> <groupId>io.jsonwebtoken</groupId> 
+			<artifactId>jjwt-impl</artifactId> <version>0.10.7</version> <scope>runtime</scope> 
+			</dependency> <dependency> <groupId>io.jsonwebtoken</groupId> <artifactId>jjwt-jackson</artifactId> 
+			<version>0.10.7</version> <scope>runtime</scope> </dependency> Uncomment 
+			this next dependency if you want to use RSASSA-PSS (PS256, PS384, PS512) 
+			algorithms: <dependency> <groupId>org.bouncycastle</groupId> <artifactId>bcprov-jdk15on</artifactId> 
+			<version>1.60</version> <scope>runtime</scope> </dependency> -->
+
+		<dependency>
+			<groupId>com.googlecode.jsontoken</groupId>
+			<artifactId>jsontoken</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>18.0</version>
+		</dependency>
+		<!-- Jars for JSON Web Tokens (JWT) END -->
 	</dependencies>
 
 	<properties>

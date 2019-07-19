@@ -9,7 +9,7 @@ import javax.ws.rs.core.Application;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import com.company.ac.auth.exceptions.AuthServiceExceptionMapper;
-import com.company.ac.exceptions.DataNotFoundException;
+import com.company.ac.exceptions.DataNotFoundExceptionMapper;
 import com.company.ac.resources.AuthenticationResource;
 import com.company.ac.resources.CompanyResource;
 import com.company.ac.resources.GroupResource;
@@ -28,7 +28,7 @@ public class AccountApplication extends Application {
         classes.add(GroupResource.class);
         classes.add(LedgerResource.class);
         classes.add(AuthServiceExceptionMapper.class);
-        classes.add(DataNotFoundException.class);        
+        classes.add(DataNotFoundExceptionMapper.class);        
         return classes;
     }
 }

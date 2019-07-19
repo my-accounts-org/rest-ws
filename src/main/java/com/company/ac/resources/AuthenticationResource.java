@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 
 import com.company.ac.auth.exceptions.AuthServiceException;
 import com.company.ac.auth.exceptions.AuthServiceExceptionMapper;
-import com.company.ac.auth.impl.AuthServiceImpl;
+import com.company.ac.auth.service.impl.AuthServiceImpl;
 import com.company.ac.dao.AuthenticationDAO;
 import com.company.ac.models.User;
 

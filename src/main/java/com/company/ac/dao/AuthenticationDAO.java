@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 
-import com.company.ac.auth.exceptions.AuthServiceException;
 import com.company.ac.datasource.AccountsDataSource;
 import com.company.ac.models.User;
 

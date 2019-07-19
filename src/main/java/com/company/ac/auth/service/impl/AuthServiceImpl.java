@@ -1,4 +1,4 @@
-package com.company.ac.auth.impl;
+package com.company.ac.auth.service.impl;
 
 import com.company.ac.ErrorCodes;
 import com.company.ac.auth.exceptions.AuthServiceException;
@@ -24,11 +24,7 @@ public class AuthServiceImpl implements AuthService{
 		 
 		 CompanyDAO companyDAO = new CompanyDAO();
 		 Company company = companyDAO.getDefaultCompany();
-		 
-		 if(company == null) {
-			 throw new DataNotFoundException(ErrorCodes.COMPANY_NOT_SET.getMessage());
-		 }
-		 
+		 		 		 
 		 found.setCompany(company);
 		 
 		 return found;
