@@ -48,20 +48,24 @@ public class GroupsDAO implements QueryNames {
 		
 	}
 
-	public long create(Group group) {
+	public long create(long id, Group group) {
 		Connection c = null;
 		PreparedStatement s = null;
 		ResultSet r = null;
-		long id = 0;
+		long groupId = 0;
 		
 		try {
 			c = AccountsDataSource.getMySQLConnection();
-			s = c.prepareStatement(DBUtils.getInstance().getQuery(CREATE_GROUP),  PreparedStatement.RETURN_GENERATED_KEYS);			
-			
+			s = c.prepareStatement(DBUtils.getInstance().getQuery(CREATE_GROUP).replace(":id", String.valueOf(id)),  PreparedStatement.RETURN_GENERATED_KEYS);			
+			s.setString(1, group.getName());
+			s.setLong(2, group.getUnder());
+			s.setString(3, group.getNature());
+			s.setInt(4, group.isGrossAffected()? 1: 0);
+		
 			s.execute();
 			r = s.getGeneratedKeys();
 			if(r.next()) {
-				id = r.getLong(1);
+				groupId = r.getLong(1);
 			}			
 			
 		} catch (NamingException e) {			
@@ -72,8 +76,8 @@ public class GroupsDAO implements QueryNames {
 			AccountsDataSource.close(c, s);
 		}
 		
-		log.info("Created id = "+id+" | if 0 then company creation failed");
+		log.info("Group id = "+id+" created");
 		
-		return id;
+		return groupId;
 	}
 }

@@ -45,6 +45,7 @@ public class Group {
 	}
 
 	public String getNature() {
+		
 		return nature;
 	}
 
