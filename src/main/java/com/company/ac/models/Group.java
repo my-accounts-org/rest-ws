@@ -46,7 +46,7 @@ public class Group {
 
 	public String getNature() {
 		
-		return nature;
+		return under == -1? nature: null;
 	}
 
 	public void setNature(String nature) {
@@ -62,7 +62,7 @@ public class Group {
 	}
 
 	public boolean isGrossAffected() {
-		return grossAffected;
+		return under == -1? grossAffected: false;
 	}
 
 	public void setGrossAffected(boolean grossAffected) {
