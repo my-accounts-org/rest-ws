@@ -9,6 +9,7 @@ public class Group {
 	private boolean isDefault;
 	private boolean grossAffected;
 	private String nameOfGroupUnder;
+	private long config;
 	
 	public Group() {
 		
@@ -46,7 +47,7 @@ public class Group {
 
 	public String getNature() {
 		
-		return under == -1? nature: null;
+		return under == 0? nature: null;
 	}
 
 	public void setNature(String nature) {
@@ -62,7 +63,7 @@ public class Group {
 	}
 
 	public boolean isGrossAffected() {
-		return under == -1? grossAffected: false;
+		return under == 0? grossAffected: false;
 	}
 
 	public void setGrossAffected(boolean grossAffected) {
@@ -75,6 +76,14 @@ public class Group {
 
 	public void setNameOfGroupUnder(String nameOfGroupUnder) {
 		this.nameOfGroupUnder = nameOfGroupUnder;
+	}
+
+	public long getConfig() {
+		return config;
+	}
+
+	public void setConfig(long config) {
+		this.config = config;
 	}
 
 	

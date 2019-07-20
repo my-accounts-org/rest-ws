@@ -16,16 +16,22 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public Group create(long id, Group group) {
-		
-		long groupId = dao.create(id, group);
+	public Group create(Group group) {		
+		long groupId = dao.create(group);
 		group.setId(groupId);		
+		group.setNameOfGroupUnder(getGroupParent(group));
 		return group;
 	}
 
 	@Override
-	public boolean delete(long id) {
-		return false;
+	public boolean delete(long companyId, long groupId) {
+		
+		return dao.delete(companyId, groupId);
 	}
+	
+	private String getGroupParent(Group group) {		
+		return dao.getGroupParent(group);
+	}
+	
 
 }

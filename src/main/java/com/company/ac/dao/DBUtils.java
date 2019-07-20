@@ -187,7 +187,7 @@ public class DBUtils {
 		return count; 
 	}
 
-	public Company select(String sql) {
+	public Company selectDefaultCompany(String sql) {
 		Connection c = null;
 		Statement s = null;
 		ResultSet r = null;
@@ -240,16 +240,14 @@ public class DBUtils {
 	}
 	
 	private Group convert(ResultSet r, Group group) throws SQLException {
-		int index = 0;
-		group.setId(r.getInt(++index));
-		group.setName(r.getString(++index));
-		group.setUnder(r.getLong(++index));
-		group.setNature(r.getString(++index));
-		group.setGrossAffected(r.getInt(++index) == 1);
-		++index; //config
-		group.setDefault(r.getInt(++index) == 1);		
-		++index; //accountType
-		group.setNameOfGroupUnder(r.getString(++index));
+		group.setId(r.getInt(1));
+		group.setName(r.getString(2));
+		group.setUnder(r.getLong(3));
+		group.setNature(r.getString(4));
+		group.setGrossAffected(r.getInt(5) == 1);
+		group.setConfig(r.getLong(6));		
+		group.setDefault(r.getInt(7) == 1);		
+		group.setNameOfGroupUnder(r.getString(9));
 		return group;
 		
 	}

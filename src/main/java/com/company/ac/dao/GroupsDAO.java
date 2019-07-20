@@ -48,7 +48,7 @@ public class GroupsDAO implements QueryNames {
 		
 	}
 
-	public long create(long id, Group group) {
+	public long create(Group group) {
 		Connection c = null;
 		PreparedStatement s = null;
 		ResultSet r = null;
@@ -56,12 +56,12 @@ public class GroupsDAO implements QueryNames {
 		
 		try {
 			c = AccountsDataSource.getMySQLConnection();
-			s = c.prepareStatement(DBUtils.getInstance().getQuery(CREATE_GROUP).replace(":id", String.valueOf(id)),  PreparedStatement.RETURN_GENERATED_KEYS);			
+			s = c.prepareStatement(DBUtils.getInstance().getQuery(CREATE_GROUP).replace(":id", String.valueOf(group.getConfig())),  PreparedStatement.RETURN_GENERATED_KEYS);			
 			s.setString(1, group.getName());
 			s.setLong(2, group.getUnder());
 			s.setString(3, group.getNature());
 			s.setInt(4, group.isGrossAffected()? 1: 0);
-		
+			s.setLong(5, group.getConfig());
 			s.execute();
 			r = s.getGeneratedKeys();
 			if(r.next()) {
@@ -76,8 +76,56 @@ public class GroupsDAO implements QueryNames {
 			AccountsDataSource.close(c, s);
 		}
 		
-		log.info("Group id = "+id+" created");
+		log.fine("Group "+group+" created");
 		
 		return groupId;
+	}
+
+	public String getGroupParent(Group group) {
+		Connection c = null;
+		PreparedStatement s = null;
+		ResultSet r = null;
+		String groupName = null;
+		try {
+			c = AccountsDataSource.getMySQLConnection();
+			s = c.prepareStatement(DBUtils.getInstance().getQuery(GET_GROUP_NAME).replace(":id", String.valueOf(group.getConfig())));
+			s.setLong(1, group.getUnder());
+			
+			r = s.executeQuery();
+			
+			if(r.next()) {
+				groupName = r.getString(1);
+			}
+		} catch (NamingException e) {			
+			e.printStackTrace();
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		} finally {
+			AccountsDataSource.close(c, s);
+		}
+		return groupName;
+	}
+
+	public boolean delete(long companyId, long groupId) {
+		Connection c = null;
+		PreparedStatement s = null;
+			
+		int result = 0;
+		try {
+			c = AccountsDataSource.getMySQLConnection();			
+			s = c.prepareStatement(DBUtils.getInstance().getQuery(DELETE_GROUP).replace(":id", String.valueOf(companyId)));
+			s.setLong(1, groupId);
+			
+			result = s.executeUpdate();
+			
+		} catch (NamingException e) {			
+			e.printStackTrace();
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		} finally {
+			AccountsDataSource.close(c, s);
+		}
+		
+		return result > 0;
 	}
 }

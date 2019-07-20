@@ -123,7 +123,7 @@ public class CompanyDAO implements QueryNames{
 	}
 	
 	public Company getDefaultCompany() {		
-		return DBUtils.getInstance().select("select * from company where is_default = 1");
+		return DBUtils.getInstance().selectDefaultCompany("select * from company where is_default = 1");
 	}
 
 }

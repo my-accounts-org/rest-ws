@@ -3,7 +3,9 @@ package com.company.ac.resources;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -25,10 +27,15 @@ public class GroupResource {
 	public List<Group> getAllGroups(Company company) {
 		return groupService.getGroupList(company.getId());
 	}
+		
+	@PUT
+	public Group create(Group group) {
+		return groupService.create(group);
+	}
 	
-	@Path("add/{id}")
-	@POST
-	public Group create(@PathParam("id")long id, Group group) {
-		return groupService.create(id, group);
+	@DELETE	
+	@Path("{companyId}/{groupId}")
+	public boolean delete(@PathParam("companyId") long companyId, @PathParam("groupId") long groupId) {
+		return groupService.delete(companyId, groupId);
 	}
 }

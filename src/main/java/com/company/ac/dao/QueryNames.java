@@ -13,5 +13,7 @@ public interface QueryNames {
 	String SET_DEFAULT_COMPANY = "set_default_company";
 	String CREATE_DEFAULT_PRIMARY_GROUPS = "create_default_primary_groups";
 	String CREATE_DEFAULT_GROUPS = "create_default_groups";
+	String GET_GROUP_NAME = "get_group_name";
+	String DELETE_GROUP = "delete_group";
 	
 }
