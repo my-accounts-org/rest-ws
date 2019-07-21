@@ -6,13 +6,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
-import com.company.ac.auth.exceptions.AuthServiceException;
-import com.company.ac.auth.exceptions.AuthServiceExceptionMapper;
 import com.company.ac.auth.service.impl.AuthServiceImpl;
-import com.company.ac.dao.AuthenticationDAO;
 import com.company.ac.models.User;
+import com.company.ac.models.UserToken;
 
 @Path("login")
 public class AuthenticationResource {
@@ -22,15 +19,22 @@ public class AuthenticationResource {
 	@POST
 	@Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response login(User user){	
-		
-		return  Response.status(200).entity(auth.login(user)).build();
+	public UserToken login(User user){	
+		UserToken token = auth.login(user, true);
+		return  token;
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public User getUser() {
 		return new User("vivekanand.pandhare@yahoo.com","password", true);
+	}
+	
+
+	@POST
+	@Path("/verify")
+	public String verify(UserToken token) {
+		return auth.verify(token);
 	}
 	
 }
