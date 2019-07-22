@@ -5,6 +5,7 @@ public interface QueryNames {
 	String AUTH = "auth";
 	String CREATE_COMPANY = "create_company";
 	String CREATE_GROUP = "create_group";
+	String CREATE_LEDGER = "create_ledger";
 	String GET_ALL_COMPANIES = "get_all_companies";
 	String GET_ALL_GROUPS = "get_all_groups";
 	String GET_ALL_LEDGERS = "get_all_ledgers";
