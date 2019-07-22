@@ -23,4 +23,15 @@ public class LedgerResource {
 	public List<Ledger> getAllLedgers(Company company) {
 		return ledgerService.getLedgerList(company.getId());
 	}
+	
+	@GET
+	public List<Group> getAllGroups(Company company) {
+		return ledgerService.getGroupList(company.getId());
+	}
+	
+	@PUT
+	@Path("/{id}")
+	public Ledger create(Ledger ledger, @PathParam("id") long id) {
+		return ledgerService.create(ledger, id);
+	}
 }

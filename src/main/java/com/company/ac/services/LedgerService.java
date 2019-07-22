@@ -8,5 +8,7 @@ import com.company.ac.models.Ledger;
 public interface LedgerService {
 	
 	List<Ledger> getLedgerList(long id);
+	List<Group> getGroupList(long id);
+	Ledger create(Ledger ledger, long id);
 	
 }
