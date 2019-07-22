@@ -76,7 +76,7 @@ public class LedgersDAO implements QueryNames {
 		
 	}
 	
-	public long create(Ledger ledger, long companyId) {
+	public long create(Ledger ledger) {
 		Connection c = null;
 		PreparedStatement s = null;
 		ResultSet r = null;
@@ -84,7 +84,7 @@ public class LedgersDAO implements QueryNames {
 		
 		try {
 			c = AccountsDataSource.getMySQLConnection();
-			s = c.prepareStatement(DBUtils.getInstance().getQuery(CREATE_LEDGER).replace(":id", String.valueOf(companyId)),  PreparedStatement.RETURN_GENERATED_KEYS);			
+			s = c.prepareStatement(DBUtils.getInstance().getQuery(CREATE_LEDGER).replace(":id", String.valueOf(ledger.getConfig())),  PreparedStatement.RETURN_GENERATED_KEYS);			
 			
 			s.setString(1, ledger.getName());
 			s.setLong(2, ledger.getUnder());

@@ -35,8 +35,7 @@ public class LedgerResource {
 	}
 	
 	@PUT
-	@Path("/{id}")
-	public Ledger create(Ledger ledger, @PathParam("id") long id) {
-		return ledgerService.create(ledger, id);
+	public Ledger create(Ledger ledger) {
+		return ledgerService.create(ledger);
 	}
 }

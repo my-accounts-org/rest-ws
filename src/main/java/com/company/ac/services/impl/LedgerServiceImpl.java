@@ -23,8 +23,8 @@ public class LedgerServiceImpl implements LedgerService {
 	
 	
 	@Override
-	public Ledger create(Ledger ledger, long companyId) {
-		long id = dao.create(ledger, companyId);
+	public Ledger create(Ledger ledger) {
+		long id = dao.create(ledger);
 		ledger.setId(id);
 		return ledger;
 	}

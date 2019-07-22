@@ -11,6 +11,13 @@ public class Ledger {
     private String mailingAddress;
     private String fixedName;
     private String ledgerUnderGroupName;
+    public long getConfig() {
+		return config;
+	}
+	public void setConfig(long config) {
+		this.config = config;
+	}
+	private long config;
     
 	public String getLedgerUnderGroupName() {
 		return ledgerUnderGroupName;
