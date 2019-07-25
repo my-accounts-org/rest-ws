@@ -20,21 +20,15 @@ public class AuthenticationResource {
 	@Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Consumes(MediaType.APPLICATION_JSON)
 	public UserToken login(User user){	
-		UserToken token = auth.login(user, true);
-		return  token;
+		UserToken token = new UserToken();
+		token.setToken(auth.login(user));
+		return token;
 	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public User getUser() {
 		return new User("vivekanand.pandhare@yahoo.com","password", true);
-	}
-	
-
-	@POST
-	@Path("/verify")
-	public String verify(UserToken token) {
-		return auth.verify(token);
 	}
 	
 }
