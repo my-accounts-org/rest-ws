@@ -3,6 +3,7 @@ package com.company.ac.resources;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -31,4 +32,11 @@ public class GroupResource {
 	public Group create(Group group) {
 		return groupService.create(group);
 	}
+	
+	@DELETE	
+	@Path("{companyId}/{groupId}")
+	public boolean delete(@PathParam("companyId") long companyId, @PathParam("groupId") long groupId) {
+		return groupService.delete(companyId, groupId);
+	}
+	
 }
