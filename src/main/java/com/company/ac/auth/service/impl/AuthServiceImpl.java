@@ -4,18 +4,18 @@ import com.company.ac.auth.exceptions.AuthServiceException;
 import com.company.ac.auth.service.AuthService;
 import com.company.ac.dao.AuthenticationDAO;
 import com.company.ac.dao.CompanyDAO;
+import com.company.ac.models.AuthorizedUser;
 import com.company.ac.models.User;
-import com.company.ac.models.UserToken;
 import com.company.ac.models.company.Company;
 import com.company.ac.user.JwtTokenGenerator;
-import com.company.ac.usersession.UserSession;
+
 
 public class AuthServiceImpl implements AuthService{
 
 	private AuthenticationDAO dao = new AuthenticationDAO();
 	
 	@Override
-	public String login(User user) {
+	public AuthorizedUser login(User user) {
 		
 		 User found = dao.authenticate(user);
 		 
@@ -30,7 +30,10 @@ public class AuthServiceImpl implements AuthService{
 		 
 		 JwtTokenGenerator tokenGenerator = new JwtTokenGenerator(found);
 		 
-		 return tokenGenerator.generate();
+		 AuthorizedUser authorizedUser = new AuthorizedUser();
+		 authorizedUser.setToken(tokenGenerator.generate());
+		 authorizedUser.setUser(found);
+		 return authorizedUser;
 	}
 	
 		

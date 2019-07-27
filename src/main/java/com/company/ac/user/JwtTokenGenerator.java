@@ -1,9 +1,14 @@
 package com.company.ac.user;
 
 import java.security.Key;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import com.company.ac.models.User;
+import com.company.ac.models.company.Company;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -15,7 +20,12 @@ import io.jsonwebtoken.security.SignatureException;
 public class JwtTokenGenerator {
 
 	private User user;
+	
 	private static Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+		
+	private static final String USER_EMAIL = "email";
+	
+	public JwtTokenGenerator() {}
 	
 	public JwtTokenGenerator (User user) {
 		this.user = user;		
@@ -25,22 +35,22 @@ public class JwtTokenGenerator {
 		
 		return Jwts.builder().
 				setSubject("Account-User")
-				.claim("name", user.getEmail())
-				.claim("company", user.getCompany())
+				.claim(USER_EMAIL, user.getEmail())
 				.signWith(key)
 				.compact();		
 		
 	}
 	
 	public static boolean validate(String token) {
-		System.out.println("JwtTokenValidator: "+token);
+		boolean result = false;
 		try {		
-			Jwts.parser().setSigningKey(key).parseClaimsJws(token);
-			return true;
+			Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();			
+			result = true;			
 		} catch (SignatureException | ExpiredJwtException | UnsupportedJwtException | MalformedJwtException
 				| IllegalArgumentException e) {
 			e.printStackTrace();
 		}			
-		return false;
-	}
+		return result;
+	}	
+	
 }

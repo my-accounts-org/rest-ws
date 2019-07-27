@@ -9,7 +9,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.company.ac.auth.service.impl.AuthServiceImpl;
 import com.company.ac.models.User;
-import com.company.ac.models.UserToken;
+import com.company.ac.models.AuthorizedUser;
 
 @Path("login")
 public class AuthenticationResource {
@@ -19,10 +19,8 @@ public class AuthenticationResource {
 	@POST
 	@Produces({ MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Consumes(MediaType.APPLICATION_JSON)
-	public UserToken login(User user){	
-		UserToken token = new UserToken();
-		token.setToken(auth.login(user));
-		return token;
+	public AuthorizedUser login(User user){		
+		return auth.login(user);
 	}
 	
 	@GET

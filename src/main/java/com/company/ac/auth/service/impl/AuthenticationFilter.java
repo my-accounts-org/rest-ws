@@ -10,8 +10,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
 import com.company.ac.exceptions.DataNotFoundException;
+import com.company.ac.models.User;
 import com.company.ac.user.JwtTokenGenerator;
-import com.company.ac.user.JwtTokenValidator;
 
 @Provider
 public class AuthenticationFilter implements ContainerResponseFilter, ContainerRequestFilter {
@@ -23,7 +23,7 @@ public class AuthenticationFilter implements ContainerResponseFilter, ContainerR
 	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
 			throws IOException {
 		responseContext.getHeaders().add("Powered-By", "Vivekanand Pandhare");
-
+					
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class AuthenticationFilter implements ContainerResponseFilter, ContainerR
 				Response unauthorizedStatus = Response.status(Response.Status.UNAUTHORIZED)
 						.entity("Un authorized user!").build();
 				requestContext.abortWith(unauthorizedStatus);
-			}
+			}			
 		}
 	}
 
