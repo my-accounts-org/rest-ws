@@ -22,7 +22,7 @@ public class AuthenticationFilter implements ContainerResponseFilter, ContainerR
 	@Override
 	public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext)
 			throws IOException {
-		responseContext.getHeaders().add("Powered-By", "Vivekanand Pandhare");
+		responseContext.getHeaders().add("X-Powered-By", "Vivekanand Pandhare");
 					
 	}
 
@@ -38,12 +38,13 @@ public class AuthenticationFilter implements ContainerResponseFilter, ContainerR
 			}
 
 			String authToken = header.replace(AUTHORIZATION_HEADER_PREFIX, "");			
-						
+				
 			if (!JwtTokenGenerator.validate(authToken)) {
 				Response unauthorizedStatus = Response.status(Response.Status.UNAUTHORIZED)
 						.entity("Un authorized user!").build();
 				requestContext.abortWith(unauthorizedStatus);
-			}			
+			}	
+			System.out.println("token: validated! " + authToken);		
 		}
 	}
 

@@ -27,6 +27,7 @@ public class LedgersDAO implements QueryNames {
 		ResultSet r = null;
 		DBUtils dbUtils = DBUtils.getInstance();
 		String sql = dbUtils.getQuery(GET_ALL_LEDGERS).replace(":id", String.valueOf(companyId));
+		log.info(sql);
 		try {
 			c = AccountsDataSource.getMySQLConnection();
 			s = c.createStatement();

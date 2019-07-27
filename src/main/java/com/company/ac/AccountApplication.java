@@ -23,6 +23,7 @@ public class AccountApplication extends Application {
     public Set<Class<?>> getClasses() {
         final Set<Class<?>> classes = new HashSet<Class<?>>();
         // register resources and features 
+        classes.add(AuthenticationFilter.class);
         classes.add(MultiPartFeature.class);       
         classes.add(AuthenticationResource.class);
         classes.add(CompanyResource.class);
@@ -30,8 +31,6 @@ public class AccountApplication extends Application {
         classes.add(LedgerResource.class);
         classes.add(AuthServiceExceptionMapper.class);
         classes.add(DataNotFoundExceptionMapper.class);
-        classes.add(AuthenticationFilter.class);
-        
         return classes;
     }
 }
