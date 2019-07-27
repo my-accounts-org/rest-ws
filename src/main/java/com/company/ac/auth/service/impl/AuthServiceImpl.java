@@ -1,20 +1,21 @@
 package com.company.ac.auth.service.impl;
 
-import com.company.ac.ErrorCodes;
 import com.company.ac.auth.exceptions.AuthServiceException;
 import com.company.ac.auth.service.AuthService;
 import com.company.ac.dao.AuthenticationDAO;
 import com.company.ac.dao.CompanyDAO;
-import com.company.ac.exceptions.DataNotFoundException;
+import com.company.ac.models.AuthorizedUser;
 import com.company.ac.models.User;
 import com.company.ac.models.company.Company;
+import com.company.ac.user.JwtTokenGenerator;
+
 
 public class AuthServiceImpl implements AuthService{
 
 	private AuthenticationDAO dao = new AuthenticationDAO();
 	
 	@Override
-	public User login(User user) {
+	public AuthorizedUser login(User user) {
 		
 		 User found = dao.authenticate(user);
 		 
@@ -27,12 +28,19 @@ public class AuthServiceImpl implements AuthService{
 		 		 		 
 		 found.setCompany(company);
 		 
-		 return found;
+		 JwtTokenGenerator tokenGenerator = new JwtTokenGenerator(found);
+		 
+		 AuthorizedUser authorizedUser = new AuthorizedUser();
+		 authorizedUser.setToken(tokenGenerator.generate());
+		 authorizedUser.setUser(found);
+		 return authorizedUser;
 	}
-
+	
+		
 	@Override
 	public boolean logout() {
 		return false;
 	}
+
 
 }
