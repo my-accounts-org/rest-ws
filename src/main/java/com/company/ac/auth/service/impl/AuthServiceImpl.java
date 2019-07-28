@@ -7,7 +7,7 @@ import com.company.ac.dao.CompanyDAO;
 import com.company.ac.models.AuthorizedUser;
 import com.company.ac.models.User;
 import com.company.ac.models.company.Company;
-import com.company.ac.user.JwtTokenGenerator;
+import com.company.ac.tokenservice.JwtTokenGenerator;
 
 
 public class AuthServiceImpl implements AuthService{

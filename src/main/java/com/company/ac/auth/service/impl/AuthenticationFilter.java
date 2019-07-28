@@ -11,7 +11,7 @@ import javax.ws.rs.ext.Provider;
 
 import com.company.ac.exceptions.DataNotFoundException;
 import com.company.ac.models.User;
-import com.company.ac.user.JwtTokenGenerator;
+import com.company.ac.tokenservice.JwtTokenGenerator;
 
 @Provider
 public class AuthenticationFilter implements ContainerResponseFilter, ContainerRequestFilter {
