@@ -6,7 +6,7 @@ public class Ledger {
 	private String name;
 	private long under;
 	private long openingBalance;
-	private String cdDr;
+	private String crDr;
 	private String mailingName;
     private String mailingAddress;
     private String fixedName;
@@ -49,11 +49,11 @@ public class Ledger {
 	public void setOpeningBalance(long openingBalance) {
 		this.openingBalance = openingBalance;
 	}
-	public String getCdDr() {
-		return cdDr;
+	public String getCrDr() {
+		return crDr;
 	}
-	public void setCdDr(String cdDr) {
-		this.cdDr = cdDr;
+	public void setCrDr(String cdDr) {
+		this.crDr = cdDr;
 	}
 	public String getMailingName() {
 		return mailingName;

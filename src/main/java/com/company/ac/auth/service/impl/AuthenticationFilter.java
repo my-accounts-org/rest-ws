@@ -41,8 +41,7 @@ public class AuthenticationFilter implements ContainerResponseFilter, ContainerR
 				Response unauthorizedStatus = Response.status(Response.Status.UNAUTHORIZED)
 						.entity("Please re-login!").build();
 				requestContext.abortWith(unauthorizedStatus);
-			}
-					
+			}		
 		}
 	}
 

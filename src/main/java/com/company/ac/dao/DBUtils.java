@@ -254,11 +254,11 @@ public class DBUtils {
 	}
 	
 	private Ledger convert(ResultSet r, Ledger ledger) throws SQLException {
-		int index = 0;
-		ledger.setId(r.getLong(++index));
-		ledger.setName(r.getString(++index));
-		ledger.setUnder(r.getLong(++index));
-		ledger.setOpeningBalance(r.getLong(++index));
+		ledger.setId(r.getLong(1));
+		ledger.setName(r.getString(2));
+		ledger.setUnder(r.getLong(3));
+		ledger.setOpeningBalance(r.getLong(4));
+		ledger.setCrDr(r.getString(5));
 		ledger.setLedgerUnderGroupName(r.getString(10));
 		return ledger;
 		
