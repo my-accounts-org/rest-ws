@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -261,7 +262,6 @@ public class DBUtils {
 		ledger.setLedgerUnderGroupName(r.getString(10));
 		return ledger;
 		
-	}
-	
+	}	
 	
 }

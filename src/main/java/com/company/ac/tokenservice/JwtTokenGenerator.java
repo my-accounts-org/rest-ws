@@ -1,14 +1,9 @@
 package com.company.ac.tokenservice;
 
 import java.security.Key;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import com.company.ac.models.User;
-import com.company.ac.models.company.Company;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;

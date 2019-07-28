@@ -30,8 +30,6 @@ public class AuthenticationFilter implements ContainerResponseFilter, ContainerR
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		if (!requestContext.getUriInfo().getPath().contains("login")) {
 			String header = requestContext.getHeaderString(AUTHORIZATION);
-
-			System.out.println("Header: " + header);
 			
 			if (header == null || !header.startsWith("Bearer ")) {
 				throw new DataNotFoundException("No JWT token found in request headers");
@@ -41,10 +39,10 @@ public class AuthenticationFilter implements ContainerResponseFilter, ContainerR
 				
 			if (!JwtTokenGenerator.validate(authToken)) {
 				Response unauthorizedStatus = Response.status(Response.Status.UNAUTHORIZED)
-						.entity("Un authorized user!").build();
+						.entity("Please re-login!").build();
 				requestContext.abortWith(unauthorizedStatus);
-			}	
-			System.out.println("token: validated! " + authToken);		
+			}
+					
 		}
 	}
 

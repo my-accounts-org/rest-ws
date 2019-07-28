@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.logging.Logger;
 
 import javax.naming.NamingException;
@@ -26,7 +27,7 @@ public class AuthenticationDAO implements QueryNames {
 			c = AccountsDataSource.getMySQLConnection();
 			s = c.prepareStatement(DBUtils.getInstance().getQuery(AUTH));
 			s.setString(1, user.getEmail());
-			s.setString(2, user.getPassword());
+			s.setString(2, Base64.getEncoder().encodeToString(user.getPassword().getBytes()));
 			r = s.executeQuery();
 			if(r.next()) {
 				found = new User(r.getString(1), r.getString(2), r.getInt(3) == 0? false: true);
