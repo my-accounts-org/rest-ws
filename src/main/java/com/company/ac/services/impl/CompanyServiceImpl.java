@@ -146,7 +146,8 @@ public class CompanyServiceImpl implements CompanyService, Accounts, QueryNames{
 				+ ";";
 
 		queries.add(sql);
-				
+			
+			
 		sql = ""
 				+ "CREATE TABLE `ledgers_:id` ( "
 				+ "  `ledger_id` BIGINT(20) NOT NULL AUTO_INCREMENT, "
@@ -156,12 +157,12 @@ public class CompanyServiceImpl implements CompanyService, Accounts, QueryNames{
 				+ "  `cr_dr` VARCHAR(2) COLLATE latin1_swedish_ci DEFAULT NULL, "
 				+ "  `mailing_name` VARCHAR(150) COLLATE latin1_swedish_ci DEFAULT NULL, "
 				+ "  `mailing_address` VARCHAR(500) COLLATE latin1_swedish_ci DEFAULT NULL, "
-				+ "  `config_id` BIGINT(20), "
+				+ "  `config_id` BIGINT(20) DEFAULT NULL, "
 				+ "  `fixed_name` VARCHAR(50) COLLATE latin1_swedish_ci DEFAULT '0', "
-				+ "  PRIMARY KEY USING BTREE (`ledger_id`) "				
+				+ "  PRIMARY KEY USING BTREE (`ledger_id`), "
+				+ "  UNIQUE KEY `name` USING BTREE (`name`) "
 				+ ") ENGINE=InnoDB "
-				+ "AUTO_INCREMENT=1 ROW_FORMAT=DYNAMIC CHARACTER SET 'latin1' COLLATE 'latin1_swedish_ci' "
-				+ ";";
+				+ "AUTO_INCREMENT=1 ROW_FORMAT=DYNAMIC CHARACTER SET";
 
 		queries.add(sql);
 		
