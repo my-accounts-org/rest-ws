@@ -47,7 +47,7 @@ public class Group {
 
 	public String getNature() {
 		
-		return under == 0? nature: null;
+		return nature;
 	}
 
 	public void setNature(String nature) {

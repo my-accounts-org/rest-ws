@@ -32,18 +32,18 @@ public interface Accounts {
 		"\'Indirect Expenses\',0,2,0,null",	//13
 		"\'Direct Income\',0,3,1,null", 		//14
 		"\'Direct Expense\',0,2,1,null",		//15
-		"\'Reserves & Surplus\',null,null",	//16 (group_name,group_nature,is_gross_affected) under->Capital
-		"\'Banck OD A/c\',null,null",		//17 Under->Loans
-		"\'Secured Loans\',null,null",	//18	Under->Loans
-		"\'Unsecured Loans\',null,null",	//19  Under->Loans
-		"\'Duties & Taxes\',null,null",	//20	Under->Current Liabilities
-		"\'Provisions\',null,null",		//21  Under->Current Liabilities
-		"\'Sundry Creditors\',null,null",	//22  Under->Current Liabilities
-		"\'Stock-in-Hand\',null,null",		//23  Under->Current Assets
-		"\'Deposits\',null,null",		//24  Under->Current Assets
-		"\'Loans & Advances\',null,null",	//25  Under->Current Assets
-		"\'Sundry Debtors\',null,null",		//26  Under->Current Assets
-		"\'Cash-in-Hand\',null,null",		//27  Under->Current Assets
-		"\'Bank Accounts\',null,null"		//28  Under->Current Assets
+		"\'Reserves & Surplus\',4,null",	//16 (group_name,group_nature,is_gross_affected) under->Capital
+		"\'Banck OD A/c\',4,null",		//17 Under->Loans
+		"\'Secured Loans\',4,null",	//18	Under->Loans
+		"\'Unsecured Loans\',4,null",	//19  Under->Loans
+		"\'Duties & Taxes\',4,null",	//20	Under->Current Liabilities
+		"\'Provisions\',4,null",		//21  Under->Current Liabilities
+		"\'Sundry Creditors\',4,null",	//22  Under->Current Liabilities
+		"\'Stock-in-Hand\',1,null",		//23  Under->Current Assets
+		"\'Deposits\',1,null",		//24  Under->Current Assets
+		"\'Loans & Advances\',1,null",	//25  Under->Current Assets
+		"\'Sundry Debtors\',1,null",		//26  Under->Current Assets
+		"\'Cash-in-Hand\',1,null",		//27  Under->Current Assets
+		"\'Bank Accounts\',1,null"		//28  Under->Current Assets
     };
 }
