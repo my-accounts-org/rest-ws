@@ -22,6 +22,10 @@ public class LedgerServiceImpl implements LedgerService {
 		return dao.getGroupList(companyId);
 	}
 	
+	@Override
+	public boolean delete(long companyId, long ledgerId) {		
+		return dao.delete(companyId, ledgerId);
+	}
 	
 	@Override
 	public Ledger create(Ledger ledger) {
@@ -39,4 +43,6 @@ public class LedgerServiceImpl implements LedgerService {
 		group.setUnder(ledger.getUnder());
 		return groupDao.getGroupParent(group);
 	}
+
+	
 }

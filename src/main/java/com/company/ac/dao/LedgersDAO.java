@@ -112,4 +112,30 @@ public class LedgersDAO implements QueryNames {
 		
 		return id;
 	}
+
+	public boolean delete(long companyId, long ledgerId) {
+		Connection c = null;
+		PreparedStatement s = null;
+		String sql = DBUtils.getInstance().getQuery(DELETE_LEDGER).replace(":id", String.valueOf(companyId));
+		
+		log.info(sql);
+		
+		int result = 0;
+		try {
+			c = AccountsDataSource.getMySQLConnection();			
+			s = c.prepareStatement(sql);
+			s.setLong(1, ledgerId);
+			
+			result = s.executeUpdate();
+			
+		} catch (NamingException e) {			
+			e.printStackTrace();
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		} finally {
+			AccountsDataSource.close(c, s);
+		}
+		
+		return result > 0;
+	}
 }

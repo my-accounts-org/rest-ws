@@ -3,6 +3,7 @@ package com.company.ac.resources;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -29,5 +30,11 @@ public class LedgerResource {
 	@PUT
 	public Ledger create(Ledger ledger) {
 		return ledgerService.create(ledger);
+	}
+	
+	@DELETE
+	@Path("{companyId}/{ledgerId}")
+	public boolean delete(@PathParam("companyId") long companyId, @PathParam("ledgerId") long ledgerId) {
+		return ledgerService.delete(companyId, ledgerId);
 	}
 }

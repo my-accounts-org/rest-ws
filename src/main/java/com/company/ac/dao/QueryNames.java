@@ -16,5 +16,6 @@ public interface QueryNames {
 	String CREATE_DEFAULT_GROUPS = "create_default_groups";
 	String GET_GROUP_NAME = "get_group_name";
 	String DELETE_GROUP = "delete_group";
+	String DELETE_LEDGER = "delete_ledger";
 	
 }
