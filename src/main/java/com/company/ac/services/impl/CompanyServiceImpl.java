@@ -1,6 +1,8 @@
 package com.company.ac.services.impl;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -23,7 +25,11 @@ public class CompanyServiceImpl implements CompanyService, Accounts, QueryNames{
 		 long id = dao.create(company);
 		 company.setId(id);
 		 boolean r = configure(company)? createDefaultGroups(id) ? createDefaultLedger(id, company.getFinancialYear()) : false : false;
-		 if(r) log.info("Company configured successfully");
+		 try {
+			r = r && createFinancialYear(company);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		 return company;
 	}
 
@@ -216,6 +222,11 @@ public class CompanyServiceImpl implements CompanyService, Accounts, QueryNames{
 		return true;
 	}
 
-	
+	public boolean createFinancialYear(Company company) throws ParseException {
+		Date startDate = DateUtil.toDate(company.getFinancialYear());
+		Date endDate = DateUtil.addYear(startDate, 1);
+		endDate = DateUtil.addDay(endDate, -1);
+		return dao.createFinancialYear(company.getId(), startDate, endDate);
+	}
 
 }

@@ -17,5 +17,6 @@ public interface QueryNames {
 	String GET_GROUP_NAME = "get_group_name";
 	String DELETE_GROUP = "delete_group";
 	String DELETE_LEDGER = "delete_ledger";
+	String CREATE_FINANCIAL_YEAR = "create_financial_year";
 	
 }

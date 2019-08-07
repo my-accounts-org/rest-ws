@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -124,6 +125,31 @@ public class CompanyDAO implements QueryNames{
 	
 	public Company getDefaultCompany() {		
 		return DBUtils.getInstance().selectDefaultCompany("select * from company where is_default = 1");
+	}
+
+
+	public boolean createFinancialYear(long companyId, Date start, Date end) {
+		Connection c = null;
+		PreparedStatement s = null;
+		boolean result = false;
+		
+		try {
+			c = AccountsDataSource.getMySQLConnection();
+			s = c.prepareStatement(DBUtils.getInstance().getQuery(CREATE_FINANCIAL_YEAR).replace(":id", String.valueOf(companyId)),  PreparedStatement.RETURN_GENERATED_KEYS);
+			s.setString(1, DateUtil.format(start, "yyyy-MM-dd"));
+			s.setString(2, DateUtil.format(end, "yyyy-MM-dd"));
+			
+			result = s.execute();
+			
+		} catch (NamingException e) {			
+			e.printStackTrace();
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		} finally {
+			AccountsDataSource.close(c, s);
+		}		
+		
+		return result;
 	}
 
 }

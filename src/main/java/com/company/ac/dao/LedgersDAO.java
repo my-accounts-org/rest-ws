@@ -93,7 +93,7 @@ public class LedgersDAO implements QueryNames {
 			s.setString(4, ledger.getCrDr());
 			s.setString(5, ledger.getMailingName());
 			s.setString(6, ledger.getMailingAddress());
-			log.info("Under "+ledger.getUnder());
+			
 			s.execute();
 			r = s.getGeneratedKeys();
 			if(r.next()) {
