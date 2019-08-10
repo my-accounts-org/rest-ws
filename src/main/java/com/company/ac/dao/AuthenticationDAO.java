@@ -25,7 +25,7 @@ public class AuthenticationDAO implements QueryNames {
 		
 		try {
 			c = AccountsDataSource.getMySQLConnection();
-			s = c.prepareStatement(DBUtils.getInstance().getQuery(AUTH));
+			s = c.prepareStatement(DBUtils.getSQLQuery(AUTH));
 			s.setString(1, user.getEmail());
 			s.setString(2, Base64.getEncoder().encodeToString(user.getPassword().getBytes()));
 			r = s.executeQuery();

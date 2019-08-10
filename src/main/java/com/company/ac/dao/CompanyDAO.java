@@ -26,7 +26,7 @@ public class CompanyDAO implements QueryNames{
 		
 		try {
 			c = AccountsDataSource.getMySQLConnection();
-			s = c.prepareStatement(DBUtils.getInstance().getQuery(CREATE_COMPANY),  PreparedStatement.RETURN_GENERATED_KEYS);
+			s = c.prepareStatement(DBUtils.getSQLQuery(CREATE_COMPANY),  PreparedStatement.RETURN_GENERATED_KEYS);
 			s.setString(1, company.getName());
 			s.setString(2, company.getMailingName());
 			s.setString(3, company.getMailingAddress());
@@ -65,10 +65,10 @@ public class CompanyDAO implements QueryNames{
 		try {
 			c = AccountsDataSource.getMySQLConnection();
 			s = c.createStatement();
-			r = s.executeQuery(DBUtils.getInstance().getQuery(GET_ALL_COMPANIES));
+			r = s.executeQuery(DBUtils.getSQLQuery(GET_ALL_COMPANIES));
 			
 			while(r.next()) {
-				companies.add((Company) DBUtils.getInstance().convert(r, new Company()));
+				companies.add((Company) new Company().convert(r));
 			}
 			
 		} catch (NamingException e) {
@@ -93,9 +93,9 @@ public class CompanyDAO implements QueryNames{
 	}
 	
 	public boolean delete(long id) {		
-		String sql = DBUtils.getSQLQuery(DELETE_ALL_COMPANY_TABLES).replaceAll(":id", String.valueOf(id));		
+		String sql = DBUtils.getSQLQuery(DELETE_ALL_COMPANY_TABLES, String.valueOf(id));		
 		log.info("SQL for deleting companies: "+sql);
-		int i = DBUtils.getInstance().update(sql) ;
+		DBUtils.getInstance().update(sql) ;
 		return DBUtils.getInstance().delete(id, "company") ;
 		
 	}
@@ -135,7 +135,7 @@ public class CompanyDAO implements QueryNames{
 		
 		try {
 			c = AccountsDataSource.getMySQLConnection();
-			s = c.prepareStatement(DBUtils.getInstance().getQuery(CREATE_FINANCIAL_YEAR).replace(":id", String.valueOf(companyId)),  PreparedStatement.RETURN_GENERATED_KEYS);
+			s = c.prepareStatement(DBUtils.getSQLQuery(CREATE_FINANCIAL_YEAR, String.valueOf(companyId)),  PreparedStatement.RETURN_GENERATED_KEYS);
 			s.setString(1, DateUtil.format(start, "yyyy-MM-dd"));
 			s.setString(2, DateUtil.format(end, "yyyy-MM-dd"));
 			

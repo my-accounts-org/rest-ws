@@ -1,6 +1,12 @@
 package com.company.ac.models.company;
 
-public class Company {
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.company.ac.models.Convertable;
+import com.company.ac.utils.DateUtil;
+
+public class Company implements Convertable{
 	private long id;
 	private String name;
 	private String mailingName;
@@ -101,6 +107,21 @@ public class Company {
 				+ mailingAddress + ", financialYear=" + financialYear + ", booksBeginingFrom=" + booksBeginingFrom
 				+ ", password=" + password + ", passwordProtected=" + passwordProtected + ", status=" + status
 				+ ", isDefault=" + isDefault + "]";
+	}
+
+	@Override
+	public Convertable convert(ResultSet r) throws SQLException {
+		setId(r.getLong(1));
+		setName(r.getString(2));
+		setMailingName(r.getString(3));
+		setMailingAddress(r.getString(4));
+		setFinancialYear(DateUtil.format(r.getDate(5), "M/dd/yyyy"));
+		setBooksBeginingFrom(DateUtil.format(r.getDate(6), "M/dd/yyyy"));
+		setPasswordProtected(r.getInt(7) == 1);
+		setPassword(r.getString(8));
+		setStatus(r.getInt(9));
+		setIsDefault(r.getInt(10));		
+		return this;
 	}
 	
 	

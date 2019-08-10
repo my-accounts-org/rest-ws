@@ -18,8 +18,9 @@ public class LedgerServiceImpl implements LedgerService {
 	}
 	
 	@Override
-	public List<Group> getGroupList(long companyId) {		
-		return dao.getGroupList(companyId);
+	public List<Group> getGroupList(long companyId) {
+		GroupsDAO groupsDao = new GroupsDAO();
+		return groupsDao.getGroupList(companyId);
 	}
 	
 	@Override
