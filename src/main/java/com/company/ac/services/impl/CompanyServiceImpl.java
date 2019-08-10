@@ -48,7 +48,7 @@ public class CompanyServiceImpl implements CompanyService, Accounts, QueryNames{
 		List<String> queries = new ArrayList<String>();
 		String sql = DBUtils.getSQLQuery(SET_ALL_COMPANY_TO_DEFAULT); 
 		queries.add(sql);
-		sql = DBUtils.getSQLQuery(SET_DEFAULT_COMPANY).replace("{0}", String.valueOf(company.getId()));		
+		sql = DBUtils.getSQLQuery(SET_DEFAULT_COMPANY).replace("?", String.valueOf(company.getId()));
 		queries.add(sql);
 		return dao.setDefaultCompany(queries); 
 	} 
@@ -82,7 +82,7 @@ public class CompanyServiceImpl implements CompanyService, Accounts, QueryNames{
 	
 	private boolean createDefaultGroups(long id) {
 		
-		String sql = DBUtils.getSQLQuery(CREATE_DEFAULT_PRIMARY_GROUPS).replaceAll(":id", String.valueOf(id));
+		String sql = DBUtils.getSQLQuery(CREATE_DEFAULT_PRIMARY_GROUPS, String.valueOf(id));
 				
 		List<Long> result = dao.createGroups(sql);
 				
@@ -134,7 +134,26 @@ public class CompanyServiceImpl implements CompanyService, Accounts, QueryNames{
 				+ "  PRIMARY KEY USING BTREE (`group_id`) "								
 				+ ") ENGINE=InnoDB "
 				+ "AUTO_INCREMENT=1 ROW_FORMAT=DYNAMIC CHARACTER SET 'latin1' COLLATE 'latin1_swedish_ci' "
-				+ ";";
+				+ ";";		
+		queries.add(sql);
+		
+		sql  = ""
+				+ "CREATE TABLE `stock_groups_:id` ( "
+				+ "  `stock_group_id` BIGINT NOT NULL AUTO_INCREMENT, "
+				+ "  `name` VARCHAR(50) DEFAULT NULL UNIQUE, "
+				+ "  `under` BIGINT NOT NULL DEFAULT 0, "
+				+ "  `add_quantity_items` SMALLINT NOT NULL DEFAULT 0, "
+				+ "  PRIMARY KEY (`stock_group_id`) "
+				+ ") ENGINE=InnoDB "
+				+ "CHECKSUM=0 "
+				+ "DELAY_KEY_WRITE=0 "
+				+ "PACK_KEYS=0 "
+				+ "AUTO_INCREMENT=0 "
+				+ "AVG_ROW_LENGTH=0 "
+				+ "MIN_ROWS=0 "
+				+ "MAX_ROWS=0 "
+				+ "ROW_FORMAT=DEFAULT "
+				+ "KEY_BLOCK_SIZE=0;";
 		queries.add(sql);
 
 				sql = ""
@@ -158,7 +177,7 @@ public class CompanyServiceImpl implements CompanyService, Accounts, QueryNames{
 				+ "  `ledger_id` BIGINT(20) NOT NULL AUTO_INCREMENT, "
 				+ "  `name` VARCHAR(150) COLLATE latin1_swedish_ci NOT NULL, "
 				+ "  `under` BIGINT(20) NOT NULL, "
-				+ "  `opening_balance` BIGINT(20) DEFAULT 0, "
+				+ "  `opening_balance` DOUBLE DEFAULT 0, "
 				+ "  `cr_dr` VARCHAR(2) COLLATE latin1_swedish_ci DEFAULT NULL, "
 				+ "  `mailing_name` VARCHAR(150) COLLATE latin1_swedish_ci DEFAULT NULL, "
 				+ "  `mailing_address` VARCHAR(500) COLLATE latin1_swedish_ci DEFAULT NULL, "
@@ -169,6 +188,53 @@ public class CompanyServiceImpl implements CompanyService, Accounts, QueryNames{
 				+ ") ENGINE=InnoDB "
 				+ "AUTO_INCREMENT=1 ROW_FORMAT=DYNAMIC CHARACTER SET 'latin1' COLLATE 'latin1_swedish_ci' "
 				+ ";";
+		
+		queries.add(sql);
+		
+		sql = ""
+				+ "CREATE TABLE `stock_items_:id` ( "
+				+ "  `stock_item_id` BIGINT NOT NULL, "
+				+ "  `name` VARCHAR(50) DEFAULT NULL UNIQUE, "
+				+ "  `under` BIGINT DEFAULT NULL, "
+				+ "  `unit` INTEGER DEFAULT NULL, "
+				+ "  `opening_balance` DOUBLE DEFAULT NULL, "
+				+ "  `quantity` DOUBLE DEFAULT NULL, "
+				+ "  `rate_per_unit` DOUBLE DEFAULT NULL, "
+				+ "  PRIMARY KEY (`stock_item_id`) "
+				+ ") ENGINE=InnoDB "
+				+ "CHECKSUM=0 "
+				+ "DELAY_KEY_WRITE=0 "
+				+ "PACK_KEYS=0 "
+				+ "AUTO_INCREMENT=0 "
+				+ "AVG_ROW_LENGTH=0 "
+				+ "MIN_ROWS=0 "
+				+ "MAX_ROWS=0 "
+				+ "ROW_FORMAT=DEFAULT "
+				+ "KEY_BLOCK_SIZE=0;";
+		
+		queries.add(sql);
+		
+		sql = ""
+				+ "CREATE TABLE `units_:id` ( "
+				+ "  `unit_id` INTEGER NOT NULL, "
+				+ "  `name` VARCHAR(50) DEFAULT NULL UNIQUE, "
+				+ "  `type` SMALLINT NOT NULL DEFAULT 0, "
+				+ "  `symbol` VARCHAR(5) DEFAULT NULL UNIQUE, "
+				+ "  `first_unit` INTEGER DEFAULT NULL, "
+				+ "  `second_unit` INTEGER DEFAULT NULL, "
+				+ "  `conversion` INTEGER DEFAULT NULL, "
+				+ "  `decimalPlaces` SMALLINT DEFAULT NULL, "
+				+ "  PRIMARY KEY (`unit_id`) "
+				+ ") ENGINE=InnoDB "
+				+ "CHECKSUM=0 "
+				+ "DELAY_KEY_WRITE=0 "
+				+ "PACK_KEYS=0 "
+				+ "AUTO_INCREMENT=0 "
+				+ "AVG_ROW_LENGTH=0 "
+				+ "MIN_ROWS=0 "
+				+ "MAX_ROWS=0 "
+				+ "ROW_FORMAT=DEFAULT "
+				+ "KEY_BLOCK_SIZE=0;";
 		
 		queries.add(sql);
 		

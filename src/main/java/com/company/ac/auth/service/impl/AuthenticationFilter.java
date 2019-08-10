@@ -9,8 +9,8 @@ import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
+import com.company.ac.beans.User;
 import com.company.ac.exceptions.DataNotFoundException;
-import com.company.ac.models.User;
 import com.company.ac.tokenservice.JwtTokenGenerator;
 
 @Provider

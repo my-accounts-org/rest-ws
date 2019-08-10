@@ -2,8 +2,8 @@ package com.company.ac.services.impl;
 
 import java.util.List;
 
+import com.company.ac.beans.Group;
 import com.company.ac.dao.GroupsDAO;
-import com.company.ac.models.Group;
 import com.company.ac.services.GroupService;
 
 public class GroupServiceImpl implements GroupService {

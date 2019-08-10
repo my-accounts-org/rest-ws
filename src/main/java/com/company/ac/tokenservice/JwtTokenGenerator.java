@@ -2,7 +2,7 @@ package com.company.ac.tokenservice;
 
 import java.security.Key;
 
-import com.company.ac.models.User;
+import com.company.ac.beans.User;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

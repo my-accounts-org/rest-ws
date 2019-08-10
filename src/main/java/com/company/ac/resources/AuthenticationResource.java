@@ -8,8 +8,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.company.ac.auth.service.impl.AuthServiceImpl;
-import com.company.ac.models.User;
-import com.company.ac.models.AuthorizedUser;
+import com.company.ac.beans.AuthorizedUser;
+import com.company.ac.beans.User;
 
 @Path("login")
 public class AuthenticationResource {

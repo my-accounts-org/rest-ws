@@ -1,4 +1,4 @@
-package com.company.ac.models;
+package com.company.ac.beans;
 
 public class Balance {
 	

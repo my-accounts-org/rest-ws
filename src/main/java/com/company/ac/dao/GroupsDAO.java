@@ -11,8 +11,8 @@ import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 
+import com.company.ac.beans.Group;
 import com.company.ac.datasource.AccountsDataSource;
-import com.company.ac.models.Group;
 
 
 public class GroupsDAO implements QueryNames {
@@ -24,15 +24,15 @@ public class GroupsDAO implements QueryNames {
 		Connection c = null;
 		Statement s = null;
 		ResultSet r = null;
-		DBUtils dbUtils = DBUtils.getInstance();
-		String sql = dbUtils.getQuery(GET_ALL_GROUPS).replace(":id", String.valueOf(companyId));
+		
+		String sql = DBUtils.getSQLQuery(GET_ALL_GROUPS, String.valueOf(companyId));
 		try {
 			c = AccountsDataSource.getMySQLConnection();
 			s = c.createStatement();
 			r = s.executeQuery(sql);
 			
 			while(r.next()) {
-				groups.add((Group) DBUtils.getInstance().convert(r, new Group()));
+				groups.add(new Group().convert(r));
 			}
 			
 		} catch (NamingException e) {
@@ -55,7 +55,7 @@ public class GroupsDAO implements QueryNames {
 		
 		try {
 			c = AccountsDataSource.getMySQLConnection();
-			s = c.prepareStatement(DBUtils.getInstance().getQuery(CREATE_GROUP).replace(":id", String.valueOf(group.getConfig())),  PreparedStatement.RETURN_GENERATED_KEYS);			
+			s = c.prepareStatement(DBUtils.getSQLQuery(CREATE_GROUP, String.valueOf(group.getConfig())),  PreparedStatement.RETURN_GENERATED_KEYS);			
 			s.setString(1, group.getName());
 			s.setLong(2, group.getUnder());
 			s.setString(3, group.getNature());
@@ -87,7 +87,7 @@ public class GroupsDAO implements QueryNames {
 		String groupName = null;
 		try {
 			c = AccountsDataSource.getMySQLConnection();
-			s = c.prepareStatement(DBUtils.getInstance().getQuery(GET_GROUP_NAME).replace(":id", String.valueOf(group.getConfig())));
+			s = c.prepareStatement(DBUtils.getSQLQuery(GET_GROUP_NAME, String.valueOf(group.getConfig())));
 			s.setLong(1, group.getUnder());
 			
 			r = s.executeQuery();
@@ -112,7 +112,7 @@ public class GroupsDAO implements QueryNames {
 		int result = 0;
 		try {
 			c = AccountsDataSource.getMySQLConnection();			
-			s = c.prepareStatement(DBUtils.getInstance().getQuery(DELETE_GROUP).replace(":id", String.valueOf(companyId)));
+			s = c.prepareStatement(DBUtils.getSQLQuery(DELETE_GROUP, String.valueOf(companyId)));
 			s.setLong(1, groupId);
 			
 			result = s.executeUpdate();

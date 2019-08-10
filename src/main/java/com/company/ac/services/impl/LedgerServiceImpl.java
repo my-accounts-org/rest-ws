@@ -2,10 +2,10 @@ package com.company.ac.services.impl;
 
 import java.util.List;
 
+import com.company.ac.beans.Group;
+import com.company.ac.beans.Ledger;
 import com.company.ac.dao.GroupsDAO;
 import com.company.ac.dao.LedgersDAO;
-import com.company.ac.models.Group;
-import com.company.ac.models.Ledger;
 import com.company.ac.services.LedgerService;
 
 public class LedgerServiceImpl implements LedgerService {
@@ -18,8 +18,9 @@ public class LedgerServiceImpl implements LedgerService {
 	}
 	
 	@Override
-	public List<Group> getGroupList(long companyId) {		
-		return dao.getGroupList(companyId);
+	public List<Group> getGroupList(long companyId) {
+		GroupsDAO groupsDao = new GroupsDAO();
+		return groupsDao.getGroupList(companyId);
 	}
 	
 	@Override

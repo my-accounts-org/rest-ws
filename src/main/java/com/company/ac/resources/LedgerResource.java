@@ -10,7 +10,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import com.company.ac.models.Ledger;
+
+import com.company.ac.beans.Ledger;
 import com.company.ac.services.LedgerService;
 import com.company.ac.services.impl.LedgerServiceImpl;
 

@@ -1,25 +1,22 @@
 package com.company.ac.dao;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 
+import com.company.ac.beans.Group;
+import com.company.ac.beans.Ledger;
+import com.company.ac.beans.StockGroup;
 import com.company.ac.datasource.AccountsDataSource;
-import com.company.ac.models.Group;
-import com.company.ac.models.Ledger;
 import com.company.ac.models.company.Company;
 import com.company.ac.utils.DateUtil;
 
@@ -36,17 +33,22 @@ public class DBUtils {
 	public static DBUtils getInstance() {
 		return dbUtils;
 	}
-
+	
 	public static String getSQLQuery(String name) {
-		return dbUtils.getQuery(name);
+		return getSQLQuery(name, "");
 	}
 
-	public String getQuery(String name) {
+	public static String getSQLQuery(String name, String companyId) {		
+		return dbUtils.getQuery(name, companyId);
+	}
+
+	private String getQuery(String name, String companyId) {
 		String query = cachedQuery.get(name);
-		if(query == null) 
-			return loadQuery(name);
-		log.info("query found in cache! "+query);
-		return query;
+		if(query == null) {
+			query = loadQuery(name);
+			log.info("query found in cache! "+query);
+		}
+		return query.replace(QueryNames.COMPANY_ID_DELIMETER, companyId);
 	}
 	
 	private String loadQuery(String name) {
@@ -198,7 +200,7 @@ public class DBUtils {
 			s = c.createStatement();
 			r = s.executeQuery(sql);
 			if(r.next()) {
-				company = convert(r, new Company());
+				company = new Company().convert(r);
 			}
 		} catch (NamingException e) {			
 			e.printStackTrace();
@@ -209,59 +211,5 @@ public class DBUtils {
 		}
 		return company;
 	}
-	
-	public Object convert(ResultSet r, Object type) throws SQLException {
-		
-		if(type instanceof Group) {
-			type = convert(r, (Group) type);			
-		} else if(type instanceof Company) {
-			type = convert(r, (Company) type);
-		}
-		else if(type instanceof Ledger) {
-			type = convert(r, (Ledger) type);
-		}
-		
-		return type;
-	}
-	
-	private Company convert(ResultSet r, Company company) throws SQLException {
-		int index = 0;	
-		company.setId(r.getLong(++index));
-		company.setName(r.getString(++index));
-		company.setMailingName(r.getString(++index));
-		company.setMailingAddress(r.getString(++index));
-		company.setFinancialYear(DateUtil.format(r.getDate(++index), "M/dd/yyyy"));
-		company.setBooksBeginingFrom(DateUtil.format(r.getDate(++index), "M/dd/yyyy"));
-		company.setPasswordProtected(r.getInt(++index) == 1);
-		company.setPassword(r.getString(++index));
-		company.setStatus(r.getInt(++index));
-		company.setIsDefault(r.getInt(++index));		
-	
-		return company;
-	}
-	
-	private Group convert(ResultSet r, Group group) throws SQLException {
-		group.setId(r.getInt(1));
-		group.setName(r.getString(2));
-		group.setUnder(r.getLong(3));
-		group.setNature(r.getString(4));
-		group.setGrossAffected(r.getInt(5) == 1);
-		group.setConfig(r.getLong(6));		
-		group.setDefault(r.getInt(7) == 1);		
-		group.setNameOfGroupUnder(r.getString(9));
-		return group;
-		
-	}
-	
-	private Ledger convert(ResultSet r, Ledger ledger) throws SQLException {
-		ledger.setId(r.getLong(1));
-		ledger.setName(r.getString(2));
-		ledger.setUnder(r.getLong(3));
-		ledger.setOpeningBalance(r.getLong(4));
-		ledger.setCrDr(r.getString(5));
-		ledger.setLedgerUnderGroupName(r.getString(10));
-		return ledger;
-		
-	}	
 	
 }

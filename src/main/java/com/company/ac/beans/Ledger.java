@@ -1,23 +1,34 @@
-package com.company.ac.models;
+package com.company.ac.beans;
 
-public class Ledger {
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class Ledger implements Convertable {
 	
 	private long id;
 	private String name;
 	private long under;
-	private long openingBalance;
+	private double openingBalance;
 	private String crDr;
 	private String mailingName;
     private String mailingAddress;
     private String fixedName;
     private String ledgerUnderGroupName;
-    public long getConfig() {
+    private boolean inventoryAffected;
+    private long config;
+    
+    public boolean isInventoryAffected() {
+		return inventoryAffected;
+	}
+	public void setInventoryAffected(boolean inventoryAffected) {
+		this.inventoryAffected = inventoryAffected;
+	}
+	public long getConfig() {
 		return config;
 	}
 	public void setConfig(long config) {
 		this.config = config;
-	}
-	private long config;
+	}	
     
 	public String getLedgerUnderGroupName() {
 		return ledgerUnderGroupName;
@@ -43,10 +54,11 @@ public class Ledger {
 	public void setUnder(long under) {
 		this.under = under;
 	}
-	public long getOpeningBalance() {
+
+	public double getOpeningBalance() {
 		return openingBalance;
 	}
-	public void setOpeningBalance(long openingBalance) {
+	public void setOpeningBalance(double openingBalance) {
 		this.openingBalance = openingBalance;
 	}
 	public String getCrDr() {
@@ -72,5 +84,15 @@ public class Ledger {
 	}
 	public void setFixedName(String fixedName) {
 		this.fixedName = fixedName;
+	}
+	@Override
+	public Ledger convert(ResultSet r) throws SQLException {
+		setId(r.getLong(1));
+		setName(r.getString(2));
+		setUnder(r.getLong(3));
+		setOpeningBalance(r.getLong(4));
+		setCrDr(r.getString(5));
+		setLedgerUnderGroupName(r.getString(10));
+		return this;
 	}
 }

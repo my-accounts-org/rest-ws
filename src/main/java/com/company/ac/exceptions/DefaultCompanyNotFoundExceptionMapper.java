@@ -4,7 +4,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 
-import com.company.ac.models.ErrorMessage;
+import com.company.ac.beans.ErrorMessage;
 
 public class DefaultCompanyNotFoundExceptionMapper implements ExceptionMapper<DefaultCompanyNotFoundException>{
 

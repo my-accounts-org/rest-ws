@@ -11,7 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.company.ac.models.Group;
+import com.company.ac.beans.Group;
 import com.company.ac.services.GroupService;
 import com.company.ac.services.impl.GroupServiceImpl;
 

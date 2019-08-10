@@ -2,8 +2,8 @@ package com.company.ac.services;
 
 import java.util.List;
 
-import com.company.ac.models.Group;
-import com.company.ac.models.Ledger;
+import com.company.ac.beans.Group;
+import com.company.ac.beans.Ledger;
 
 public interface LedgerService {
 	

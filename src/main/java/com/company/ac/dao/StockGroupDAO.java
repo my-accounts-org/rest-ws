@@ -11,21 +11,22 @@ import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 
-import com.company.ac.beans.Group;
-import com.company.ac.beans.Ledger;
+import com.company.ac.beans.StockGroup;
 import com.company.ac.datasource.AccountsDataSource;
 
-public class LedgersDAO implements QueryNames {
+public class StockGroupDAO implements QueryNames{
 	
-	private Logger log = Logger.getLogger(LedgersDAO.class.getName());
+	private Logger log = Logger.getLogger(StockGroupDAO.class.getName());
+
+	public List<StockGroup> getAllStocks(long companyId) {
 		
-	public List<Ledger> getLedgerList(long companyId){
-		List<Ledger> ledgers = new LinkedList<Ledger>();
+		List<StockGroup> stockGroups = new LinkedList<StockGroup>();
+		
 		Connection c = null;
 		Statement s = null;
 		ResultSet r = null;
 		
-		String sql = DBUtils.getSQLQuery(GET_ALL_LEDGERS, String.valueOf(companyId));
+		String sql = DBUtils.getSQLQuery(GET_ALL_STOCK_GROUP, String.valueOf(companyId));
 		log.info(sql);
 		try {
 			c = AccountsDataSource.getMySQLConnection();
@@ -33,9 +34,8 @@ public class LedgersDAO implements QueryNames {
 			r = s.executeQuery(sql);
 			
 			while(r.next()) {
-				ledgers.add(new Ledger().convert(r));
+				stockGroups.add(new StockGroup().convert(r));
 			}
-			
 		} catch (NamingException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -44,10 +44,10 @@ public class LedgersDAO implements QueryNames {
 			AccountsDataSource.closeConnection(c, r, s);
 		}
 		
-		return ledgers;		
+		return stockGroups;
 	}
-	
-	public long create(Ledger ledger) {
+
+	public long create(StockGroup stockGroup) {
 		Connection c = null;
 		PreparedStatement s = null;
 		ResultSet r = null;
@@ -55,15 +55,10 @@ public class LedgersDAO implements QueryNames {
 		
 		try {
 			c = AccountsDataSource.getMySQLConnection();
-			s = c.prepareStatement(DBUtils.getSQLQuery(CREATE_LEDGER, String.valueOf(ledger.getConfig())),  PreparedStatement.RETURN_GENERATED_KEYS);			
-			
-			s.setString(1, ledger.getName());
-			s.setLong(2, ledger.getUnder());
-			s.setDouble(3, ledger.getOpeningBalance());
-			s.setString(4, ledger.getCrDr());
-			s.setString(5, ledger.getMailingName());
-			s.setString(6, ledger.getMailingAddress());
-			
+			s = c.prepareStatement(DBUtils.getSQLQuery(CREATE_STOCK_GROUP, String.valueOf(stockGroup.getConfig())),  PreparedStatement.RETURN_GENERATED_KEYS);			
+			s.setString(1, stockGroup.getName());
+			s.setLong(2, stockGroup.getUnder());
+			s.setInt(3, stockGroup.isAddQuantityItems()? 1 : 0);
 			s.execute();
 			r = s.getGeneratedKeys();
 			if(r.next()) {
@@ -78,26 +73,27 @@ public class LedgersDAO implements QueryNames {
 			AccountsDataSource.close(c, s);
 		}
 		
-		log.info("Created Ledger");
+		
+		log.info("Stock Group created!");
 		
 		return id;
 	}
 
-	public boolean delete(long companyId, long ledgerId) {
+	public String getParentStockGroup(StockGroup stockGroup) {
 		Connection c = null;
 		PreparedStatement s = null;
-		String sql = DBUtils.getSQLQuery(DELETE_LEDGER, String.valueOf(companyId));
-		
-		log.info(sql);
-		
-		int result = 0;
+		ResultSet r = null;
+		String groupName = null;
 		try {
-			c = AccountsDataSource.getMySQLConnection();			
-			s = c.prepareStatement(sql);
-			s.setLong(1, ledgerId);
+			c = AccountsDataSource.getMySQLConnection();
+			s = c.prepareStatement(DBUtils.getSQLQuery(GET_STOCK_GROUP_NAME, String.valueOf(stockGroup.getConfig())));
+			s.setLong(1, stockGroup.getUnder());
 			
-			result = s.executeUpdate();
+			r = s.executeQuery();
 			
+			if(r.next()) {
+				groupName = r.getString(1);
+			}
 		} catch (NamingException e) {			
 			e.printStackTrace();
 		} catch (SQLException e) {			
@@ -105,7 +101,7 @@ public class LedgersDAO implements QueryNames {
 		} finally {
 			AccountsDataSource.close(c, s);
 		}
-		
-		return result > 0;
+		return groupName;
 	}
+	
 }

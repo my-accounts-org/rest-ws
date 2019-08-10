@@ -1,6 +1,9 @@
-package com.company.ac.models;
+package com.company.ac.beans;
 
-public class Group {
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class Group implements Convertable {
 	
 	private long id;
 	private String name;
@@ -84,6 +87,19 @@ public class Group {
 
 	public void setConfig(long config) {
 		this.config = config;
+	}
+
+	@Override
+	public Group convert(ResultSet r) throws SQLException {		
+		setId(r.getInt(1));
+		setName(r.getString(2));
+		setUnder(r.getLong(3));
+		setNature(r.getString(4));
+		setGrossAffected(r.getInt(5) == 1);
+		setConfig(r.getLong(6));		
+		setDefault(r.getInt(7) == 1);		
+		setNameOfGroupUnder(r.getString(9));
+		return this;
 	}
 
 	
