@@ -103,5 +103,31 @@ public class StockGroupDAO implements QueryNames{
 		}
 		return groupName;
 	}
+
+	public boolean delete(long companyId, long stockGroupId) {
+		Connection c = null;
+		PreparedStatement s = null;
+		String sql = DBUtils.getSQLQuery(DELETE_STOCK_GROUP, String.valueOf(companyId));
+		
+		log.info(sql);
+		
+		int result = 0;
+		try {
+			c = AccountsDataSource.getMySQLConnection();			
+			s = c.prepareStatement(sql);
+			s.setLong(1, stockGroupId);
+			
+			result = s.executeUpdate();
+			
+		} catch (NamingException e) {			
+			e.printStackTrace();
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		} finally {
+			AccountsDataSource.close(c, s);
+		}
+		
+		return result > 0;
+	}
 	
 }

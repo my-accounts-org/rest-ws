@@ -27,7 +27,8 @@ public class StockGroupServiceImpl implements StockGroupService {
 
 	@Override
 	public boolean delete(long companyId, long stockGroupId) {
-		return false;
+		
+		return dao.delete(companyId, stockGroupId);
 	}
 
 }

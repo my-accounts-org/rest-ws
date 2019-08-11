@@ -1,6 +1,9 @@
 package com.company.ac.beans;
 
-public class StockItem {
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class StockItem implements Convertable{
 
 	private long id;
 	private long config;
@@ -85,7 +88,12 @@ public class StockItem {
 	public void setStockGroupUnderName(String stockGroupUnderName) {
 		this.stockGroupUnderName = stockGroupUnderName;
 	}
-	
-	
-	
+
+	@Override
+	public StockItem convert(ResultSet r) throws SQLException {
+		setId(r.getLong(1));
+		
+		return null;
+	}
+		
 }

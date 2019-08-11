@@ -68,6 +68,7 @@ public class StockGroup implements Convertable{
 		setName(r.getString(2));
 		setUnder(r.getLong(3));
 		setAddQuantityItems(r.getInt(4) == 1);
+		setNameOfStockGroupUnder(r.getString(5));
 		return this;
 	}
 
