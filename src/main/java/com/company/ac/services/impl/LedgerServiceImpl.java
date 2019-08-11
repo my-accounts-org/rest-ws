@@ -1,9 +1,11 @@
 package com.company.ac.services.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import com.company.ac.beans.Group;
 import com.company.ac.beans.Ledger;
+import com.company.ac.dao.CompanyDAO;
 import com.company.ac.dao.GroupsDAO;
 import com.company.ac.dao.LedgersDAO;
 import com.company.ac.services.LedgerService;
@@ -33,6 +35,12 @@ public class LedgerServiceImpl implements LedgerService {
 		long id = dao.create(ledger);
 		ledger.setId(id);
 		ledger.setLedgerUnderGroupName(getGroupParent(ledger));
+		
+		CompanyDAO companyDAO = new CompanyDAO();
+				
+		Date financialYear = companyDAO.getFinancialYear(ledger.getConfig());
+		
+		dao.updateOpeningBalance(ledger, financialYear);
 		return ledger;
 	}
 

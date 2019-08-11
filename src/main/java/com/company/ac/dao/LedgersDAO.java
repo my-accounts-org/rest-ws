@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -14,6 +15,7 @@ import javax.naming.NamingException;
 import com.company.ac.beans.Group;
 import com.company.ac.beans.Ledger;
 import com.company.ac.datasource.AccountsDataSource;
+import com.company.ac.utils.DateUtil;
 
 public class LedgersDAO implements QueryNames {
 	
@@ -107,5 +109,33 @@ public class LedgersDAO implements QueryNames {
 		}
 		
 		return result > 0;
+	}
+
+	public boolean updateOpeningBalance(Ledger ledger, Date financialYear) {
+		Connection c = null;
+		PreparedStatement s = null;
+		String sql = DBUtils.getSQLQuery(UPDATE_OPENING_BALANCE, String.valueOf(ledger.getConfig()));
+		
+		log.info(sql);
+		
+		int result = 0;
+		try {
+			c = AccountsDataSource.getMySQLConnection();			
+			s = c.prepareStatement(sql);
+			s.setLong(1, ledger.getId());
+			s.setString(2, DateUtil.format(financialYear, "yyyy-MM-dd"));
+			s.setDouble(3, ledger.getCrDr().equals("Cr")? ledger.getOpeningBalance(): 0);
+			s.setDouble(4, ledger.getCrDr().equals("Dr")? ledger.getOpeningBalance(): 0);
+			result = s.executeUpdate();
+			
+		} catch (NamingException e) {			
+			e.printStackTrace();
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		} finally {
+			AccountsDataSource.close(c, s);
+		}
+		
+		return result > 0;	
 	}
 }

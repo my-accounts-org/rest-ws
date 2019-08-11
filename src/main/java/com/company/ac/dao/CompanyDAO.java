@@ -152,4 +152,34 @@ public class CompanyDAO implements QueryNames{
 		return result;
 	}
 
+
+	public Date getFinancialYear(long config) {
+		Connection c = null;
+		Statement s = null;
+		ResultSet r = null;
+		
+		Date date = null;
+		String sql = DBUtils.getSQLQuery(GET_FINANCIAL_YEAR, String.valueOf(config));
+		
+		log.info(sql);
+		
+		try {
+			c = AccountsDataSource.getMySQLConnection();
+			s = c.createStatement();
+			r = s.executeQuery(sql);
+			
+			if(r.next()) {
+				date = r.getDate(1);
+			}
+			
+		} catch (NamingException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			AccountsDataSource.closeConnection(c, r, s);
+		}
+		return date;
+	}
+
 }

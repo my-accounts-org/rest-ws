@@ -23,5 +23,7 @@ public interface QueryNames {
 	String GET_ALL_STOCK_GROUP = "get_all_stock_group";
 	String DELETE_STOCK_GROUP = "delete_stock_group";
 	String GET_STOCK_GROUP_NAME = "get_stock_group_name";
+	String UPDATE_OPENING_BALANCE = "update_opening_balance";
+	String GET_FINANCIAL_YEAR = "get_financial_year";
 	
 }
