@@ -223,7 +223,7 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 				+ "  `first_unit` INTEGER DEFAULT NULL, "
 				+ "  `second_unit` INTEGER DEFAULT NULL, "
 				+ "  `conversion` INTEGER DEFAULT NULL, "
-				+ "  `decimalPlaces` SMALLINT DEFAULT NULL, "
+				+ "  `decimal_places` SMALLINT DEFAULT NULL, "
 				+ "  PRIMARY KEY (`unit_id`) "
 				+ ") ENGINE=InnoDB "
 				+ "CHECKSUM=0 "

@@ -28,5 +28,7 @@ public interface AccountsQuery {
 	String GET_FINANCIAL_YEAR = "get_financial_year";
 	String GET_ALL_STOCK_ITEMS = "get_all_stock_items";
 	String CREATE_STOCK_ITEM = "create_stock_item";
+	String GET_ALL_UNITS = "get_all_units";
+	String CREATE_UNIT = "create_unit";
 	
 }
