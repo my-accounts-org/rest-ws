@@ -13,7 +13,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
-import com.company.ac.models.company.Company;
+import com.company.ac.beans.company.Company;
 import com.company.ac.services.CompanyService;
 import com.company.ac.services.impl.CompanyServiceImpl;
 

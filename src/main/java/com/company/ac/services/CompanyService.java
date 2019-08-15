@@ -2,7 +2,7 @@ package com.company.ac.services;
 
 import java.util.List;
 
-import com.company.ac.models.company.Company;
+import com.company.ac.beans.company.Company;
 
 public interface CompanyService {
 	

@@ -1,4 +1,4 @@
-package com.company.ac.models.company;
+package com.company.ac.beans.company;
 
 public class Currency {
 

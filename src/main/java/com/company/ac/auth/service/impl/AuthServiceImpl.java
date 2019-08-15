@@ -4,9 +4,9 @@ import com.company.ac.auth.exceptions.AuthServiceException;
 import com.company.ac.auth.service.AuthService;
 import com.company.ac.beans.AuthorizedUser;
 import com.company.ac.beans.User;
+import com.company.ac.beans.company.Company;
 import com.company.ac.dao.AuthenticationDAO;
 import com.company.ac.dao.CompanyDAO;
-import com.company.ac.models.company.Company;
 import com.company.ac.tokenservice.JwtTokenGenerator;
 
 

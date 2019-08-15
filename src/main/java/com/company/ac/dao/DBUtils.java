@@ -16,8 +16,8 @@ import javax.naming.NamingException;
 import com.company.ac.beans.Group;
 import com.company.ac.beans.Ledger;
 import com.company.ac.beans.StockGroup;
+import com.company.ac.beans.company.Company;
 import com.company.ac.datasource.AccountsDataSource;
-import com.company.ac.models.company.Company;
 import com.company.ac.utils.DateUtil;
 
 public class DBUtils {

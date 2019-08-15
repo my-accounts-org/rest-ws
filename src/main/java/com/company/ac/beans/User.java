@@ -1,6 +1,6 @@
 package com.company.ac.beans;
 
-import com.company.ac.models.company.Company;
+import com.company.ac.beans.company.Company;
 
 public class User {
 
