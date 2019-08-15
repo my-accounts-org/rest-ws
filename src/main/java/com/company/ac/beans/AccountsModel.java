@@ -3,8 +3,8 @@ package com.company.ac.beans;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public interface Convertable {
+public interface AccountsModel {
 	
-	Convertable convert(ResultSet r) throws SQLException;
+	AccountsModel convert(ResultSet r) throws SQLException;
 	
 }

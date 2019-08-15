@@ -3,7 +3,7 @@ package com.company.ac.beans;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Ledger implements Convertable {
+public class Ledger implements AccountsModel {
 	
 	private long id;
 	private String name;

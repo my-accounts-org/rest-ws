@@ -3,7 +3,7 @@ package com.company.ac.beans;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class StockGroup implements Convertable{
+public class StockGroup implements AccountsModel{
 
 	private long id;
 	private long config;

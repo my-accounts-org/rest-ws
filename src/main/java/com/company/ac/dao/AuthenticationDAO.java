@@ -12,7 +12,7 @@ import javax.naming.NamingException;
 import com.company.ac.beans.User;
 import com.company.ac.datasource.AccountsDataSource;
 
-public class AuthenticationDAO implements QueryNames {
+public class AuthenticationDAO implements AccountsQuery {
 	
 	private Logger log = Logger.getLogger(AuthenticationDAO.class.getName());
 	

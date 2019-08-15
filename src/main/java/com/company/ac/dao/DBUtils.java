@@ -48,7 +48,7 @@ public class DBUtils {
 			query = loadQuery(name);
 			log.info("query found in cache! "+query);
 		}
-		return query.replace(QueryNames.COMPANY_ID_DELIMETER, companyId);
+		return query.replace(AccountsQuery.COMPANY_ID_DELIMETER, companyId);
 	}
 	
 	private String loadQuery(String name) {

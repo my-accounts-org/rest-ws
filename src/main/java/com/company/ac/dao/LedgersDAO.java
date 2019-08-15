@@ -17,7 +17,7 @@ import com.company.ac.beans.Ledger;
 import com.company.ac.datasource.AccountsDataSource;
 import com.company.ac.utils.DateUtil;
 
-public class LedgersDAO implements QueryNames {
+public class LedgersDAO implements AccountsQuery {
 	
 	private Logger log = Logger.getLogger(LedgersDAO.class.getName());
 		

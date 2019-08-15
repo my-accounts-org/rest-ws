@@ -16,7 +16,7 @@ import com.company.ac.datasource.AccountsDataSource;
 import com.company.ac.utils.DateUtil;
 
 
-public class CompanyDAO implements QueryNames{
+public class CompanyDAO implements AccountsQuery{
 	private Logger log = Logger.getLogger(CompanyDAO.class.getName());
 		
 	public long create(Company company) {

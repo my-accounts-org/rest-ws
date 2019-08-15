@@ -3,10 +3,10 @@ package com.company.ac.beans.company;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.company.ac.beans.Convertable;
+import com.company.ac.beans.AccountsModel;
 import com.company.ac.utils.DateUtil;
 
-public class Company implements Convertable{
+public class Company implements AccountsModel{
 	private long id;
 	private String name;
 	private String mailingName;

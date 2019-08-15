@@ -3,14 +3,14 @@ package com.company.ac.beans;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class StockItem implements Convertable{
+public class StockItem implements AccountsModel{
 
 	private long id;
 	private long config;
 	private String name;
 	private long under;
 	private Unit unit;
-	private long openingBalance;
+	private double openingBalance;
 	private double quantity;
 	private double ratePerUnit;		
 	private String stockGroupUnderName;
@@ -57,11 +57,12 @@ public class StockItem implements Convertable{
 		this.unit = unit;
 	}
 
-	public long getOpeningBalance() {
+
+	public double getOpeningBalance() {
 		return openingBalance;
 	}
 
-	public void setOpeningBalance(long openingBalance) {
+	public void setOpeningBalance(double openingBalance) {
 		this.openingBalance = openingBalance;
 	}
 
@@ -91,9 +92,17 @@ public class StockItem implements Convertable{
 
 	@Override
 	public StockItem convert(ResultSet r) throws SQLException {
-		setId(r.getLong(1));
+		Unit unit = new Unit();
+		unit.setId(r.getInt("unit_id"));
 		
-		return null;
+		setId(r.getLong("stock_item_id"));
+		setName(r.getString("name"));
+		setUnit(unit);
+		setOpeningBalance(r.getDouble("opening_balance"));
+		setQuantity(r.getDouble("qunatity"));
+		setRatePerUnit(r.getDouble("rate_per_unit"));
+		setUnder(r.getLong("under"));
+		return this;
 	}
 		
 }

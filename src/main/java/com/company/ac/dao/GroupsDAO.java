@@ -15,7 +15,7 @@ import com.company.ac.beans.Group;
 import com.company.ac.datasource.AccountsDataSource;
 
 
-public class GroupsDAO implements QueryNames {
+public class GroupsDAO implements AccountsQuery {
 	
 	private Logger log = Logger.getLogger(GroupsDAO.class.getName());
 		

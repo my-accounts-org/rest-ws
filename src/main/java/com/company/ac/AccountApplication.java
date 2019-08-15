@@ -16,6 +16,7 @@ import com.company.ac.resources.CompanyResource;
 import com.company.ac.resources.GroupResource;
 import com.company.ac.resources.LedgerResource;
 import com.company.ac.resources.StockGroupResource;
+import com.company.ac.resources.StockItemResource;
 
 @ApplicationPath("api")
 public class AccountApplication extends Application {
@@ -33,6 +34,7 @@ public class AccountApplication extends Application {
         classes.add(StockGroupResource.class);
         classes.add(AuthServiceExceptionMapper.class);
         classes.add(DataNotFoundExceptionMapper.class);
+        classes.add(StockItemResource.class);
         return classes;
     }
 }

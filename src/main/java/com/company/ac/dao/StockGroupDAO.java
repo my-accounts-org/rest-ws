@@ -14,7 +14,7 @@ import javax.naming.NamingException;
 import com.company.ac.beans.StockGroup;
 import com.company.ac.datasource.AccountsDataSource;
 
-public class StockGroupDAO implements QueryNames{
+public class StockGroupDAO implements AccountsQuery{
 	
 	private Logger log = Logger.getLogger(StockGroupDAO.class.getName());
 
@@ -26,7 +26,7 @@ public class StockGroupDAO implements QueryNames{
 		Statement s = null;
 		ResultSet r = null;
 		
-		String sql = DBUtils.getSQLQuery(GET_ALL_STOCK_GROUP, String.valueOf(companyId));
+		String sql = DBUtils.getSQLQuery(GET_ALL_STOCK_GROUPS, String.valueOf(companyId));
 		log.info(sql);
 		try {
 			c = AccountsDataSource.getMySQLConnection();

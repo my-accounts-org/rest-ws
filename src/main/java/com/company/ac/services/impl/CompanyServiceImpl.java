@@ -9,12 +9,12 @@ import java.util.logging.Logger;
 import com.company.ac.beans.company.Company;
 import com.company.ac.dao.CompanyDAO;
 import com.company.ac.dao.DBUtils;
-import com.company.ac.dao.QueryNames;
+import com.company.ac.dao.AccountsQuery;
 import com.company.ac.services.Accounts;
 import com.company.ac.services.CompanyService;
 import com.company.ac.utils.DateUtil;
 
-public class CompanyServiceImpl implements CompanyService, Accounts, QueryNames{
+public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQuery{
 
 	private CompanyDAO dao = new CompanyDAO();
 	private Logger log = Logger.getLogger(CompanyServiceImpl.class.getName());

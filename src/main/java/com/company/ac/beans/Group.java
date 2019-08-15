@@ -3,7 +3,7 @@ package com.company.ac.beans;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Group implements Convertable {
+public class Group implements AccountsModel {
 	
 	private long id;
 	private String name;

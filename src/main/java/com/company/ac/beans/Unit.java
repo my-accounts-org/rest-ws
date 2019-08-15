@@ -1,6 +1,9 @@
 package com.company.ac.beans;
 
-public class Unit {
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class Unit implements AccountsModel {
 
 	public static enum Type {
 		SIMPLE(0), COMPOUND(1);
@@ -89,6 +92,13 @@ public class Unit {
 
 	public void setConversion(int conversion) {
 		this.conversion = conversion;
+	}
+
+	@Override
+	public AccountsModel convert(ResultSet r) throws SQLException {
+		setId(r.getInt("unit_id"));
+		//setType(r.getInt("type"));
+		return null;
 	}
 	
 	
