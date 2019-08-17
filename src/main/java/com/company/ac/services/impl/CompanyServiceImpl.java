@@ -216,7 +216,7 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 		
 		sql = ""
 				+ "CREATE TABLE `units_:id` ( "
-				+ "  `unit_id` INTEGER NOT NULL, "
+				+ "  `unit_id` INTEGER NOT NULL AUTO_INCREMENT, "
 				+ "  `name` VARCHAR(50) DEFAULT NULL UNIQUE, "
 				+ "  `type` SMALLINT NOT NULL DEFAULT 0, "
 				+ "  `symbol` VARCHAR(5) DEFAULT NULL UNIQUE, "
@@ -235,6 +235,27 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 				+ "MAX_ROWS=0 "
 				+ "ROW_FORMAT=DEFAULT "
 				+ "KEY_BLOCK_SIZE=0;";
+		
+		
+		sql = ""
+				+ "CREATE TABLE `units_:id` ( "
+				+ "  `unit_id` INTEGER(11) NOT NULL AUTO_INCREMENT, "
+				+ "  `name` VARCHAR(50) DEFAULT NULL, "
+				+ "  `type` SMALLINT(6) NOT NULL DEFAULT 0, "
+				+ "  `symbol` VARCHAR(5) DEFAULT NULL, "
+				+ "  `first_unit` INTEGER(11) DEFAULT NULL, "
+				+ "  `second_unit` INTEGER(11) DEFAULT NULL, "
+				+ "  `conversion` INTEGER(11) DEFAULT NULL, "
+				+ "  `decimal_places` SMALLINT(6) DEFAULT NULL, "
+				+ "  PRIMARY KEY USING BTREE (`unit_id`), "
+				+ "  UNIQUE KEY `name` USING BTREE (`name`), "
+				+ "  UNIQUE KEY `symbol` USING BTREE (`symbol`) "
+				//+ "  KEY `units_:id_fk1` USING BTREE (`first_unit`), "
+				//+ "  KEY `units_:id_fk2` USING BTREE (`second_unit`), "
+				//+ "  CONSTRAINT `units_:id_fk1` FOREIGN KEY (`first_unit`) REFERENCES `units_:id` (`unit_id`) ON DELETE CASCADE, "
+				//+ "  CONSTRAINT `units_:id_fk2` FOREIGN KEY (`second_unit`) REFERENCES `units_:id` (`unit_id`) ON DELETE CASCADE "
+				+ ") ENGINE=InnoDB"
+				+ ";";
 		
 		queries.add(sql);
 		
