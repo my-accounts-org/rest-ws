@@ -4,24 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Unit implements AccountsModel {
-
-	public static enum Type {
-		SIMPLE(0), COMPOUND(1);
-		
-		int type;
-		
-		Type(int type) {
-			this.type = type;
-		}
-		
-		public int getValue(){
-			return type;
-		}	
-		
-	}
 	
 	private int id;
-	private Type type;
+	private int type;
 	private String symbol;
 	private String name;
 	private int decimalPlaces;
@@ -41,11 +26,11 @@ public class Unit implements AccountsModel {
 		this.id = id;
 	}
 
-	public Type getType() {
+	public int getType() {
 		return type;
 	}
 
-	public void setType(Type type) {
+	public void setType(int type) {
 		this.type = type;
 	}
 
@@ -107,26 +92,31 @@ public class Unit implements AccountsModel {
 
 	@Override
 	public Unit convert(ResultSet r) throws SQLException {
-		setId(r.getInt("unit_id"));
-		setType(r.getInt("type") == 1 ? Type.COMPOUND : Type.SIMPLE);
-		setSymbol(r.getString("symbol"));
-		setConversion(r.getInt("conversion"));
-		setDecimalPlaces(r.getInt("decimalPlaces"));
 		
-		if(getType().equals(Type.COMPOUND)) {
+		setId(r.getInt("unit_id"));
+		setName(r.getString("name"));
+		setType(r.getInt("type"));
+		setSymbol(r.getString("symbol"));
+		
+		
+		if(getType() == 1) {
 			Unit firstUnit = new Unit();
 			Unit secondUnit = new Unit();
 			
 			firstUnit.setId(r.getInt("first_unit"));
-			firstUnit.setName(r.getString("unit1"));
+			firstUnit.setSymbol(r.getString("unit1"));
 			
 			secondUnit.setId(r.getInt("second_unit"));
-			secondUnit.setName(r.getString("unit2"));	
+			secondUnit.setSymbol(r.getString("unit2"));	
 			
 			setFirstUnit(firstUnit);
 			setSecondUnit(secondUnit);
 			
-		}		
+			setConversion(r.getInt("conversion"));
+			
+		} else {
+			setDecimalPlaces(r.getInt("decimal_places"));
+		}
 		
 		return this;
 	}

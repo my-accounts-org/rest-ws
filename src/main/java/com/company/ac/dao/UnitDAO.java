@@ -52,15 +52,28 @@ public class UnitDAO implements AccountsQuery {
 		ResultSet r = null;
 		int id = 0;
 		
+		String sql = DBUtils.getSQLQuery(CREATE_UNIT, String.valueOf(unit.getConfig()));
+		
+		log.info(sql);
+		
 		try {
 			c = AccountsDataSource.getMySQLConnection();
-			s = c.prepareStatement(DBUtils.getSQLQuery(CREATE_UNIT, String.valueOf(unit.getConfig())),  PreparedStatement.RETURN_GENERATED_KEYS);			
-			s.setString(1, unit.getName());
-			s.setInt(2, unit.getType().getValue());
-			s.setString(3, unit.getSymbol());
-			s.setInt(4, unit.getFirstUnit().getId());
-			s.setInt(5, unit.getSecondUnit().getId());
-			s.setInt(6, unit.getConversion());
+			s = c.prepareStatement(sql,  PreparedStatement.RETURN_GENERATED_KEYS);			
+			s.setInt(2, unit.getType());
+			
+			if(unit.getType() == 1) {
+				s.setString(1, null);
+				s.setString(3, null);
+				s.setInt(4, unit.getFirstUnit().getId());
+				s.setInt(5, unit.getSecondUnit().getId());
+				s.setInt(6, unit.getConversion());					
+			} else {
+				s.setString(1, unit.getName());
+				s.setString(3, unit.getSymbol());
+				s.setInt(4, 0);
+				s.setInt(5, 0);
+				s.setInt(6, 0);				
+			}
 			s.setInt(7, unit.getDecimalPlaces());
 			
 			s.execute();
