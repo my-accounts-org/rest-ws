@@ -1,4 +1,4 @@
-package com.company.ac.services.impl;
+package com.company.ac.services.impl.admin;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -9,9 +9,9 @@ import java.util.logging.Logger;
 import com.company.ac.beans.company.Company;
 import com.company.ac.dao.CompanyDAO;
 import com.company.ac.dao.DBUtils;
+import com.company.ac.services.admin.Accounts;
+import com.company.ac.services.admin.CompanyService;
 import com.company.ac.dao.AccountsQuery;
-import com.company.ac.services.Accounts;
-import com.company.ac.services.CompanyService;
 import com.company.ac.utils.DateUtil;
 
 public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQuery{
@@ -193,7 +193,7 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 		
 		sql = ""
 				+ "CREATE TABLE `stock_items_:id` ( "
-				+ "  `stock_item_id` BIGINT NOT NULL, "
+				+ "  `stock_item_id` BIGINT NOT NULL AUTO_INCREMENT, "
 				+ "  `name` VARCHAR(50) DEFAULT NULL UNIQUE, "
 				+ "  `under` BIGINT DEFAULT NULL, "
 				+ "  `unit` INTEGER DEFAULT NULL, "
@@ -250,10 +250,6 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 				+ "  PRIMARY KEY USING BTREE (`unit_id`), "
 				+ "  UNIQUE KEY `name` USING BTREE (`name`), "
 				+ "  UNIQUE KEY `symbol` USING BTREE (`symbol`) "
-				//+ "  KEY `units_:id_fk1` USING BTREE (`first_unit`), "
-				//+ "  KEY `units_:id_fk2` USING BTREE (`second_unit`), "
-				//+ "  CONSTRAINT `units_:id_fk1` FOREIGN KEY (`first_unit`) REFERENCES `units_:id` (`unit_id`) ON DELETE CASCADE, "
-				//+ "  CONSTRAINT `units_:id_fk2` FOREIGN KEY (`second_unit`) REFERENCES `units_:id` (`unit_id`) ON DELETE CASCADE "
 				+ ") ENGINE=InnoDB"
 				+ ";";
 		

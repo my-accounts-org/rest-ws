@@ -1,4 +1,4 @@
-package com.company.ac.resources;
+package com.company.ac.resources.admin;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.Ledger;
-import com.company.ac.services.LedgerService;
-import com.company.ac.services.impl.LedgerServiceImpl;
+import com.company.ac.services.admin.LedgerService;
+import com.company.ac.services.impl.admin.LedgerServiceImpl;
 
 @Path("ledgers")
 @Consumes(MediaType.APPLICATION_JSON)

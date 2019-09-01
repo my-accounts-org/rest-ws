@@ -1,6 +1,13 @@
-package com.company.ac.services;
+package com.company.ac.services.admin;
 
 public interface Accounts {
+	
+	String SALES = "'_SALES_'";
+	String PURCHASE = "'_PURCHASE_'";
+	String CASH = "'_CASH_'";
+	String CREDITORS = "'_CREDITORS_'";
+	String DEBTORS = "'_DEBTORS_'";
+	String BANK = "'_BANK_'";
 
 	int CAPITAL_ACCOUNT=0; 	// Cr
     int LOANS=1;			// Cr

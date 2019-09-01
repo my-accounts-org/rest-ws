@@ -1,10 +1,10 @@
-package com.company.ac.services.impl;
+package com.company.ac.services.impl.admin;
 
 import java.util.List;
 
 import com.company.ac.beans.StockItem;
 import com.company.ac.dao.StockItemDAO;
-import com.company.ac.services.StockItemService;
+import com.company.ac.services.admin.StockItemService;
 
 public class StockItemServiceImpl implements StockItemService {
 	

@@ -93,15 +93,16 @@ public class StockItem implements AccountsModel{
 	@Override
 	public StockItem convert(ResultSet r) throws SQLException {
 		Unit unit = new Unit();
-		unit.setId(r.getInt("unit_id"));
+		unit.setId(r.getInt("unit"));
 		
 		setId(r.getLong("stock_item_id"));
 		setName(r.getString("name"));
 		setUnit(unit);
 		setOpeningBalance(r.getDouble("opening_balance"));
-		setQuantity(r.getDouble("qunatity"));
+		setQuantity(r.getDouble("quantity"));
 		setRatePerUnit(r.getDouble("rate_per_unit"));
 		setUnder(r.getLong("under"));
+		setStockGroupUnderName(r.getString("under_stock_group"));
 		return this;
 	}
 		

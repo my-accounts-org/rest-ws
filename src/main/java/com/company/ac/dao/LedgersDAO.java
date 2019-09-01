@@ -138,4 +138,33 @@ public class LedgersDAO implements AccountsQuery {
 		
 		return result > 0;	
 	}
+	
+	public List<Ledger> getLedgers(String sql) {
+		
+		List<Ledger> ledgers = new LinkedList<Ledger>();
+		Connection c = null;
+		Statement s = null;
+		ResultSet r = null;
+		
+		log.info(sql);
+		try {
+			c = AccountsDataSource.getMySQLConnection();
+			s = c.createStatement();
+			r = s.executeQuery(sql);
+			
+			while(r.next()) {
+				ledgers.add(new Ledger().convert(r));
+			}
+			log.info("Ledgers: "+ledgers);
+			
+		} catch (NamingException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			AccountsDataSource.closeConnection(c, r, s);
+		}
+		
+		return ledgers;		
+	}
 }

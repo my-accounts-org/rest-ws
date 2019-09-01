@@ -1,10 +1,10 @@
-package com.company.ac.services.impl;
+package com.company.ac.services.impl.admin;
 
 import java.util.List;
 
 import com.company.ac.beans.StockGroup;
 import com.company.ac.dao.StockGroupDAO;
-import com.company.ac.services.StockGroupService;
+import com.company.ac.services.admin.StockGroupService;
 
 public class StockGroupServiceImpl implements StockGroupService {
 

@@ -1,4 +1,4 @@
-package com.company.ac.services.impl;
+package com.company.ac.services.impl.admin;
 
 import java.util.Date;
 import java.util.List;
@@ -8,7 +8,7 @@ import com.company.ac.beans.Ledger;
 import com.company.ac.dao.CompanyDAO;
 import com.company.ac.dao.GroupsDAO;
 import com.company.ac.dao.LedgersDAO;
-import com.company.ac.services.LedgerService;
+import com.company.ac.services.admin.LedgerService;
 
 public class LedgerServiceImpl implements LedgerService {
 

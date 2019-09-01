@@ -1,4 +1,4 @@
-package com.company.ac.resources;
+package com.company.ac.resources.admin;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.Unit;
-import com.company.ac.services.UnitService;
-import com.company.ac.services.impl.UnitServiceImpl;
+import com.company.ac.services.admin.UnitService;
+import com.company.ac.services.impl.admin.UnitServiceImpl;
 
 @Path("units")
 @Consumes(MediaType.APPLICATION_JSON)

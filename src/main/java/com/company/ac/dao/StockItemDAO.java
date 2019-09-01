@@ -27,7 +27,7 @@ public class StockItemDAO implements AccountsQuery{
 		ResultSet r = null;
 		
 		String sql = DBUtils.getSQLQuery(GET_ALL_STOCK_ITEMS, String.valueOf(companyId));
-		log.info(sql);
+		log.info("getAllStocksItems: "+sql);
 		try {
 			c = AccountsDataSource.getMySQLConnection();
 			s = c.createStatement();

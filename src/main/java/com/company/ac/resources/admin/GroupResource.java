@@ -1,4 +1,4 @@
-package com.company.ac.resources;
+package com.company.ac.resources.admin;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.Group;
-import com.company.ac.services.GroupService;
-import com.company.ac.services.impl.GroupServiceImpl;
+import com.company.ac.services.admin.GroupService;
+import com.company.ac.services.impl.admin.GroupServiceImpl;
 
 @Path("groups")
 @Consumes(MediaType.APPLICATION_JSON)

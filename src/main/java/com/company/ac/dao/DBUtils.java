@@ -189,7 +189,7 @@ public class DBUtils {
 		}
 		return count; 
 	}
-
+	
 	public Company selectDefaultCompany(String sql) {
 		Connection c = null;
 		Statement s = null;
@@ -211,5 +211,7 @@ public class DBUtils {
 		}
 		return company;
 	}
+	
+	
 	
 }

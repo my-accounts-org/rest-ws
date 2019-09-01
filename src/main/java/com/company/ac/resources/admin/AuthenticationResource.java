@@ -1,4 +1,4 @@
-package com.company.ac.resources;
+package com.company.ac.resources.admin;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;

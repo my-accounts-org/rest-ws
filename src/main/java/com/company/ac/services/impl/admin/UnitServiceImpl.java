@@ -1,10 +1,10 @@
-package com.company.ac.services.impl;
+package com.company.ac.services.impl.admin;
 
 import java.util.List;
 
 import com.company.ac.beans.Unit;
 import com.company.ac.dao.UnitDAO;
-import com.company.ac.services.UnitService;
+import com.company.ac.services.admin.UnitService;
 
 public class UnitServiceImpl implements UnitService {
 

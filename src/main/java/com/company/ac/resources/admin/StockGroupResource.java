@@ -1,4 +1,4 @@
-package com.company.ac.resources;
+package com.company.ac.resources.admin;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.StockGroup;
-import com.company.ac.services.StockGroupService;
-import com.company.ac.services.impl.StockGroupServiceImpl;
+import com.company.ac.services.admin.StockGroupService;
+import com.company.ac.services.impl.admin.StockGroupServiceImpl;
 
 @Path("stockgroups")
 @Consumes(MediaType.APPLICATION_JSON)

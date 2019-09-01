@@ -11,13 +11,14 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import com.company.ac.auth.exceptions.AuthServiceExceptionMapper;
 import com.company.ac.auth.service.impl.AuthenticationFilter;
 import com.company.ac.exceptions.DataNotFoundExceptionMapper;
-import com.company.ac.resources.AuthenticationResource;
-import com.company.ac.resources.CompanyResource;
-import com.company.ac.resources.GroupResource;
-import com.company.ac.resources.LedgerResource;
-import com.company.ac.resources.StockGroupResource;
-import com.company.ac.resources.StockItemResource;
-import com.company.ac.resources.UnitResource;
+import com.company.ac.resources.admin.AuthenticationResource;
+import com.company.ac.resources.admin.CompanyResource;
+import com.company.ac.resources.admin.GroupResource;
+import com.company.ac.resources.admin.LedgerResource;
+import com.company.ac.resources.admin.StockGroupResource;
+import com.company.ac.resources.admin.StockItemResource;
+import com.company.ac.resources.admin.UnitResource;
+import com.company.ac.resources.vouchers.SalesVoucherEntryResource;
 
 @ApplicationPath("api")
 public class AccountApplication extends Application {
@@ -37,6 +38,7 @@ public class AccountApplication extends Application {
         classes.add(DataNotFoundExceptionMapper.class);
         classes.add(StockItemResource.class);
         classes.add(UnitResource.class);
+        classes.add(SalesVoucherEntryResource.class);
         return classes;
     }
 }
