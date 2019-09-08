@@ -27,7 +27,7 @@ public class AuthenticationFilter implements ContainerResponseFilter, ContainerR
 
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
-		if (!requestContext.getUriInfo().getPath().contains("login")) {
+		/*if (!requestContext.getUriInfo().getPath().contains("login")) {
 			String header = requestContext.getHeaderString(AUTHORIZATION);
 			
 			if (header == null || !header.startsWith("Bearer ")) {
@@ -41,7 +41,7 @@ public class AuthenticationFilter implements ContainerResponseFilter, ContainerR
 						.entity("Please re-login!").build();
 				requestContext.abortWith(unauthorizedStatus);
 			}		
-		}
+		}*/
 	}
 
 }

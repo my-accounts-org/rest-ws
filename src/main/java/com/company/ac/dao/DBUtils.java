@@ -172,6 +172,30 @@ public class DBUtils {
 		return result;
 	}
 	
+	public int getIntegerValue(String sql) {
+		Connection c = null;
+		Statement s = null;
+		ResultSet r = null;
+		int count = 0;
+		log.info(sql);
+		try {
+			c = AccountsDataSource.getMySQLConnection();
+			s = c.createStatement();
+			r = s.executeQuery(sql);
+			if(r.next()) {
+				count = r.getInt(1);
+			}
+		} catch (NamingException e) {			
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			AccountsDataSource.close(c, s);
+		}
+		return count; 
+		
+	}
+	
 	public int update(String sql) {
 		Connection c = null;
 		Statement s = null;

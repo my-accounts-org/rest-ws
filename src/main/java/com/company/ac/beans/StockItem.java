@@ -89,6 +89,15 @@ public class StockItem implements AccountsModel{
 	public void setStockGroupUnderName(String stockGroupUnderName) {
 		this.stockGroupUnderName = stockGroupUnderName;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "StockItem [id=" + id + ", config=" + config + ", name=" + name + ", under=" + under + ", unit=" + unit
+				+ ", openingBalance=" + openingBalance + ", quantity=" + quantity + ", ratePerUnit=" + ratePerUnit
+				+ ", stockGroupUnderName=" + stockGroupUnderName + "]";
+	}
 
 	@Override
 	public StockItem convert(ResultSet r) throws SQLException {

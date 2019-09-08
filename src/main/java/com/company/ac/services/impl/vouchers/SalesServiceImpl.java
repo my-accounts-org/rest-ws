@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.company.ac.beans.Ledger;
+import com.company.ac.beans.vouchers.SalesVoucher;
 import com.company.ac.dao.LedgersDAO;
+import com.company.ac.dao.VoucherEntryDAO;
 import com.company.ac.services.admin.Accounts;
 import com.company.ac.services.vouchers.SalesService;
 
@@ -32,14 +34,27 @@ public class SalesServiceImpl implements SalesService, Accounts{
 		
 		Map<String, List<Ledger>> ledgerMap = new HashMap<String, List<Ledger>>();
 		ledgerMap.put("crLedger", crLedger);
-		ledgerMap.put("drLedger", drLedger); 
+		ledgerMap.put("drLedger", drLedger);	
 		return ledgerMap;
 	}
 
 	@Override
-	public long getVoucherEntryNumber(long companyId) {
+	public int getVoucherEntryNumber(long companyId) {
+		VoucherEntryDAO dao = new VoucherEntryDAO();
+		return dao.getVoucherEntryNo(companyId) + 1;
+	}
 		
-		return 0;
+
+	@Override
+	public boolean saveVoucherEntry(SalesVoucher voucher) {
+		VoucherEntryDAO dao = new VoucherEntryDAO();
+		long id = dao.saveVoucher(voucher);
+		boolean success = false;
+		if(id > 0) {
+			success = dao.saveVoucherEntry(id, voucher) && dao.addInventoryTransactions(id, voucher);			
+		}
+		
+		return success;
 	}
 	
 }

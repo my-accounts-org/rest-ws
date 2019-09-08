@@ -50,6 +50,7 @@ public class DateUtil {
 	
 	public static void main(String[] args) {
 		String date = "2019-03-31T18:30:00.000Z";
+		date ="Thu Jun 13 2019 00:00:00 GMT+0530";
 		String formatted = DateUtil.format(date, "yyyy-MMMM-dd");
 		System.out.println("Date => "+formatted);
 		Calendar cal = Calendar.getInstance();

@@ -300,9 +300,31 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 				+ ";";
 		
 		queries.add(sql);
-		dao.createCompanyTables(queries, company);
+		
+		sql = ""
+				+ "CREATE TABLE `inventory_transactions_:id` ( "
+				+ "  `transaction_id` BIGINT NOT NULL AUTO_INCREMENT, "
+				+ "  `voucher_id` BIGINT NOT NULL, "
+				+ "  `transaction_type` SMALLINT NOT NULL, "
+				+ "  `quantity` DOUBLE NOT NULL, "
+				+ "  `rate` DOUBLE NOT NULL, "
+				+ "  `amount` DOUBLE NOT NULL, "
+				+ "  `transaction_date` DATE NOT NULL, "
+				+ "  PRIMARY KEY (`transaction_id`) "
+				+ ") ENGINE=InnoDB "
+				+ "CHECKSUM=0 "
+				+ "DELAY_KEY_WRITE=0 "
+				+ "PACK_KEYS=0 "
+				+ "AUTO_INCREMENT=0 "
+				+ "AVG_ROW_LENGTH=0 "
+				+ "MIN_ROWS=0 "
+				+ "MAX_ROWS=0 "
+				+ "ROW_FORMAT=DEFAULT "
+				+ "KEY_BLOCK_SIZE=0;";
+		
+		queries.add(sql);
 
-		return true;
+		return dao.createCompanyTables(queries, company);
 	}
 
 	public boolean createFinancialYear(Company company) throws ParseException {
