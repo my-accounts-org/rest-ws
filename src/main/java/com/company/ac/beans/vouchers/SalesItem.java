@@ -6,6 +6,8 @@ public class SalesItem {
 	
 	private double quantity;
 	private double rate;
+	private double discount;
+	private double gst;
 	private double amount;
 	
 	private StockItem item;
@@ -38,13 +40,31 @@ public class SalesItem {
 
 	public double getAmount() {
 		if (amount == 0) {
-			amount = quantity * rate;
+			double discRate = (this.quantity * this.rate) - this.discount;
+		    double gstAmount = discRate * this.gst / 100;
+		    amount = discRate + gstAmount;
 		}
 		return amount;
 	}
 
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+
+	public double getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(double discount) {
+		this.discount = discount;
+	}
+
+	public double getGst() {
+		return gst;
+	}
+
+	public void setGst(double gst) {
+		this.gst = gst;
 	}
 
 	@Override

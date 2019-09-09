@@ -127,10 +127,10 @@ public class VoucherEntryDAO implements AccountsQuery{
 		boolean success = false;
 		
 		String sql = "insert into inventory_transactions_:id "
-				+ "(voucher_id, transaction_type, quantity, rate, amount, transaction_date) values ";
+				+ "(voucher_id, transaction_type, stock_item_id, quantity, rate, discount, gst, amount, transaction_date) values ";
 		
-		for(SalesItem item: voucher.getItems()) {
-			sql += " ("+id+", 1, "+item.getQuantity()+", "+item.getRate()+", "+item.getAmount()+", '"+DateUtil.format(voucher.getDate(), "yyyy-MM-dd")+"'),";
+		for(SalesItem salesItem: voucher.getItems()) {
+			sql += " ("+id+", 1, "+salesItem.getQuantity()+", "+salesItem.getItem().getId()+", "+salesItem.getRate()+", "+salesItem.getDiscount()+","+salesItem.getGst()+", "+salesItem.getAmount()+", '"+DateUtil.format(voucher.getDate(), "yyyy-MM-dd")+"'),";
 		}
 		
 		sql = sql.replace(":id", String.valueOf(voucher.getConfig()));
