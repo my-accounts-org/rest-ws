@@ -26,13 +26,13 @@ public class SalesVoucherEntryResource {
 	@GET
 	@Path("{companyId}/ledgers")
 	public Map<String, List<Ledger>> getSalesLedgerMap(@PathParam("companyId") long companyId) {		
-		return service.getSalesLedgerMap(companyId);
+		return service.getLedgerMap(companyId);
 	}
 	
 	@GET
 	@Path("{companyId}/voucherno")
-	public int getVoucherEntryNumber(@PathParam("companyId") long companyId) {		
-		return service.getVoucherEntryNumber(companyId);
+	public int getNextVoucherEntryNumber(@PathParam("companyId") long companyId) {		
+		return service.getNextVoucherEntryNumber(companyId);
 	}
 	
 	@PUT

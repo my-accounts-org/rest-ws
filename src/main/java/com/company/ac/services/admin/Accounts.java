@@ -8,6 +8,21 @@ public interface Accounts {
 	String CREDITORS = "'_CREDITORS_'";
 	String DEBTORS = "'_DEBTORS_'";
 	String BANK = "'_BANK_'";
+		
+	enum VoucherType {
+		SALES(1), PURCHASE(2), CONTRA(3), PAYMENT(4), RECEIPT(5), JOURNAL(6), DEBIT_NOTE(7), CREDIT_NOTE(8);
+		
+		int type = 0;
+		
+		VoucherType(int i) {
+			type = i;
+		}
+		
+		public int getValue() {
+			return type;
+		}
+		
+	}
 
 	int CAPITAL_ACCOUNT=0; 	// Cr
     int LOANS=1;			// Cr

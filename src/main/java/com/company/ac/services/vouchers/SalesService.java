@@ -8,8 +8,8 @@ import com.company.ac.beans.vouchers.SalesVoucher;
 
 public interface SalesService {
 	
-	Map<String, List<Ledger>> getSalesLedgerMap(long companyId);
-	int getVoucherEntryNumber(long companyId);
+	Map<String, List<Ledger>> getLedgerMap(long companyId);
+	int getNextVoucherEntryNumber(long companyId);
 	boolean saveVoucherEntry(SalesVoucher voucher);
 	
 }

@@ -1,7 +1,6 @@
 package com.company.ac.services.impl.vouchers;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,22 +14,18 @@ import com.company.ac.services.vouchers.SalesService;
 public class SalesServiceImpl implements SalesService, Accounts{
 	
 	@Override
-	public Map<String, List<Ledger>> getSalesLedgerMap(long companyId) {
+	public Map<String, List<Ledger>> getLedgerMap(long companyId) {
+				
+		StringBuilder drParams = new StringBuilder();
+					drParams.append(CASH).append(",")
+					.append(CREDITORS).append(",")
+					.append(DEBTORS).append(",")
+					.append(BANK);
+		
 		LedgersDAO dao = new LedgersDAO();
 		
-		String sql = ""
-				+ "WITH etemp as "
-				+ "(select l.*, 'group_name',g.account_type as type from ledgers_:id l "
-				+ "LEFT JOIN groups_:id g on l.under = g.group_id) "
-				+ "select * from etemp where type in (:params);";
-		sql = sql.replace(":id", String.valueOf(companyId));
-		StringBuilder drParams = new StringBuilder();
-		drParams.append(CASH).append(",")
-		.append(CREDITORS).append(",")
-		.append(DEBTORS).append(",")
-		.append(BANK);
-		List<Ledger> crLedger = dao.getLedgers(sql.replace(":params", "'_SALES_'"));
-		List<Ledger> drLedger = dao.getLedgers(sql.replace(":params", drParams.toString()));
+		List<Ledger> crLedger = dao.getLedgers(companyId, "'_SALES_'");
+		List<Ledger> drLedger = dao.getLedgers(companyId, drParams.toString());
 		
 		Map<String, List<Ledger>> ledgerMap = new HashMap<String, List<Ledger>>();
 		ledgerMap.put("crLedger", crLedger);
@@ -39,9 +34,9 @@ public class SalesServiceImpl implements SalesService, Accounts{
 	}
 
 	@Override
-	public int getVoucherEntryNumber(long companyId) {
+	public int getNextVoucherEntryNumber(long companyId) {
 		VoucherEntryDAO dao = new VoucherEntryDAO();
-		return dao.getVoucherEntryNo(companyId) + 1;
+		return dao.getNextVoucherEntryNumber(companyId, VoucherType.SALES);
 	}
 		
 

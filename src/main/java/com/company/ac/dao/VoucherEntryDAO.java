@@ -12,19 +12,20 @@ import javax.naming.NamingException;
 import com.company.ac.beans.vouchers.SalesItem;
 import com.company.ac.beans.vouchers.SalesVoucher;
 import com.company.ac.datasource.AccountsDataSource;
+import com.company.ac.services.admin.Accounts;
 import com.company.ac.utils.DateUtil;
 
-public class VoucherEntryDAO implements AccountsQuery{
+public class VoucherEntryDAO implements AccountsQuery, Accounts{
 
 	private Logger log = Logger.getLogger(VoucherEntryDAO.class.getName());
 	
-	public int getVoucherEntryNo(long companyId) {
+	public int getNextVoucherEntryNumber(long companyId, VoucherType type) {
 		
-		String sql = "select max(voucher_no) from vouchers_:id where voucher_type = 1";
+		String sql = "select max(voucher_no) from vouchers_:id where voucher_type = " + type.getValue();
 		
 		sql = sql.replace(":id", String.valueOf(companyId));
 		
-		int no = DBUtils.getInstance().getIntegerValue(sql);
+		int no = DBUtils.getInstance().getIntegerValue(sql) + 1;
 		
 		return no;
 	}
@@ -69,6 +70,7 @@ public class VoucherEntryDAO implements AccountsQuery{
 		
 		return id;
 	}
+		
 
 	public boolean saveVoucherEntry(long id, SalesVoucher voucher) {
 		return saveCrVoucherEntry(id, voucher, true) && saveCrVoucherEntry(id, voucher, false); 

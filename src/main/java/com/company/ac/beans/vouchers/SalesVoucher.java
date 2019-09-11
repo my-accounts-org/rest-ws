@@ -2,7 +2,7 @@ package com.company.ac.beans.vouchers;
 
 import java.util.List;
 
-public class SalesVoucher {
+public class SalesVoucher{
 	
 	private long by;
 	private long to;

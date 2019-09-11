@@ -139,12 +139,26 @@ public class LedgersDAO implements AccountsQuery {
 		return result > 0;	
 	}
 	
-	public List<Ledger> getLedgers(String sql) {
+	/*
+	 * companyId: config id to determine company
+	 * ledgerTypes: types of ledgers in format for eg.: "'_BANK_', '_CREDITORS_'"
+	 * returns all ledgers which are of type given in ledgerTypes
+	 */
+	public List<Ledger> getLedgers(long companyId, String ledgerTypes) {
 		
 		List<Ledger> ledgers = new LinkedList<Ledger>();
 		Connection c = null;
 		Statement s = null;
 		ResultSet r = null;
+		
+		String sql = ""
+				+ "WITH etemp as "
+				+ "(select l.*, 'group_name',g.account_type as type from ledgers_:id l "
+				+ "LEFT JOIN groups_:id g on l.under = g.group_id) "
+				+ "select * from etemp where type in (:params);";
+		
+		sql = sql.replace(":id", String.valueOf(companyId));
+		sql = sql.replace(":params", ledgerTypes);
 		
 		log.info(sql);
 		try {
