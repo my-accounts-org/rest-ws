@@ -6,6 +6,8 @@ import java.util.Map;
 
 import com.company.ac.beans.Ledger;
 import com.company.ac.dao.LedgersDAO;
+import com.company.ac.dao.VoucherEntryDAO;
+import com.company.ac.services.admin.Accounts.VoucherType;
 import com.company.ac.services.vouchers.ContraService;
 
 public class ContraServiceImpl implements ContraService {
@@ -17,15 +19,18 @@ public class ContraServiceImpl implements ContraService {
 		List<Ledger> crLedger = dao.getLedgers(companyId, "'_BANK_','_CASH_'");
 				
 		Map<String, List<Ledger>> ledgerMap = new HashMap<String, List<Ledger>>();
-		ledgerMap.put("crLedger", crLedger);
-		ledgerMap.put("drLedger", crLedger);	
+		
+		ledgerMap.put("crLedgers", crLedger);
+		ledgerMap.put("drLedgers", crLedger);	
+		
 		return ledgerMap;
 	}
-	
-	@Override
-	public int getNextContraNumber(long companyId) {
-		
-		return 0;
-	}
 
+	@Override
+	public int getNextVoucherEntryNumber(long companyId) {
+		VoucherEntryDAO dao = new VoucherEntryDAO();
+		return dao.getNextVoucherEntryNumber(companyId, VoucherType.CONTRA);
+	}
+	
+	
 }

@@ -28,8 +28,8 @@ public class SalesServiceImpl implements SalesService, Accounts{
 		List<Ledger> drLedger = dao.getLedgers(companyId, drParams.toString());
 		
 		Map<String, List<Ledger>> ledgerMap = new HashMap<String, List<Ledger>>();
-		ledgerMap.put("crLedger", crLedger);
-		ledgerMap.put("drLedger", drLedger);	
+		ledgerMap.put("crLedgers", crLedger);
+		ledgerMap.put("drLedgers", drLedger);	
 		return ledgerMap;
 	}
 

@@ -26,4 +26,10 @@ public class ContraVoucherEntryResource {
 	public Map<String, List<Ledger>> getSalesLedgerMap(@PathParam("companyId") long companyId) {		
 		return service.getLedgerMap(companyId);
 	}
+	
+	@GET
+	@Path("{companyId}/voucherno")
+	public int getNextVoucherEntryNumber(@PathParam("companyId") long companyId) {		
+		return service.getNextVoucherEntryNumber(companyId);
+	}
 }
