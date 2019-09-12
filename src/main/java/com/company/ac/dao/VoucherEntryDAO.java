@@ -11,9 +11,12 @@ import javax.naming.NamingException;
 
 import com.company.ac.beans.vouchers.SalesItem;
 import com.company.ac.beans.vouchers.SalesVoucher;
+import com.company.ac.beans.vouchers.Voucher;
 import com.company.ac.datasource.AccountsDataSource;
 import com.company.ac.services.admin.Accounts;
 import com.company.ac.utils.DateUtil;
+
+import javassist.expr.Instanceof;
 
 public class VoucherEntryDAO implements AccountsQuery, Accounts{
 
@@ -30,7 +33,7 @@ public class VoucherEntryDAO implements AccountsQuery, Accounts{
 		return no;
 	}
 
-	public long saveVoucher(SalesVoucher voucher) {
+	public long saveVoucher(Voucher voucher) {
 		Connection c = null;
 		PreparedStatement s = null;
 		ResultSet r = null;
@@ -48,7 +51,7 @@ public class VoucherEntryDAO implements AccountsQuery, Accounts{
 			
 			s.setString(1, DateUtil.format(voucher.getDate(), "yyyy-MM-dd"));
 			s.setInt(2, 1);
-			s.setInt(3, voucher.getJournalNo());
+			s.setInt(3, voucher.getVoucherNo());
 			s.setString(4, voucher.getNarration());
 			
 			s.execute();
@@ -72,11 +75,11 @@ public class VoucherEntryDAO implements AccountsQuery, Accounts{
 	}
 		
 
-	public boolean saveVoucherEntry(long id, SalesVoucher voucher) {
+	public boolean saveVoucherEntry(long id, Voucher voucher) {
 		return saveCrVoucherEntry(id, voucher, true) && saveCrVoucherEntry(id, voucher, false); 
 	}
 	
-	private boolean saveCrVoucherEntry(long id, SalesVoucher voucher, boolean isCrEntry) {
+	private boolean saveCrVoucherEntry(long id, Voucher voucher, boolean isCrEntry) {
 		Connection c = null;
 		PreparedStatement s = null;
 		
@@ -99,10 +102,10 @@ public class VoucherEntryDAO implements AccountsQuery, Accounts{
 			if(isCrEntry) {
 				s.setLong(3, voucher.getTo());
 				s.setDouble(4, 0);
-				s.setDouble(5, voucher.getTotalAmount());
+				s.setDouble(5, voucher.getAmount());
 			} else {
 				s.setLong(3, voucher.getBy());
-				s.setDouble(4, voucher.getTotalAmount());
+				s.setDouble(4, voucher.getAmount());
 				s.setDouble(5, 0);
 			}
 			
@@ -132,7 +135,7 @@ public class VoucherEntryDAO implements AccountsQuery, Accounts{
 				+ "(voucher_id, transaction_type, stock_item_id, quantity, rate, discount, gst, amount, transaction_date) values ";
 		
 		for(SalesItem salesItem: voucher.getItems()) {
-			sql += " ("+id+", 1, "+salesItem.getQuantity()+", "+salesItem.getItem().getId()+", "+salesItem.getRate()+", "+salesItem.getDiscount()+","+salesItem.getGst()+", "+salesItem.getAmount()+", '"+DateUtil.format(voucher.getDate(), "yyyy-MM-dd")+"'),";
+			sql += " ("+id+", 1, "+salesItem.getItem().getId()+", "+salesItem.getQuantity()+", "+salesItem.getRate()+", "+salesItem.getDiscount()+","+salesItem.getGst()+", "+salesItem.getAmount()+", '"+DateUtil.format(voucher.getDate(), "yyyy-MM-dd")+"'),";
 		}
 		
 		sql = sql.replace(":id", String.valueOf(voucher.getConfig()));

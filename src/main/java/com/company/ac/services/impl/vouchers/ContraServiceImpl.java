@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.company.ac.beans.Ledger;
+import com.company.ac.beans.vouchers.SalesVoucher;
+import com.company.ac.beans.vouchers.Voucher;
 import com.company.ac.dao.LedgersDAO;
 import com.company.ac.dao.VoucherEntryDAO;
 import com.company.ac.services.admin.Accounts.VoucherType;
@@ -30,6 +32,18 @@ public class ContraServiceImpl implements ContraService {
 	public int getNextVoucherEntryNumber(long companyId) {
 		VoucherEntryDAO dao = new VoucherEntryDAO();
 		return dao.getNextVoucherEntryNumber(companyId, VoucherType.CONTRA);
+	}
+	
+	@Override
+	public boolean saveVoucherEntry(Voucher voucher) {
+		VoucherEntryDAO dao = new VoucherEntryDAO();
+		long id = dao.saveVoucher(voucher);
+		boolean success = false;
+		if(id > 0) {
+			//success = dao.saveVoucherEntry(id, voucher) && dao.addInventoryTransactions(id, voucher);			
+		}
+		
+		return success;
 	}
 	
 	
