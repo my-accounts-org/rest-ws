@@ -2,11 +2,13 @@ package com.company.ac.beans.vouchers;
 
 import java.util.List;
 
-public class SalesVoucher extends Voucher{
+import com.company.ac.beans.SalesItem;
+
+public class SalesEntry extends Voucher{
 		
 	private List<SalesItem> items;
 	
-	public SalesVoucher() {}	
+	public SalesEntry() {}	
 
 	public double getTotalAmount() {
 		double totalAmount = 0;

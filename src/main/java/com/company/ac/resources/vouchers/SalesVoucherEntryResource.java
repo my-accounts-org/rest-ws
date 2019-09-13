@@ -12,7 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.Ledger;
-import com.company.ac.beans.vouchers.SalesVoucher;
+import com.company.ac.beans.vouchers.SalesEntry;
 import com.company.ac.services.impl.vouchers.SalesServiceImpl;
 import com.company.ac.services.vouchers.SalesService;
 
@@ -37,7 +37,7 @@ public class SalesVoucherEntryResource {
 	
 	@PUT
 	@Path("entry")
-	public boolean saveVoucherEntry(SalesVoucher voucher) {
+	public boolean saveVoucherEntry(SalesEntry voucher) {
 		return service.saveVoucherEntry(voucher);
 	}
 }

@@ -9,8 +9,8 @@ import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 
-import com.company.ac.beans.vouchers.SalesItem;
-import com.company.ac.beans.vouchers.SalesVoucher;
+import com.company.ac.beans.SalesItem;
+import com.company.ac.beans.vouchers.SalesEntry;
 import com.company.ac.beans.vouchers.Voucher;
 import com.company.ac.datasource.AccountsDataSource;
 import com.company.ac.services.admin.Accounts;
@@ -50,7 +50,7 @@ public class VoucherEntryDAO implements AccountsQuery, Accounts{
 			s = c.prepareStatement(sql,  PreparedStatement.RETURN_GENERATED_KEYS);			
 			
 			s.setString(1, DateUtil.format(voucher.getDate(), "yyyy-MM-dd"));
-			s.setInt(2, 1);
+			s.setInt(2, voucher.getType());
 			s.setInt(3, voucher.getVoucherNo());
 			s.setString(4, voucher.getNarration());
 			
@@ -125,7 +125,7 @@ public class VoucherEntryDAO implements AccountsQuery, Accounts{
 		return success;
 	}
 
-	public boolean addInventoryTransactions(long id, SalesVoucher voucher) {
+	public boolean addInventoryTransactions(long id, SalesEntry voucher) {
 		Connection c = null;
 		Statement s = null;
 		

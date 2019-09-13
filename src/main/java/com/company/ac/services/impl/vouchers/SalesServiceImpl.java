@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.company.ac.beans.Ledger;
-import com.company.ac.beans.vouchers.SalesVoucher;
+import com.company.ac.beans.vouchers.SalesEntry;
 import com.company.ac.dao.LedgersDAO;
 import com.company.ac.dao.VoucherEntryDAO;
 import com.company.ac.services.admin.Accounts;
@@ -41,7 +41,7 @@ public class SalesServiceImpl implements SalesService, Accounts{
 		
 
 	@Override
-	public boolean saveVoucherEntry(SalesVoucher voucher) {
+	public boolean saveVoucherEntry(SalesEntry voucher) {
 		VoucherEntryDAO dao = new VoucherEntryDAO();
 		long id = dao.saveVoucher(voucher);
 		boolean success = false;

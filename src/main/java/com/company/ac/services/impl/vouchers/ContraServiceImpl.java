@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.company.ac.beans.Ledger;
-import com.company.ac.beans.vouchers.SalesVoucher;
+import com.company.ac.beans.vouchers.SalesEntry;
 import com.company.ac.beans.vouchers.Voucher;
 import com.company.ac.dao.LedgersDAO;
 import com.company.ac.dao.VoucherEntryDAO;
@@ -40,7 +40,7 @@ public class ContraServiceImpl implements ContraService {
 		long id = dao.saveVoucher(voucher);
 		boolean success = false;
 		if(id > 0) {
-			//success = dao.saveVoucherEntry(id, voucher) && dao.addInventoryTransactions(id, voucher);			
+			success = dao.saveVoucherEntry(id, voucher);// && dao.addInventoryTransactions(id, voucher);			
 		}
 		
 		return success;

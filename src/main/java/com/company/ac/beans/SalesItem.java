@@ -1,6 +1,4 @@
-package com.company.ac.beans.vouchers;
-
-import com.company.ac.beans.StockItem;
+package com.company.ac.beans;
 
 public class SalesItem {
 	
