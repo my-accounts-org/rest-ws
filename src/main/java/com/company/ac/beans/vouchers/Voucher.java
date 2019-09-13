@@ -1,7 +1,7 @@
 package com.company.ac.beans.vouchers;
 
 import com.company.ac.dao.VoucherEntryDAO;
-import com.company.ac.services.admin.Accounts.VoucherType;
+
 
 public abstract class Voucher {
 	
@@ -84,13 +84,5 @@ public abstract class Voucher {
 				+ narration + ", config=" + config + "]";
 	}
 
-	public int getType() {		
-		if(this instanceof ContraEntry) {
-			return VoucherType.CONTRA.getValue();
-		}
-		if(this instanceof SalesEntry) {
-			return  VoucherType.SALES.getValue();
-		}
-		return 0;
-	}
+	public abstract int getType();
 }

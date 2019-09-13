@@ -12,16 +12,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.Ledger;
-import com.company.ac.beans.vouchers.ContraEntry;
-import com.company.ac.services.impl.vouchers.ContraServiceImpl;
-import com.company.ac.services.vouchers.ContraService;
+import com.company.ac.beans.vouchers.PaymentEntry;
+import com.company.ac.services.impl.vouchers.PaymentServiceImpl;
+import com.company.ac.services.vouchers.PaymentService;
 
-@Path("contra")
+@Path("payment")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class ContraVoucherEntryResource {
+public class PaymentVoucherEntryResource {
 
-	private ContraService service = new ContraServiceImpl();
+private PaymentService service = new PaymentServiceImpl();
 	
 	@GET
 	@Path("{companyId}/ledgers")
@@ -37,7 +37,7 @@ public class ContraVoucherEntryResource {
 	
 	@PUT
 	@Path("entry")
-	public boolean saveVoucherEntry(ContraEntry voucher) {
+	public boolean saveVoucherEntry(PaymentEntry voucher) {
 		return service.saveVoucherEntry(voucher);
 	}
 }

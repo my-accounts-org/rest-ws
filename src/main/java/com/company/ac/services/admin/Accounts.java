@@ -2,6 +2,8 @@ package com.company.ac.services.admin;
 
 public interface Accounts {
 	
+	String OTHERS = "'_OTHERS_'";
+	
 	String SALES = "'_SALES_'";
 	String PURCHASE = "'_PURCHASE_'";
 	String CASH = "'_CASH_'";
@@ -39,21 +41,21 @@ public interface Accounts {
     int INDIRECT_EXPENSES=12;  // Dr    
 	
 	public final String[] groups={
-		"\'Capital Account\',0,4,null,null",//1 
-		"\'Loans\',0,4,null,null",		//2
-		"\'Current Liabilities\',0,4,null,null",	//3
-		"\'Fixed Assets\',0,1,null,null",	//4
-		"\'Investments\',0,1,null,null",		//5
-		"\'Current Assets\',0,1,null,null",	//6
-		"\'Branch/Divisions\',0,4,null,null",	//7
-		"\'Misc. Expenses\',0,1,null,null",	//8
-		"\'Suspence A/c\',0,4,null,null",		//9
+		"\'Capital Account\',0,4,null,\'_OTHERS_\'",//1 
+		"\'Loans\',0,4,null,'_OTHERS_'",		//2
+		"\'Current Liabilities\',0,4,null,\'_OTHERS_\'",	//3
+		"\'Fixed Assets\',0,1,null,'_OTHERS_'",	//4
+		"\'Investments\',0,1,null,\'_OTHERS_\'",		//5
+		"\'Current Assets\',0,1,null,\'_OTHERS_\'",	//6
+		"\'Branch/Divisions\',0,4,null,\'_OTHERS_\'",	//7
+		"\'Misc. Expenses\',0,1,null,\'_OTHERS_\'",	//8
+		"\'Suspence A/c\',0,4,null,\'_OTHERS_\'",		//9
 		"\'Sales Accounts\',0,3,1,\'_SALES_\'",	//10
 		"\'Purchase Accounts\',0,2,1,\'_PURCHASE_\'",	//11
-		"\'Indirect Incomes\',0,3,0,null",	//12
-		"\'Indirect Expenses\',0,2,0,null",	//13
-		"\'Direct Income\',0,3,1,null", 		//14
-		"\'Direct Expense\',0,2,1,null",		//15
+		"\'Indirect Incomes\',0,3,0,\'_OTHERS_\'",	//12
+		"\'Indirect Expenses\',0,2,0,\'_OTHERS_\'",	//13
+		"\'Direct Income\',0,3,1,\'_OTHERS_\'", 		//14
+		"\'Direct Expense\',0,2,1,\'_OTHERS_\'",		//15
 		"\'Reserves & Surplus\',4,null",	//16 (group_name,group_nature,is_gross_affected) under->Capital
 		"\'Banck OD A/c\',4,null",		//17 Under->Loans
 		"\'Secured Loans\',4,null",	//18	Under->Loans

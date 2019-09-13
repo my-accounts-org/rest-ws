@@ -3,6 +3,7 @@ package com.company.ac.beans.vouchers;
 import java.util.List;
 
 import com.company.ac.beans.SalesItem;
+import com.company.ac.services.admin.Accounts.VoucherType;
 
 public class SalesEntry extends Voucher{
 		
@@ -30,6 +31,11 @@ public class SalesEntry extends Voucher{
 	@Override
 	public String toString() {
 		return "SalesVoucher [items=" + items + "]";
+	}
+
+	@Override
+	public int getType() {
+		return VoucherType.SALES.getValue();
 	}
 
 }
