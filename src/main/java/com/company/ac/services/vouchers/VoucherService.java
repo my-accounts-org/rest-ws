@@ -4,12 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.company.ac.beans.Ledger;
-import com.company.ac.beans.vouchers.SalesEntry;
+import com.company.ac.beans.vouchers.Voucher;
 
-public interface SalesService {
-	
+public interface VoucherService {
 	Map<String, List<Ledger>> getLedgerMap(long companyId);
 	int getNextVoucherEntryNumber(long companyId);
-	boolean saveVoucherEntry(SalesEntry voucher);
-	
+	boolean saveVoucherEntry(Voucher voucher) ;
 }

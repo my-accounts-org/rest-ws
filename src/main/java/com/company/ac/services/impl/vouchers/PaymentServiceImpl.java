@@ -8,10 +8,11 @@ import com.company.ac.beans.Ledger;
 import com.company.ac.beans.vouchers.PaymentEntry;
 import com.company.ac.beans.vouchers.Voucher;
 import com.company.ac.dao.LedgersDAO;
+import com.company.ac.dao.VoucherEntryDAO;
 import com.company.ac.services.admin.Accounts.VoucherType;
-import com.company.ac.services.vouchers.PaymentService;
+import com.company.ac.services.vouchers.VoucherService;
 
-public class PaymentServiceImpl implements PaymentService {
+public class PaymentServiceImpl implements VoucherService {
 
 	@Override
 	public Map<String, List<Ledger>> getLedgerMap(long companyId) {
@@ -32,12 +33,20 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public int getNextVoucherEntryNumber(long companyId) {
-		return 0;
+		VoucherEntryDAO dao = new VoucherEntryDAO();
+		return dao.getNextVoucherEntryNumber(companyId, VoucherType.PAYMENT);
 	}
 
 	@Override
 	public boolean saveVoucherEntry(Voucher voucher) {
-		return false;
+		VoucherEntryDAO dao = new VoucherEntryDAO();
+		long id = dao.saveVoucher(voucher);
+		boolean success = false;
+		if(id > 0) {
+			success = dao.saveVoucherEntry(id, voucher);			
+		}
+		
+		return success;
 	}
 
 }

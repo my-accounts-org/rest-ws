@@ -1,6 +1,7 @@
 package com.company.ac.beans.vouchers;
 
 import com.company.ac.dao.VoucherEntryDAO;
+import com.company.ac.services.admin.Accounts;
 
 
 public abstract class Voucher {
@@ -14,6 +15,16 @@ public abstract class Voucher {
 	private String narration;
 	
 	private long config;
+	
+	protected String[] allLedgerTypes = {
+			Accounts.BANK,
+			Accounts.CASH,
+			Accounts.CREDITORS,
+			Accounts.DEBTORS,
+			Accounts.PURCHASE,
+			Accounts.SALES,
+			Accounts.OTHERS
+	};
 	
 	public Voucher() {}
 	

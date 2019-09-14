@@ -1,6 +1,6 @@
 package com.company.ac.beans;
 
-public class SalesItem {
+public class Item {
 	
 	private double quantity;
 	private double rate;
@@ -10,7 +10,7 @@ public class SalesItem {
 	
 	private StockItem item;
 	
-	public SalesItem() {}
+	public Item() {}
 	
 	public StockItem getItem() {
 		return item;

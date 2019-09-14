@@ -5,20 +5,21 @@ import java.util.List;
 import java.util.Map;
 
 import com.company.ac.beans.Ledger;
+import com.company.ac.beans.vouchers.ContraEntry;
 import com.company.ac.beans.vouchers.SalesEntry;
 import com.company.ac.beans.vouchers.Voucher;
 import com.company.ac.dao.LedgersDAO;
 import com.company.ac.dao.VoucherEntryDAO;
 import com.company.ac.services.admin.Accounts.VoucherType;
-import com.company.ac.services.vouchers.ContraService;
+import com.company.ac.services.vouchers.VoucherService;
 
-public class ContraServiceImpl implements ContraService {
+public class ContraServiceImpl implements VoucherService {
 		
 	@Override
 	public Map<String, List<Ledger>> getLedgerMap(long companyId) {
 		LedgersDAO dao = new LedgersDAO();
 				
-		List<Ledger> crLedger = dao.getLedgers(companyId, "'_BANK_','_CASH_'");
+		List<Ledger> crLedger = dao.getLedgers(companyId, new ContraEntry().getCrLedgerTypes());
 				
 		Map<String, List<Ledger>> ledgerMap = new HashMap<String, List<Ledger>>();
 		
@@ -40,7 +41,7 @@ public class ContraServiceImpl implements ContraService {
 		long id = dao.saveVoucher(voucher);
 		boolean success = false;
 		if(id > 0) {
-			success = dao.saveVoucherEntry(id, voucher);// && dao.addInventoryTransactions(id, voucher);			
+			success = dao.saveVoucherEntry(id, voucher);			
 		}
 		
 		return success;

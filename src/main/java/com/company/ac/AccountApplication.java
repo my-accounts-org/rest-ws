@@ -20,7 +20,10 @@ import com.company.ac.resources.admin.StockItemResource;
 import com.company.ac.resources.admin.UnitResource;
 import com.company.ac.resources.vouchers.ContraVoucherEntryResource;
 import com.company.ac.resources.vouchers.PaymentVoucherEntryResource;
+import com.company.ac.resources.vouchers.PurchaseVoucherEntryResource;
+import com.company.ac.resources.vouchers.ReceiptVoucherEntryResource;
 import com.company.ac.resources.vouchers.SalesVoucherEntryResource;
+import com.company.ac.resources.vouchers.VoucherEntryResource;
 
 @ApplicationPath("api")
 public class AccountApplication extends Application {
@@ -40,9 +43,11 @@ public class AccountApplication extends Application {
         classes.add(DataNotFoundExceptionMapper.class);
         classes.add(StockItemResource.class);
         classes.add(UnitResource.class);
-        classes.add(SalesVoucherEntryResource.class);
         classes.add(ContraVoucherEntryResource.class);
         classes.add(PaymentVoucherEntryResource.class);
+        classes.add(ReceiptVoucherEntryResource.class);
+        classes.add(PurchaseVoucherEntryResource.class);
+        classes.add(SalesVoucherEntryResource.class);
         return classes;
     }
 }

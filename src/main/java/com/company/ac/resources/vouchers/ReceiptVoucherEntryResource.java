@@ -6,21 +6,21 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.company.ac.beans.vouchers.ContraEntry;
-import com.company.ac.services.impl.vouchers.ContraServiceImpl;
+import com.company.ac.beans.vouchers.ReceiptEntry;
+import com.company.ac.services.impl.vouchers.ReceiptServiceImpl;
 
-@Path("contra")
+@Path("receipt")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class ContraVoucherEntryResource extends VoucherEntryResource {
-
-	public ContraVoucherEntryResource() {
-		super(new ContraServiceImpl());
+public class ReceiptVoucherEntryResource extends VoucherEntryResource{
+	
+	public ReceiptVoucherEntryResource() {
+		super(new ReceiptServiceImpl());
 	}
 	
 	@PUT
 	@Path("entry")
-	public boolean saveVoucherEntry(ContraEntry voucher) {
+	public boolean saveVoucherEntry(ReceiptEntry voucher) {
 		return service.saveVoucherEntry(voucher);
 	}
 }

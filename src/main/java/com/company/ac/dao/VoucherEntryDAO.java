@@ -5,18 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 
-import com.company.ac.beans.SalesItem;
+import com.company.ac.beans.Item;
 import com.company.ac.beans.vouchers.SalesEntry;
 import com.company.ac.beans.vouchers.Voucher;
 import com.company.ac.datasource.AccountsDataSource;
 import com.company.ac.services.admin.Accounts;
 import com.company.ac.utils.DateUtil;
-
-import javassist.expr.Instanceof;
 
 public class VoucherEntryDAO implements AccountsQuery, Accounts{
 
@@ -125,7 +124,7 @@ public class VoucherEntryDAO implements AccountsQuery, Accounts{
 		return success;
 	}
 
-	public boolean addInventoryTransactions(long id, SalesEntry voucher) {
+	public boolean addInventoryTransactions(long id, Voucher voucher) {
 		Connection c = null;
 		Statement s = null;
 		
@@ -134,8 +133,10 @@ public class VoucherEntryDAO implements AccountsQuery, Accounts{
 		String sql = "insert into inventory_transactions_:id "
 				+ "(voucher_id, transaction_type, stock_item_id, quantity, rate, discount, gst, amount, transaction_date) values ";
 		
-		for(SalesItem salesItem: voucher.getItems()) {
-			sql += " ("+id+", 1, "+salesItem.getItem().getId()+", "+salesItem.getQuantity()+", "+salesItem.getRate()+", "+salesItem.getDiscount()+","+salesItem.getGst()+", "+salesItem.getAmount()+", '"+DateUtil.format(voucher.getDate(), "yyyy-MM-dd")+"'),";
+		List<Item> items = ((SalesEntry)voucher).getItems();
+		
+		for(Item salesItem: items) {
+			sql += " ("+id+", "+voucher.getType()+", "+salesItem.getItem().getId()+", "+salesItem.getQuantity()+", "+salesItem.getRate()+", "+salesItem.getDiscount()+","+salesItem.getGst()+", "+salesItem.getAmount()+", '"+DateUtil.format(voucher.getDate(), "yyyy-MM-dd")+"'),";
 		}
 		
 		sql = sql.replace(":id", String.valueOf(voucher.getConfig()));
