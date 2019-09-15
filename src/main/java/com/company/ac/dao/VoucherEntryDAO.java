@@ -78,7 +78,7 @@ public class VoucherEntryDAO implements AccountsQuery, Accounts{
 		return saveCrVoucherEntry(id, voucher, true) && saveCrVoucherEntry(id, voucher, false); 
 	}
 	
-	private boolean saveCrVoucherEntry(long id, Voucher voucher, boolean isCrEntry) {
+	public boolean saveCrVoucherEntry(long id, Voucher voucher, boolean isCrEntry) {
 		Connection c = null;
 		PreparedStatement s = null;
 		
@@ -165,4 +165,53 @@ public class VoucherEntryDAO implements AccountsQuery, Accounts{
 		
 		return success;
 	}
+			
+	public boolean saveTempVoucherEntry(Voucher voucher) {
+		Connection c = null;
+		PreparedStatement s = null;
+		
+		boolean success = false;
+		
+		String sql = "insert into tmp_voucher_entries_:id (user_token, by_to, ledger_id, debit, credit) "
+				+ "values(?, ?, ?, ?, ?) ";
+		
+		sql = sql.replace(":id", String.valueOf(voucher.getConfig()));
+		
+		log.info("Voucher: "+voucher);
+		
+		String byTo = "cr";
+		long ledgerId = 0;
+		double crAmount = 0;
+		double drAmount = 0;
+		switch(voucher.getType()) {
+		case 3: 
+			byTo = "dr";
+			ledgerId = voucher.getBy();
+			drAmount = voucher.getAmount();
+		}
+		
+		try {
+			c = AccountsDataSource.getMySQLConnection();
+			s = c.prepareStatement(sql);					
+			
+			s.setString(1, voucher.getDate());
+			s.setString(2, byTo);
+			s.setLong(3, ledgerId);
+			s.setDouble(4, crAmount);
+			s.setDouble(5, drAmount);
+			
+			s.execute();
+			success = true;
+			
+		} catch (NamingException e) {			
+			e.printStackTrace();
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		} finally {
+			AccountsDataSource.close(c, s);
+		}
+		
+		return success;
+	}
+	
 }

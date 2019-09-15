@@ -19,6 +19,13 @@ public class ContraVoucherEntryResource extends VoucherEntryResource {
 	}
 	
 	@PUT
+	@Path("tmpentry")
+	public boolean saveTempVoucherEntry(ContraEntry voucher) {
+		return ((ContraServiceImpl)service).saveTempVoucherEntry(voucher);
+	}
+	
+	
+	@PUT
 	@Path("entry")
 	public boolean saveVoucherEntry(ContraEntry voucher) {
 		return service.saveVoucherEntry(voucher);
