@@ -24,8 +24,6 @@ public class ContraEntry extends Voucher{
 		return getDrLedgerTypes();
 	}
 
-	
-
 	public List<MultiLedger> getMultiLedgers() {
 		return multiLedgers;
 	}

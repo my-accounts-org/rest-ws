@@ -1,9 +1,13 @@
 package com.company.ac.beans.vouchers;
 
+import java.util.List;
+
 import com.company.ac.services.admin.Accounts;
 import com.company.ac.services.admin.Accounts.VoucherType;
 
 public class PaymentEntry extends Voucher {
+	
+	private List<MultiLedger> multiLedgers;
 	
 	@Override
 	public int getType() {
@@ -21,6 +25,14 @@ public class PaymentEntry extends Voucher {
 	
 	public String getDrLedgerTypes() {		
 		return Accounts.BANK + "," + Accounts.CASH;
+	}
+	
+	public List<MultiLedger> getMultiLedgers() {
+		return multiLedgers;
+	}
+
+	public void setMultiLedgers(List<MultiLedger> multiLedgers) {
+		this.multiLedgers = multiLedgers;
 	}
 
 }

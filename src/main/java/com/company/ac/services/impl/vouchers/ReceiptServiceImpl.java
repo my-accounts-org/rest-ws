@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.company.ac.beans.Ledger;
+import com.company.ac.beans.vouchers.MultiLedger;
 import com.company.ac.beans.vouchers.ReceiptEntry;
 import com.company.ac.beans.vouchers.Voucher;
 import com.company.ac.dao.LedgersDAO;
@@ -43,7 +44,12 @@ public class ReceiptServiceImpl implements VoucherService {
 		long id = dao.saveVoucher(voucher);
 		boolean success = false;
 		if(id > 0) {
-			success = dao.saveVoucherEntry(id, voucher);			
+			success = dao.saveCrVoucherEntry(id, voucher, true);
+			for(MultiLedger ledger: ((ReceiptEntry)voucher).getMultiLedgers()) {
+				voucher.setBy(ledger.getId());
+				voucher.setAmount(ledger.getAmount());
+				success = dao.saveCrVoucherEntry(id, voucher, false);	
+			}						
 		}
 		
 		return success;

@@ -7,7 +7,6 @@ import java.util.Map;
 import com.company.ac.beans.Ledger;
 import com.company.ac.beans.vouchers.ContraEntry;
 import com.company.ac.beans.vouchers.MultiLedger;
-import com.company.ac.beans.vouchers.SalesEntry;
 import com.company.ac.beans.vouchers.Voucher;
 import com.company.ac.dao.LedgersDAO;
 import com.company.ac.dao.VoucherEntryDAO;
@@ -51,11 +50,6 @@ public class ContraServiceImpl implements VoucherService {
 						
 		}		
 		return success;
-	}
-	
-	public boolean saveTempVoucherEntry(Voucher voucher) {
-		VoucherEntryDAO dao = new VoucherEntryDAO();
-		return dao.saveTempVoucherEntry(voucher);
 	}
 	
 	
