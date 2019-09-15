@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import com.company.ac.beans.company.Company;
@@ -68,10 +69,10 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 		if(!keys.isEmpty()) {
 			List<String> queries = new ArrayList<String>();	
 			sql = "insert into opening_balances_" + id + "(ledger_id,balance_as_on,dr_balance,cr_balance) " + "values("
-					+ keys.get(0) + ",'" + DateUtil.format(date, "yyyy-MM-dd") + "',0,0)";
+					+ keys.get(0) + ",'" + (date) + "',0,0)";
 			queries.add(sql);
 			sql = "insert into opening_balances_" + id + "(ledger_id,balance_as_on,dr_balance,cr_balance) " + "values(" + keys.get(1) + ",'"
-					+ DateUtil.format(date, "yyyy-MM-dd") + "',0,0)";
+					+ date + "',0,0)";
 			queries.add(sql);
 			
 			result = dao.addOpeningAndClosingBalance(queries);
@@ -216,29 +217,6 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 		
 		sql = ""
 				+ "CREATE TABLE `units_:id` ( "
-				+ "  `unit_id` INTEGER NOT NULL AUTO_INCREMENT, "
-				+ "  `name` VARCHAR(50) DEFAULT NULL UNIQUE, "
-				+ "  `type` SMALLINT NOT NULL DEFAULT 0, "
-				+ "  `symbol` VARCHAR(5) DEFAULT NULL UNIQUE, "
-				+ "  `first_unit` INTEGER DEFAULT NULL, "
-				+ "  `second_unit` INTEGER DEFAULT NULL, "
-				+ "  `conversion` INTEGER DEFAULT NULL, "
-				+ "  `decimal_places` SMALLINT DEFAULT NULL, "
-				+ "  PRIMARY KEY (`unit_id`) "
-				+ ") ENGINE=InnoDB "
-				+ "CHECKSUM=0 "
-				+ "DELAY_KEY_WRITE=0 "
-				+ "PACK_KEYS=0 "
-				+ "AUTO_INCREMENT=0 "
-				+ "AVG_ROW_LENGTH=0 "
-				+ "MIN_ROWS=0 "
-				+ "MAX_ROWS=0 "
-				+ "ROW_FORMAT=DEFAULT "
-				+ "KEY_BLOCK_SIZE=0;";
-		
-		
-		sql = ""
-				+ "CREATE TABLE `units_:id` ( "
 				+ "  `unit_id` INTEGER(11) NOT NULL AUTO_INCREMENT, "
 				+ "  `name` VARCHAR(50) DEFAULT NULL, "
 				+ "  `type` SMALLINT(6) NOT NULL DEFAULT 0, "
@@ -277,7 +255,7 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 				+ "  `voucher_type` SMALLINT(6) NOT NULL, "
 				+ "  `voucher_no` BIGINT(20) NOT NULL, "
 				+ "  `narration` VARCHAR(500) COLLATE latin1_swedish_ci DEFAULT NULL, "
-				+ "  `config_id` BIGINT(20), "
+				+ "  `invoice_no` BIGINT(20) DEFAULT NULL,"
 				+ "  PRIMARY KEY USING BTREE (`voucher_id`) "				
 				+ ") ENGINE=InnoDB "
 				+ "AUTO_INCREMENT=1 ROW_FORMAT=DYNAMIC CHARACTER SET 'latin1' COLLATE 'latin1_swedish_ci' "
@@ -294,7 +272,9 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 				+ "  `ledger_id` BIGINT(20) NOT NULL, "
 				+ "  `debit` DOUBLE DEFAULT 0, "
 				+ "  `credit` DOUBLE DEFAULT 0, "
-				+ "  PRIMARY KEY USING BTREE (`voucher_entry_id`) "
+				+ "  PRIMARY KEY USING BTREE (`voucher_entry_id`), "
+				+ "	 KEY `voucher_entries_17_fk1` USING BTREE (`voucher_id`),"  
+				+ "  CONSTRAINT `voucher_entries_:id_fk1` FOREIGN KEY (`voucher_id`) REFERENCES `vouchers_:id` (`voucher_id`) ON DELETE CASCADE"
 				+ ") ENGINE=InnoDB "
 				+ "AUTO_INCREMENT=1 ROW_FORMAT=DYNAMIC CHARACTER SET 'latin1' COLLATE 'latin1_swedish_ci' "
 				+ ";";
@@ -345,16 +325,14 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 				+ "ROW_FORMAT=DEFAULT "
 				+ "KEY_BLOCK_SIZE=0;";
 		
-		queries.add(sql);
+		
 
 		return dao.createCompanyTables(queries, company);
 	}
 
 	public boolean createFinancialYear(Company company) throws ParseException {
-		Date startDate = DateUtil.toDate(company.getFinancialYear());
-		Date endDate = DateUtil.addYear(startDate, 1);
-		endDate = DateUtil.addDay(endDate, -1);
-		return dao.createFinancialYear(company.getId(), startDate, endDate);
+		Map<String, String> financialYearDates = DateUtil.getFinancialYearDates(company.getFinancialYear());
+		return dao.createFinancialYear(company.getId(), financialYearDates.get("from"), financialYearDates.get("to"));
 	}
 
 }

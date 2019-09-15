@@ -115,8 +115,8 @@ public class Company implements AccountsModel{
 		setName(r.getString(2));
 		setMailingName(r.getString(3));
 		setMailingAddress(r.getString(4));
-		setFinancialYear(DateUtil.format(r.getDate(5), "M/dd/yyyy"));
-		setBooksBeginingFrom(DateUtil.format(r.getDate(6), "M/dd/yyyy"));
+		setFinancialYear(DateUtil.toUIDate(r.getString(5)));
+		setBooksBeginingFrom(DateUtil.toUIDate(r.getString(6)));
 		setPasswordProtected(r.getInt(7) == 1);
 		setPassword(r.getString(8));
 		setStatus(r.getInt(9));

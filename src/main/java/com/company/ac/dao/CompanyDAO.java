@@ -31,8 +31,8 @@ public class CompanyDAO implements AccountsQuery{
 			s.setString(1, company.getName());
 			s.setString(2, company.getMailingName());
 			s.setString(3, company.getMailingAddress());
-			s.setString(4, DateUtil.format(company.getFinancialYear(), "yyyy-MM-dd"));
-			s.setString(5,  DateUtil.format(company.getBooksBeginingFrom(), "yyyy-MM-dd"));
+			s.setString(4, company.getFinancialYear());
+			s.setString(5, company.getBooksBeginingFrom());
 			s.setInt(6, company.isPasswordProtected()? 1: 0);
 			s.setString(7, company.getPassword());
 			
@@ -129,7 +129,7 @@ public class CompanyDAO implements AccountsQuery{
 	}
 
 
-	public boolean createFinancialYear(long companyId, Date start, Date end) {
+	public boolean createFinancialYear(long companyId, String start, String end) {
 		Connection c = null;
 		PreparedStatement s = null;
 		boolean result = false;
@@ -137,8 +137,8 @@ public class CompanyDAO implements AccountsQuery{
 		try {
 			c = AccountsDataSource.getMySQLConnection();
 			s = c.prepareStatement(DBUtils.getSQLQuery(CREATE_FINANCIAL_YEAR, String.valueOf(companyId)),  PreparedStatement.RETURN_GENERATED_KEYS);
-			s.setString(1, DateUtil.format(start, "yyyy-MM-dd"));
-			s.setString(2, DateUtil.format(end, "yyyy-MM-dd"));
+			s.setString(1, start);
+			s.setString(2, end);
 			
 			result = s.execute();
 			

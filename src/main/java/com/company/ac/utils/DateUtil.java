@@ -1,71 +1,92 @@
 package com.company.ac.utils;
 
-import java.util.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class DateUtil {
 	
-	private static SimpleDateFormat dbDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	private static SimpleDateFormat uiDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-	private static SimpleDateFormat sdf = new SimpleDateFormat();
-	
+	private static DateTimeFormatter inUIFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.ENGLISH);
+	private static DateTimeFormatter toDBFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
+	private static DateTimeFormatter toUIFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.ENGLISH);
+		
 	private DateUtil() {}
 	
-	public static String format(String date, String pattern) {		
-		Calendar now = Calendar.getInstance();
-		try {
-			now.setTime(dbDateFormat.parse(date));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		sdf.applyPattern(pattern);
-		return sdf.format(now.getTime());
+	public static String toDBDate(String date) {				
+		LocalDate localeDate = LocalDate.parse(date, toUIFormat);
+		String formattedDate = toDBFormat.format(localeDate);
+		return formattedDate;
 	}
 	
-	public static String format(Date date, String pattern) {
-		sdf.applyPattern(pattern);
-		return sdf.format(date);
+	public static String toUIDate(String date) {
+		LocalDate localeDate = LocalDate.parse(date, toDBFormat);
+		String formattedDate = toUIFormat.format(localeDate);
+		return formattedDate;
+	}
+	
+	public static String toDBDate(Date date) {
 		
-	}	
-	
-	public static Date toDate(String date) throws ParseException {
-		return dbDateFormat.parse(date);
+		return null;
 	}
+	
+	public static Map<String, String> getFinancialYearDates(String financialYear) {
+		LocalDate localeDate = LocalDate.parse(financialYear, toDBFormat);
+		localeDate = localeDate.plusYears(1).withMonth(3).withDayOfMonth(31);
+		
+		String from = (financialYear);
+		String to = toDBFormat.format(localeDate);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("from", from);
+		map.put("to", to);
+		map.put("start", from);
+		map.put("end", to);
+		
+		return map;
+	}
+
+	
+	
 	
 	public static Date addYear(Date date, int amount) {
 		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(date.getTime());
+		cal.setTime(date);
 		cal.add(Calendar.YEAR, amount);
 		return cal.getTime();
 	}
 	
-	public static Date addDay(Date date, int amount) {
+	
+	public static Date getFinancialEndDate(Date date) {
 		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(date.getTime());
-		cal.add(Calendar.DATE, amount);
+		cal.setTime(date);
+		cal.add(Calendar.YEAR, 1);
+		
+		cal.set(Calendar.DATE, 31);
+		cal.set(Calendar.MONTH, Calendar.MARCH);
+		
 		return cal.getTime();
 	}
 	
 	public static void main(String[] args) {
 		String date = "2019-03-31T18:30:00.000Z";
 		date ="Thu Jun 13 2019 00:00:00 GMT+0530";
-		String formatted = DateUtil.format(date, "yyyy-MMMM-dd");
-		System.out.println("Date => "+formatted);
-		Calendar cal = Calendar.getInstance();
-		cal.set(2019, 04, 16);		
-		System.out.println(DateUtil.format(cal.getTime(), "dd MMM, yyyy")); 
+		date="2019-08-31T18:30:00.000Z";
+		String formatted = DateUtil.toDBDate(date);
+		//System.out.println("Date => "+formatted);
 		
-		String uiDate = "01/24/2019";
-		try {
-			System.out.println("Date = "+toDate(uiDate));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//date = "2019-08-20";
+		//formatted = DateUtil.toUIDate(date);
+		System.out.println("Date (1) => "+DateUtil.getFinancialYearDates(date));
+		
+		
 		
 	}
+
+	
 
 
 }

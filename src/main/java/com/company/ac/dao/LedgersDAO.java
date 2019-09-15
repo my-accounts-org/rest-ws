@@ -123,7 +123,7 @@ public class LedgersDAO implements AccountsQuery {
 			c = AccountsDataSource.getMySQLConnection();			
 			s = c.prepareStatement(sql);
 			s.setLong(1, ledger.getId());
-			s.setString(2, DateUtil.format(financialYear, "yyyy-MM-dd"));
+			s.setString(2, DateUtil.toDBDate(financialYear));
 			s.setDouble(3, ledger.getCrDr().equals("Cr")? ledger.getOpeningBalance(): 0);
 			s.setDouble(4, ledger.getCrDr().equals("Dr")? ledger.getOpeningBalance(): 0);
 			result = s.executeUpdate();
