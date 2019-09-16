@@ -12,10 +12,9 @@ import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 
-import com.company.ac.beans.Group;
 import com.company.ac.beans.Ledger;
 import com.company.ac.datasource.AccountsDataSource;
-import com.company.ac.utils.DateUtil;
+import com.company.ac.utils.DateHandler;
 
 public class LedgersDAO implements AccountsQuery {
 	
@@ -123,7 +122,7 @@ public class LedgersDAO implements AccountsQuery {
 			c = AccountsDataSource.getMySQLConnection();			
 			s = c.prepareStatement(sql);
 			s.setLong(1, ledger.getId());
-			s.setString(2, DateUtil.toDBDate(financialYear));
+			s.setString(2, DateHandler.getInstance().format(financialYear));
 			s.setDouble(3, ledger.getCrDr().equals("Cr")? ledger.getOpeningBalance(): 0);
 			s.setDouble(4, ledger.getCrDr().equals("Dr")? ledger.getOpeningBalance(): 0);
 			result = s.executeUpdate();

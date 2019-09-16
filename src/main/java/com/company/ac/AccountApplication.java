@@ -23,7 +23,6 @@ import com.company.ac.resources.vouchers.PaymentVoucherEntryResource;
 import com.company.ac.resources.vouchers.PurchaseVoucherEntryResource;
 import com.company.ac.resources.vouchers.ReceiptVoucherEntryResource;
 import com.company.ac.resources.vouchers.SalesVoucherEntryResource;
-import com.company.ac.resources.vouchers.VoucherEntryResource;
 
 @ApplicationPath("api")
 public class AccountApplication extends Application {

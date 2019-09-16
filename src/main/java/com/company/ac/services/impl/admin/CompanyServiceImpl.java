@@ -2,18 +2,17 @@ package com.company.ac.services.impl.admin;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import com.company.ac.beans.company.Company;
+import com.company.ac.dao.AccountsQuery;
 import com.company.ac.dao.CompanyDAO;
 import com.company.ac.dao.DBUtils;
 import com.company.ac.services.admin.Accounts;
 import com.company.ac.services.admin.CompanyService;
-import com.company.ac.dao.AccountsQuery;
-import com.company.ac.utils.DateUtil;
+import com.company.ac.utils.DateHandler;
 
 public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQuery{
 
@@ -69,10 +68,10 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 		if(!keys.isEmpty()) {
 			List<String> queries = new ArrayList<String>();	
 			sql = "insert into opening_balances_" + id + "(ledger_id,balance_as_on,dr_balance,cr_balance) " + "values("
-					+ keys.get(0) + ",'" + (date) + "',0,0)";
+					+ keys.get(0) + ",'" + DateHandler.getInstance().format(date) + "',0,0)";
 			queries.add(sql);
 			sql = "insert into opening_balances_" + id + "(ledger_id,balance_as_on,dr_balance,cr_balance) " + "values(" + keys.get(1) + ",'"
-					+ date + "',0,0)";
+					+ DateHandler.getInstance().format(date) + "',0,0)";
 			queries.add(sql);
 			
 			result = dao.addOpeningAndClosingBalance(queries);
@@ -331,7 +330,7 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 	}
 
 	public boolean createFinancialYear(Company company) throws ParseException {
-		Map<String, String> financialYearDates = DateUtil.getFinancialYearDates(company.getFinancialYear());
+		Map<String, String> financialYearDates = DateHandler.getInstance().getFinancialYearDates(company.getFinancialYear());
 		return dao.createFinancialYear(company.getId(), financialYearDates.get("from"), financialYearDates.get("to"));
 	}
 

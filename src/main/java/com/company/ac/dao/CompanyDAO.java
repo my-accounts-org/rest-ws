@@ -9,11 +9,12 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
+
 import javax.naming.NamingException;
 
 import com.company.ac.beans.company.Company;
 import com.company.ac.datasource.AccountsDataSource;
-import com.company.ac.utils.DateUtil;
+import com.company.ac.utils.DateHandler;
 
 
 public class CompanyDAO implements AccountsQuery{
@@ -31,8 +32,8 @@ public class CompanyDAO implements AccountsQuery{
 			s.setString(1, company.getName());
 			s.setString(2, company.getMailingName());
 			s.setString(3, company.getMailingAddress());
-			s.setString(4, company.getFinancialYear());
-			s.setString(5, company.getBooksBeginingFrom());
+			s.setString(4, DateHandler.getInstance().format(company.getFinancialYear()));
+			s.setString(5, DateHandler.getInstance().format(company.getBooksBeginingFrom()));
 			s.setInt(6, company.isPasswordProtected()? 1: 0);
 			s.setString(7, company.getPassword());
 			

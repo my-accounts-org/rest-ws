@@ -15,7 +15,8 @@ import com.company.ac.beans.vouchers.SalesEntry;
 import com.company.ac.beans.vouchers.Voucher;
 import com.company.ac.datasource.AccountsDataSource;
 import com.company.ac.services.admin.Accounts;
-import com.company.ac.utils.DateUtil;
+import com.company.ac.utils.DateHandler;
+
 
 public class VoucherEntryDAO implements AccountsQuery, Accounts{
 
@@ -48,7 +49,7 @@ public class VoucherEntryDAO implements AccountsQuery, Accounts{
 			c = AccountsDataSource.getMySQLConnection();
 			s = c.prepareStatement(sql,  PreparedStatement.RETURN_GENERATED_KEYS);			
 			
-			s.setString(1, DateUtil.toDBDate(voucher.getDate()));
+			s.setString(1, DateHandler.getInstance().format(voucher.getDate()));
 			s.setInt(2, voucher.getType());
 			s.setInt(3, voucher.getVoucherNo());
 			s.setString(4, voucher.getNarration());
@@ -136,7 +137,7 @@ public class VoucherEntryDAO implements AccountsQuery, Accounts{
 		List<Item> items = ((SalesEntry)voucher).getItems();
 		
 		for(Item salesItem: items) {
-			sql += " ("+id+", "+voucher.getType()+", "+salesItem.getItem().getId()+", "+salesItem.getQuantity()+", "+salesItem.getRate()+", "+salesItem.getDiscount()+","+salesItem.getGst()+", "+salesItem.getAmount()+", '"+DateUtil.toDBDate(voucher.getDate())+"'),";
+			sql += " ("+id+", "+voucher.getType()+", "+salesItem.getItem().getId()+", "+salesItem.getQuantity()+", "+salesItem.getRate()+", "+salesItem.getDiscount()+","+salesItem.getGst()+", "+salesItem.getAmount()+", '"+DateHandler.getInstance().format(voucher.getDate())+"'),";
 		}
 		
 		sql = sql.replace(":id", String.valueOf(voucher.getConfig()));

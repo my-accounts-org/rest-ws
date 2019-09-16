@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.company.ac.beans.AccountsModel;
-import com.company.ac.utils.DateUtil;
+import com.company.ac.utils.DateHandler;
 
 public class Company implements AccountsModel{
 	private long id;
@@ -115,8 +115,8 @@ public class Company implements AccountsModel{
 		setName(r.getString(2));
 		setMailingName(r.getString(3));
 		setMailingAddress(r.getString(4));
-		setFinancialYear(DateUtil.toUIDate(r.getString(5)));
-		setBooksBeginingFrom(DateUtil.toUIDate(r.getString(6)));
+		setFinancialYear(DateHandler.getInstance().formatToUI(r.getString(5)));
+		setBooksBeginingFrom(DateHandler.getInstance().formatToUI(r.getString(6)));
 		setPasswordProtected(r.getInt(7) == 1);
 		setPassword(r.getString(8));
 		setStatus(r.getInt(9));
