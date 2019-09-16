@@ -44,11 +44,11 @@ public class PaymentServiceImpl implements VoucherService {
 		long id = dao.saveVoucher(voucher);
 		boolean success = false;
 		if(id > 0) {
-			success = dao.saveCrVoucherEntry(id, voucher, false);
+			success = dao.saveDrVoucherEntry(id, voucher);
 			for(MultiLedger ledger: ((PaymentEntry)voucher).getMultiLedgers()) {
 				voucher.setTo(ledger.getId());
 				voucher.setAmount(ledger.getAmount());
-				success = dao.saveCrVoucherEntry(id, voucher, true);	
+				success = dao.saveCrVoucherEntry(id, voucher);	
 			}
 						
 		}		
