@@ -39,8 +39,8 @@ public class VoucherEntryDAO implements AccountsQuery, Accounts{
 		ResultSet r = null;
 		long id = 0;
 		
-		String sql = "insert into vouchers_:id (voucher_date, voucher_type, voucher_no, narration) "
-				+ "values(?, ?, ?, ?) ";
+		String sql = "insert into vouchers_:id (voucher_date, voucher_type, voucher_no, narration, invoice_no) "
+				+ "values(?, ?, ?, ?, ?) ";
 		
 		sql = sql.replace(":id", String.valueOf(voucher.getConfig()));
 		log.info(""+voucher);
@@ -53,9 +53,11 @@ public class VoucherEntryDAO implements AccountsQuery, Accounts{
 			s.setInt(2, voucher.getType());
 			s.setInt(3, voucher.getVoucherNo());
 			s.setString(4, voucher.getNarration());
+			s.setInt(5, voucher.getInvoiceNo());
 			
 			s.execute();
 			r = s.getGeneratedKeys();
+			
 			if(r.next()) {
 				id = r.getLong(1);
 			}			

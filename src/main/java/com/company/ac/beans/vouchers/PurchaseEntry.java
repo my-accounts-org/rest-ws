@@ -4,7 +4,7 @@ import com.company.ac.services.admin.Accounts;
 import com.company.ac.services.admin.Accounts.VoucherType;
 
 public class PurchaseEntry extends SalesEntry {
-
+	
 	@Override
 	public int getType() {		
 		return VoucherType.PURCHASE.getValue();
@@ -23,8 +23,8 @@ public class PurchaseEntry extends SalesEntry {
 				Accounts.CREDITORS;
 		
 		return ledgerTypes;
-	}
-	
+	}	
+
 	public String getDrLedgerTypes() {		
 		return Accounts.PURCHASE;
 	}

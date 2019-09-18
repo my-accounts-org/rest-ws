@@ -14,6 +14,8 @@ public abstract class Voucher {
 	private String date;
 	private String narration;
 	
+	private int invoiceNo;
+	
 	private long config;
 	
 	protected String[] allLedgerTypes = {
@@ -87,6 +89,14 @@ public abstract class Voucher {
 
 	public void setAmount(double amount) {
 		this.amount = amount;
+	}
+	
+	public int getInvoiceNo() {
+		return invoiceNo;
+	}
+
+	public void setInvoiceNo(int invoiceNo) {
+		this.invoiceNo = invoiceNo;
 	}
 
 	@Override
