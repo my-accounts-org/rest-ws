@@ -24,7 +24,7 @@ public class VoucherEntryResource {
 	
 	@GET
 	@Path("{companyId}/ledgers")
-	public Map<String, List<Ledger>> getSalesLedgerMap(@PathParam("companyId") long companyId) {		
+	public Map<String, List<Ledger>> getLedgerMap(@PathParam("companyId") long companyId) {		
 		return service.getLedgerMap(companyId);
 	}
 	
