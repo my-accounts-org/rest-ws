@@ -87,7 +87,7 @@ public class VoucherEntryDAO implements AccountsQuery, Accounts{
 		return saveCrVoucherEntry(id, voucher, false);
 	}
 	
-	private boolean saveCrVoucherEntry(long id, Voucher voucher, boolean isCrEntry) {
+	public boolean saveCrVoucherEntry(long id, Voucher voucher, boolean isCrEntry) {
 		Connection c = null;
 		PreparedStatement s = null;
 		
