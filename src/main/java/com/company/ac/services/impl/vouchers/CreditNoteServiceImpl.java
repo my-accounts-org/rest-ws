@@ -22,8 +22,8 @@ public class CreditNoteServiceImpl extends PurchaseServiceImpl {
 		List<Ledger> drLedger = dao.getLedgers(companyId, creditNoteEntry.getDrLedgerTypes());
 		
 		Map<String, List<Ledger>> ledgerMap = new HashMap<String, List<Ledger>>();
-		ledgerMap.put("crLedgers", drLedger);
-		ledgerMap.put("drLedgers", crLedger);	
+		ledgerMap.put("crLedgers", crLedger);
+		ledgerMap.put("drLedgers", drLedger);	
 		
 		return ledgerMap;
 	}

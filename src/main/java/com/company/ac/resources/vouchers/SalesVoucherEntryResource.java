@@ -21,7 +21,7 @@ public class SalesVoucherEntryResource extends VoucherEntryResource{
 	
 	@PUT
 	@Path("entry")
-	public boolean saveVoucherEntry(CreditNoteEntry voucher) {
+	public boolean saveVoucherEntry(SalesEntry voucher) {
 		return service.saveVoucherEntry(voucher);
 	}
 }
