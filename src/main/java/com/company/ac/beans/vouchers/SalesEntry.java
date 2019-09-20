@@ -3,6 +3,7 @@ package com.company.ac.beans.vouchers;
 import java.util.List;
 
 import com.company.ac.beans.Item;
+import com.company.ac.services.admin.Accounts;
 import com.company.ac.services.admin.Accounts.VoucherType;
 
 public class SalesEntry extends Voucher{
@@ -26,6 +27,20 @@ public class SalesEntry extends Voucher{
 	public void setItems(List<Item> items) {
 		this.items = items;
 		setAmount(getTotalAmount());
+	}
+	
+	public String getDrLedgerTypes() {
+		String ledgerTypes = 
+				Accounts.BANK + "," +
+				Accounts.CASH + "," +
+				Accounts.DEBTORS + "," +
+				Accounts.CREDITORS;
+		
+		return ledgerTypes;
+	}	
+
+	public String getCrLedgerTypes() {		
+		return Accounts.SALES;
 	}
 
 	@Override

@@ -19,6 +19,8 @@ import com.company.ac.resources.admin.StockGroupResource;
 import com.company.ac.resources.admin.StockItemResource;
 import com.company.ac.resources.admin.UnitResource;
 import com.company.ac.resources.vouchers.ContraVoucherEntryResource;
+import com.company.ac.resources.vouchers.CreditNoteVoucherEntryResource;
+import com.company.ac.resources.vouchers.DebitNoteVoucherEntryResource;
 import com.company.ac.resources.vouchers.JournalVoucherEntryResource;
 import com.company.ac.resources.vouchers.PaymentVoucherEntryResource;
 import com.company.ac.resources.vouchers.PurchaseVoucherEntryResource;
@@ -49,6 +51,8 @@ public class AccountApplication extends Application {
         classes.add(PurchaseVoucherEntryResource.class);
         classes.add(SalesVoucherEntryResource.class);
         classes.add(JournalVoucherEntryResource.class);
+        classes.add(CreditNoteVoucherEntryResource.class);
+        classes.add(DebitNoteVoucherEntryResource.class);
         return classes;
     }
 }

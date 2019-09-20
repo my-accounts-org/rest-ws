@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.company.ac.beans.Ledger;
+import com.company.ac.beans.vouchers.SalesEntry;
 import com.company.ac.beans.vouchers.Voucher;
 import com.company.ac.dao.LedgersDAO;
 import com.company.ac.dao.VoucherEntryDAO;
@@ -15,17 +16,13 @@ public class SalesServiceImpl implements VoucherService, Accounts{
 	
 	@Override
 	public Map<String, List<Ledger>> getLedgerMap(long companyId) {
-				
-		StringBuilder drParams = new StringBuilder();
-					drParams.append(CASH).append(",")
-					.append(CREDITORS).append(",")
-					.append(DEBTORS).append(",")
-					.append(BANK);
 		
 		LedgersDAO dao = new LedgersDAO();
 		
-		List<Ledger> crLedger = dao.getLedgers(companyId, "'_SALES_'");
-		List<Ledger> drLedger = dao.getLedgers(companyId, drParams.toString());
+		SalesEntry salesEntry = new SalesEntry();
+		
+		List<Ledger> crLedger = dao.getLedgers(companyId, salesEntry.getCrLedgerTypes());
+		List<Ledger> drLedger = dao.getLedgers(companyId, salesEntry.getDrLedgerTypes());
 		
 		Map<String, List<Ledger>> ledgerMap = new HashMap<String, List<Ledger>>();
 		ledgerMap.put("crLedgers", crLedger);

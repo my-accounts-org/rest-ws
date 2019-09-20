@@ -146,6 +146,8 @@ public class VoucherEntryDAO implements AccountsQuery, Accounts{
 		
 		List<Item> items = ((SalesEntry)voucher).getItems();
 		
+		if(items == null || items.isEmpty()) return true;
+		
 		for(Item salesItem: items) {
 			sql += " ("+id+", "+voucher.getType()+", "+salesItem.getItem().getId()+", "+salesItem.getQuantity()+", "+salesItem.getRate()+", "+salesItem.getDiscount()+","+salesItem.getGst()+", "+salesItem.getAmount()+", '"+DateHandler.getInstance().format(voucher.getDate())+"'),";
 		}

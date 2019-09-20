@@ -8,20 +8,21 @@ import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.vouchers.CreditNoteEntry;
 import com.company.ac.beans.vouchers.SalesEntry;
-import com.company.ac.services.impl.vouchers.SalesServiceImpl;
+import com.company.ac.services.impl.vouchers.CreditNoteServiceImpl;
 
-@Path("sales")
+@Path("creditnote")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
-public class SalesVoucherEntryResource extends VoucherEntryResource{
+public class CreditNoteVoucherEntryResource extends VoucherEntryResource {
 
-	public SalesVoucherEntryResource() {
-		super(new SalesServiceImpl());
+	public CreditNoteVoucherEntryResource() {
+		super(new CreditNoteServiceImpl());
 	}
-	
+
 	@PUT
 	@Path("entry")
 	public boolean saveVoucherEntry(CreditNoteEntry voucher) {
 		return service.saveVoucherEntry(voucher);
-	}
+	}	
+
 }
