@@ -180,4 +180,40 @@ public class LedgersDAO implements AccountsQuery {
 		
 		return ledgers;		
 	}
+	
+	public List<Ledger> getLedgersForJournal(long companyId) {
+		List<Ledger> ledgers = new LinkedList<Ledger>();
+		Connection c = null;
+		Statement s = null;
+		ResultSet r = null;
+		
+		String sql = "with temp as "
+				+ "(select l.*, 'group_name',g.account_type as type from ledgers_:id l "
+				+ "LEFT JOIN groups_:id g on l.under = g.group_id) "
+				+ "select * from temp where type is null or type not in ('_BANK_','_CASH_');";
+				
+		
+		sql = sql.replace(":id", String.valueOf(companyId));		
+		
+		log.info(sql);
+		try {
+			c = AccountsDataSource.getMySQLConnection();
+			s = c.createStatement();
+			r = s.executeQuery(sql);
+			
+			while(r.next()) {
+				ledgers.add(new Ledger().convert(r));
+			}
+			log.info("Ledgers: "+ledgers);
+			
+		} catch (NamingException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			AccountsDataSource.closeConnection(c, r, s);
+		}
+		
+		return ledgers;		
+	}
 }

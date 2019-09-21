@@ -19,14 +19,15 @@ public class JournalServiceImpl implements VoucherService {
 
 	@Override
 	public Map<String, List<Ledger>> getLedgerMap(long companyId) {
-		LedgersDAO dao = new LedgersDAO();		
-		
-		List<Ledger> crLedger = dao.getLedgerList(companyId);		
-				
+
+		LedgersDAO dao = new LedgersDAO();
+
+		List<Ledger> crLedger = dao.getLedgersForJournal(companyId);
+
 		Map<String, List<Ledger>> ledgerMap = new HashMap<String, List<Ledger>>();
-		
-		ledgerMap.put("crLedgers", crLedger);		
-		
+
+		ledgerMap.put("crLedgers", crLedger);
+
 		return ledgerMap;
 	}
 
@@ -41,23 +42,23 @@ public class JournalServiceImpl implements VoucherService {
 		VoucherEntryDAO dao = new VoucherEntryDAO();
 		long id = dao.saveVoucher(voucher);
 		boolean success = false;
-		if(id > 0) {			
-			for(CrDrLedger ledger: ((JournalEntry)voucher).getCrDrLedgers()) {
-				
+		if (id > 0) {
+			for (CrDrLedger ledger : ((JournalEntry) voucher).getCrDrLedgers()) {
+
 				boolean isCr = "cr".equals(ledger.getCrDr());
-				
-				if(isCr) {
-					voucher.setAmount(ledger.getCrAmount());	
-					voucher.setTo(ledger.getId());	
-				}else {
+
+				if (isCr) {
+					voucher.setAmount(ledger.getCrAmount());
+					voucher.setTo(ledger.getId());
+				} else {
 					voucher.setAmount(ledger.getDrAmount());
 					voucher.setBy(ledger.getId());
 				}
-				
-				success = dao.saveCrVoucherEntry(id, voucher, isCr);	
+
+				success = dao.saveCrVoucherEntry(id, voucher, isCr);
 			}
-						
-		}		
+
+		}
 		return success;
 	}
 

@@ -1,7 +1,9 @@
 package com.company.ac.beans.vouchers;
 
+import java.util.Arrays;
 import java.util.List;
 
+import com.company.ac.services.admin.Accounts;
 import com.company.ac.services.admin.Accounts.VoucherType;
 
 public class JournalEntry extends Voucher {
@@ -16,8 +18,7 @@ public class JournalEntry extends Voucher {
 	public int getType() {
 		return VoucherType.JOURNAL.getValue();
 	}
-
-
+	
 	public List<CrDrLedger> getCrDrLedgers() {
 		return crDrLedgers;
 	}
