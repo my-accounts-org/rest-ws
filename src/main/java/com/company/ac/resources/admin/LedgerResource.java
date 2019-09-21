@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.Ledger;
 import com.company.ac.services.admin.LedgerService;
-import com.company.ac.services.impl.admin.LedgerServiceImpl;
+import com.company.ac.services.admin.impl.LedgerServiceImpl;
 
 @Path("ledgers")
 @Consumes(MediaType.APPLICATION_JSON)

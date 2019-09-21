@@ -1,4 +1,4 @@
-package com.company.ac.services.impl.admin;
+package com.company.ac.services.admin.impl;
 
 import java.util.List;
 

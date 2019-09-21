@@ -1,4 +1,4 @@
-package com.company.ac.services.impl.vouchers;
+package com.company.ac.services.vouchers.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,23 +6,23 @@ import java.util.Map;
 
 import com.company.ac.beans.Ledger;
 import com.company.ac.beans.vouchers.MultiLedger;
-import com.company.ac.beans.vouchers.ReceiptEntry;
+import com.company.ac.beans.vouchers.PaymentEntry;
 import com.company.ac.beans.vouchers.Voucher;
 import com.company.ac.dao.LedgersDAO;
 import com.company.ac.dao.VoucherEntryDAO;
 import com.company.ac.services.admin.Accounts.VoucherType;
 import com.company.ac.services.vouchers.VoucherService;
 
-public class ReceiptServiceImpl implements VoucherService {
+public class PaymentServiceImpl implements VoucherService {
 
 	@Override
 	public Map<String, List<Ledger>> getLedgerMap(long companyId) {
 		LedgersDAO dao = new LedgersDAO();
 		
-		ReceiptEntry receiptEntry = new ReceiptEntry();
+		PaymentEntry paymentEntry = new PaymentEntry();
 		
-		List<Ledger> crLedger = dao.getLedgers(companyId, receiptEntry.getCrLedgerTypes());
-		List<Ledger> drLedger = dao.getLedgers(companyId, receiptEntry.getDrLedgerTypes());
+		List<Ledger> crLedger = dao.getLedgers(companyId, paymentEntry.getCrLedgerTypes());
+		List<Ledger> drLedger = dao.getLedgers(companyId, paymentEntry.getDrLedgerTypes()); //"'_BANK_','_CASH_'"
 				
 		Map<String, List<Ledger>> ledgerMap = new HashMap<String, List<Ledger>>();
 		
@@ -35,7 +35,7 @@ public class ReceiptServiceImpl implements VoucherService {
 	@Override
 	public int getNextVoucherEntryNumber(long companyId) {
 		VoucherEntryDAO dao = new VoucherEntryDAO();
-		return dao.getNextVoucherEntryNumber(companyId, VoucherType.RECEIPT);
+		return dao.getNextVoucherEntryNumber(companyId, VoucherType.PAYMENT);
 	}
 
 	@Override
@@ -44,16 +44,15 @@ public class ReceiptServiceImpl implements VoucherService {
 		long id = dao.saveVoucher(voucher);
 		boolean success = false;
 		if(id > 0) {
-			success = dao.saveCrVoucherEntry(id, voucher);
-			for(MultiLedger ledger: ((ReceiptEntry)voucher).getMultiLedgers()) {
-				voucher.setBy(ledger.getId());
+			success = dao.saveDrVoucherEntry(id, voucher);
+			for(MultiLedger ledger: ((PaymentEntry)voucher).getMultiLedgers()) {
+				voucher.setTo(ledger.getId());
 				voucher.setAmount(ledger.getAmount());
-				success = dao.saveDrVoucherEntry(id, voucher);	
-			}						
-		}
-		
+				success = dao.saveCrVoucherEntry(id, voucher);	
+			}
+						
+		}		
 		return success;
 	}
-
 
 }

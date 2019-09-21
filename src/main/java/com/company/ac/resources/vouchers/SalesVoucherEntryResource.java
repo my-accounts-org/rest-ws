@@ -8,7 +8,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.vouchers.CreditNoteEntry;
 import com.company.ac.beans.vouchers.SalesEntry;
-import com.company.ac.services.impl.vouchers.SalesServiceImpl;
+import com.company.ac.services.vouchers.impl.SalesServiceImpl;
 
 @Path("sales")
 @Consumes(MediaType.APPLICATION_JSON)

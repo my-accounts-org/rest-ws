@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.company.Company;
 import com.company.ac.services.admin.CompanyService;
-import com.company.ac.services.impl.admin.CompanyServiceImpl;
+import com.company.ac.services.admin.impl.CompanyServiceImpl;
 
 @Path("company")
 @Consumes(MediaType.APPLICATION_JSON)

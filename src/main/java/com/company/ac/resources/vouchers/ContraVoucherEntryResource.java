@@ -7,7 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.vouchers.ContraEntry;
-import com.company.ac.services.impl.vouchers.ContraServiceImpl;
+import com.company.ac.services.vouchers.impl.ContraServiceImpl;
 
 @Path("contra")
 @Consumes(MediaType.APPLICATION_JSON)

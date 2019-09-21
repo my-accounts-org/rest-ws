@@ -7,7 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.vouchers.PaymentEntry;
-import com.company.ac.services.impl.vouchers.PaymentServiceImpl;
+import com.company.ac.services.vouchers.impl.PaymentServiceImpl;
 
 @Path("payment")
 @Consumes(MediaType.APPLICATION_JSON)

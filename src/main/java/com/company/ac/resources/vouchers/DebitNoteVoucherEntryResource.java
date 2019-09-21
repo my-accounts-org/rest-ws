@@ -7,7 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.vouchers.DebitNoteEntry;
-import com.company.ac.services.impl.vouchers.DebitNoteServiceImpl;
+import com.company.ac.services.vouchers.impl.DebitNoteServiceImpl;
 
 @Path("debitnote")
 @Consumes(MediaType.APPLICATION_JSON)

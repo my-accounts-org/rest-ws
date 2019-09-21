@@ -7,7 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.vouchers.JournalEntry;
-import com.company.ac.services.impl.vouchers.JournalServiceImpl;
+import com.company.ac.services.vouchers.impl.JournalServiceImpl;
 
 
 @Path("journal")

@@ -1,4 +1,4 @@
-package com.company.ac.services.impl.vouchers;
+package com.company.ac.services.vouchers.impl;
 
 import java.util.HashMap;
 import java.util.List;

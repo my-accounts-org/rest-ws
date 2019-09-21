@@ -1,4 +1,4 @@
-package com.company.ac.services.impl.admin;
+package com.company.ac.services.admin.impl;
 
 import java.text.ParseException;
 import java.util.ArrayList;

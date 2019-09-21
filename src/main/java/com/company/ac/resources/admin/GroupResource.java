@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.Group;
 import com.company.ac.services.admin.GroupService;
-import com.company.ac.services.impl.admin.GroupServiceImpl;
+import com.company.ac.services.admin.impl.GroupServiceImpl;
 
 @Path("groups")
 @Consumes(MediaType.APPLICATION_JSON)

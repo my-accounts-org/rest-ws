@@ -7,7 +7,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.vouchers.ReceiptEntry;
-import com.company.ac.services.impl.vouchers.ReceiptServiceImpl;
+import com.company.ac.services.vouchers.impl.ReceiptServiceImpl;
 
 @Path("receipt")
 @Consumes(MediaType.APPLICATION_JSON)

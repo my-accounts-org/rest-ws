@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.StockItem;
 import com.company.ac.services.admin.StockItemService;
-import com.company.ac.services.impl.admin.StockItemServiceImpl;
+import com.company.ac.services.admin.impl.StockItemServiceImpl;
 
 @Path("stockitems")
 @Consumes(MediaType.APPLICATION_JSON)

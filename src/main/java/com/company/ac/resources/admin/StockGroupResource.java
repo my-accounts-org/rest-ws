@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.StockGroup;
 import com.company.ac.services.admin.StockGroupService;
-import com.company.ac.services.impl.admin.StockGroupServiceImpl;
+import com.company.ac.services.admin.impl.StockGroupServiceImpl;
 
 @Path("stockgroups")
 @Consumes(MediaType.APPLICATION_JSON)
