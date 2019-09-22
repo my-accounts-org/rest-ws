@@ -305,26 +305,37 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 				+ "KEY_BLOCK_SIZE=0;";
 		
 		queries.add(sql);
-		
+				
 		sql = ""
-				+ "CREATE TABLE `tmp_voucher_entries_:id` ( "
-				+ "  `user_token` VARCHAR(200) NOT NULL, "
-				+ "  `by_to` VARCHAR(2) NOT NULL, "
-				+ "  `ledger_id` BIGINT NOT NULL, "
-				+ "  `debit` DOUBLE NOT NULL DEFAULT 0, "
-				+ "  `credit` DOUBLE NOT NULL DEFAULT 0 "
-				+ ") ENGINE=InnoDB "
-				+ "CHECKSUM=0 "
-				+ "DELAY_KEY_WRITE=0 "
-				+ "PACK_KEYS=0 "
-				+ "AUTO_INCREMENT=0 "
-				+ "AVG_ROW_LENGTH=0 "
-				+ "MIN_ROWS=0 "
-				+ "MAX_ROWS=0 "
-				+ "ROW_FORMAT=DEFAULT "
-				+ "KEY_BLOCK_SIZE=0;";
+				+ "CREATE DEFINER = 'root'@'localhost' FUNCTION `getParentOf_:id`( "
+				+ "        `input` VARCHAR(20) "
+				+ "    ) "
+				+ "    RETURNS VARCHAR(20) CHARACTER "
+				+ "SET latin1 "
+				+ "    NOT DETERMINISTIC "
+				+ "    READS SQL DATA "
+				+ "    SQL SECURITY DEFINER "
+				+ "    COMMENT '' "
+				+ "BEGIN "
+				+ "DECLARE tmp_value VARCHAR(20); "
+				+ "with recursive cte (group_id, group_name, group_under) as ( "
+				+ "  select     group_id, "
+				+ "             group_name, "
+				+ "             group_under "
+				+ "  from       groups_:id "
+				+ "  where      group_id = input "
+				+ "  union all "
+				+ "  select     p.group_id, "
+				+ "             p.group_name, "
+				+ "             p.group_under "
+				+ "  from       groups_:id p "
+				+ "  inner join cte "
+				+ "          on cte.group_under = p.group_id "
+				+ ") "
+				+ "select group_id into tmp_value from cte where group_under = 0; "
+				+ "RETURN tmp_value; END";
 		
-		
+		queries.add(sql);
 
 		return dao.createCompanyTables(queries, company);
 	}
