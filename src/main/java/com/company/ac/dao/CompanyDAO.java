@@ -97,7 +97,9 @@ public class CompanyDAO implements AccountsQuery{
 	public boolean delete(long id) {		
 		String sql = DBUtils.getSQLQuery(DELETE_ALL_COMPANY_TABLES, String.valueOf(id));		
 		log.info("SQL for deleting companies: "+sql);
-		DBUtils.getInstance().update(sql) ;
+		DBUtils.getInstance().update(sql);
+		sql = "DROP FUNCTION getParentOf_"+id;
+		DBUtils.getInstance().update(sql);
 		return DBUtils.getInstance().delete(id, "company") ;
 		
 	}

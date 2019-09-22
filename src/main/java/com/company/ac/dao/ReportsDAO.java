@@ -33,8 +33,8 @@ public class ReportsDAO  implements AccountsQuery, Accounts{
 				+ "from groups_:id g, ledgers_:id l where g.group_id = l.under "
 				+ "and l.ledger_id = ve.ledger_id)) as 'group' "
 				+ "from voucher_entries_:id ve where ve.voucher_id in "
-				+ "(select v.voucher_id from vouchers_:id v "
-				+ "where v.voucher_date between '2019-09-01' and '2019-09-30')) " //ToDo handle date dynamically
+				+ "(select v.voucher_id from vouchers_:id v, current_period_:id p "
+				+ "where v.voucher_date between p.start_date and p.end_date)) " //ToDo handle date dynamically
 				+ "select (select g.group_name from groups_:id g where t.group=g.group_id) as 'Group', "
 				+ "sum(t.debit) as dr, sum(t.credit) as cr from tmp t group by t.group";
 		

@@ -13,6 +13,7 @@ public class Group implements AccountsModel {
 	private boolean grossAffected;
 	private String nameOfGroupUnder;
 	private long config;
+	private String accountType;
 	
 	public Group() {
 		
@@ -89,6 +90,14 @@ public class Group implements AccountsModel {
 		this.config = config;
 	}
 
+	public String getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
+
 	@Override
 	public Group convert(ResultSet r) throws SQLException {		
 		setId(r.getInt(1));
@@ -97,7 +106,8 @@ public class Group implements AccountsModel {
 		setNature(r.getString(4));
 		setGrossAffected(r.getInt(5) == 1);
 		setConfig(r.getLong(6));		
-		setDefault(r.getInt(7) == 1);		
+		setDefault(r.getInt(7) == 1);	
+		setAccountType(r.getString(8));
 		setNameOfGroupUnder(r.getString(9));
 		return this;
 	}

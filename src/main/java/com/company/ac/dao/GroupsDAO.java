@@ -61,6 +61,7 @@ public class GroupsDAO implements AccountsQuery {
 			s.setString(3, group.getNature());
 			s.setInt(4, group.isGrossAffected()? 1: 0);
 			s.setLong(5, group.getConfig());
+			s.setString(6, group.getAccountType());
 			s.execute();
 			r = s.getGeneratedKeys();
 			if(r.next()) {
