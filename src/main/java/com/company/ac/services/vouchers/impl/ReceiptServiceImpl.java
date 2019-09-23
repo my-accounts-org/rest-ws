@@ -44,11 +44,11 @@ public class ReceiptServiceImpl implements VoucherService {
 		long id = dao.saveVoucher(voucher);
 		boolean success = false;
 		if(id > 0) {
-			success = dao.saveCrVoucherEntry(id, voucher);
+			success = dao.saveDrVoucherEntry(id, voucher);
 			for(MultiLedger ledger: ((ReceiptEntry)voucher).getMultiLedgers()) {
-				voucher.setBy(ledger.getId());
+				voucher.setTo(ledger.getId());
 				voucher.setAmount(ledger.getAmount());
-				success = dao.saveDrVoucherEntry(id, voucher);	
+				success = dao.saveCrVoucherEntry(id, voucher);	
 			}						
 		}
 		

@@ -14,7 +14,7 @@ public class PaymentEntry extends Voucher {
 		return VoucherType.PAYMENT.getValue();
 	}
 	
-	public String getCrLedgerTypes() {
+	public String getDrLedgerTypes() {
 		String ledgerTypes = "";
 		for(String ledger: allLedgerTypes) {
 			ledgerTypes += ledger + ",";
@@ -23,7 +23,7 @@ public class PaymentEntry extends Voucher {
 		return ledgerTypes;
 	}
 	
-	public String getDrLedgerTypes() {		
+	public String getCrLedgerTypes() {		
 		return Accounts.BANK + "," + Accounts.CASH;
 	}
 	
