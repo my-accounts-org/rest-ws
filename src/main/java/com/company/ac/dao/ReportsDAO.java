@@ -12,7 +12,7 @@ import javax.naming.NamingException;
 
 import com.company.ac.beans.Ledger;
 import com.company.ac.beans.reports.Report;
-import com.company.ac.beans.reports.TrialBalance;
+import com.company.ac.beans.reports.TrialBalanceReport;
 import com.company.ac.datasource.AccountsDataSource;
 import com.company.ac.services.admin.Accounts;
 
@@ -20,7 +20,7 @@ public class ReportsDAO  implements AccountsQuery, Accounts{
 
 	private Logger log = Logger.getLogger(ReportsDAO.class.getName());
 	
-	public List<Report> getGroupReport(long id) {
+	public TrialBalanceReport getGroupReport(long id) {
 		
 		List<Report> reports = new LinkedList<Report>();
 		
@@ -40,7 +40,7 @@ public class ReportsDAO  implements AccountsQuery, Accounts{
 		
 		sql = sql.replace(":id", String.valueOf(id));
 		
-		
+		TrialBalanceReport trialBalanceReport = new TrialBalanceReport();
 		log.info(sql);
 		try {
 			c = AccountsDataSource.getMySQLConnection();
@@ -48,14 +48,17 @@ public class ReportsDAO  implements AccountsQuery, Accounts{
 			r = s.executeQuery(sql);
 			
 			while(r.next()) {
-				Report report = new TrialBalance();
+				Report report = new Report();
 				report.setName(r.getString(1));
 				report.setDebit(r.getDouble("dr"));
 				report.setCredit(r.getDouble("cr"));				
-				reports.add(report);
-				
+				reports.add(report);				
 			}
-			log.info("Reports: "+reports);
+			
+			trialBalanceReport.setReports(reports);
+			trialBalanceReport.calculateCrDrTotal();
+			
+			log.info("Reports: "+trialBalanceReport);
 			
 		} catch (NamingException e) {
 			e.printStackTrace();
@@ -65,7 +68,7 @@ public class ReportsDAO  implements AccountsQuery, Accounts{
 			AccountsDataSource.closeConnection(c, r, s);
 		}
 		
-		return reports;		
+		return trialBalanceReport;		
 		
 	}
 }

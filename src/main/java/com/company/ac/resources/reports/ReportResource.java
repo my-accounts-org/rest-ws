@@ -10,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.company.ac.beans.reports.Report;
+import com.company.ac.beans.reports.TrialBalanceReport;
 import com.company.ac.services.reports.ReportsService;
 import com.company.ac.services.vouchers.impl.TrialBalanceReportServiceImpl;
 
@@ -20,9 +21,9 @@ public class ReportResource {
 		
 	@GET
 	@Path("trialbalance/{id}")
-	public List<Report> getAllLedgers(@PathParam("id") long id) {
+	public TrialBalanceReport getAllLedgers(@PathParam("id") long id) {
 		ReportsService service = new TrialBalanceReportServiceImpl();
-		return service.getReport(id);
+		return service.getTrialBalanceReport(id);
 	}
 
 }

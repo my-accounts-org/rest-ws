@@ -1,6 +1,6 @@
 package com.company.ac.beans.reports;
 
-public abstract class Report {
+public class Report {
 	
 	private String name;
 	private double credit;
@@ -24,7 +24,10 @@ public abstract class Report {
 	public void setDebit(double debit) {
 		this.debit = debit;
 	}
-	
+	@Override
+	public String toString() {
+		return "Report [name=" + name + ", credit=" + credit + ", debit=" + debit + "]";
+	}	
 	
 	
 }
