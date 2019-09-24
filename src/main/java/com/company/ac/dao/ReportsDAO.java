@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 
-import com.company.ac.beans.Ledger;
 import com.company.ac.beans.reports.Report;
 import com.company.ac.beans.reports.TrialBalanceReport;
 import com.company.ac.datasource.AccountsDataSource;
@@ -20,23 +19,13 @@ public class ReportsDAO  implements AccountsQuery, Accounts{
 
 	private Logger log = Logger.getLogger(ReportsDAO.class.getName());
 	
-	public TrialBalanceReport getGroupReport(long id) {
+	public TrialBalanceReport getTrialBalanceReport(long id, String sql) {
 		
 		List<Report> reports = new LinkedList<Report>();
 		
 		Connection c = null;
 		Statement s = null;
-		ResultSet r = null;
-				
-		String sql = ""
-				+ "with tmp as (select *, getParentOf_:id((select g.group_id "
-				+ "from groups_:id g, ledgers_:id l where g.group_id = l.under "
-				+ "and l.ledger_id = ve.ledger_id)) as 'group' "
-				+ "from voucher_entries_:id ve where ve.voucher_id in "
-				+ "(select v.voucher_id from vouchers_:id v, current_period_:id p "
-				+ "where v.voucher_date between p.start_date and p.end_date)) " //ToDo handle date dynamically
-				+ "select (select g.group_name from groups_:id g where t.group=g.group_id) as 'Group', "
-				+ "sum(t.debit) as dr, sum(t.credit) as cr from tmp t group by t.group";
+		ResultSet r = null;		
 		
 		sql = sql.replace(":id", String.valueOf(id));
 		
@@ -49,7 +38,8 @@ public class ReportsDAO  implements AccountsQuery, Accounts{
 			
 			while(r.next()) {
 				Report report = new Report();
-				report.setName(r.getString(1));
+				report.setId(r.getLong("GroupId"));
+				report.setName(r.getString("Group"));
 				report.setDebit(r.getDouble("dr"));
 				report.setCredit(r.getDouble("cr"));				
 				reports.add(report);				
@@ -58,7 +48,7 @@ public class ReportsDAO  implements AccountsQuery, Accounts{
 			trialBalanceReport.setReports(reports);
 			trialBalanceReport.calculateCrDrTotal();
 			
-			log.info("Reports: "+trialBalanceReport);
+			//log.info("Reports: "+trialBalanceReport);
 			
 		} catch (NamingException e) {
 			e.printStackTrace();
@@ -70,5 +60,10 @@ public class ReportsDAO  implements AccountsQuery, Accounts{
 		
 		return trialBalanceReport;		
 		
+	}
+
+	public TrialBalanceReport getGroupSummary(long id) {
+		
+		return null;
 	}
 }
