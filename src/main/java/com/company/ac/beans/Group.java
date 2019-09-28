@@ -14,6 +14,7 @@ public class Group implements AccountsModel {
 	private String nameOfGroupUnder;
 	private long config;
 	private String accountType;
+	private int groupLevel;
 	
 	public Group() {
 		
@@ -23,6 +24,14 @@ public class Group implements AccountsModel {
 	public String toString() {
 		return "Group [id=" + id + ", name=" + name + ", under=" + under + ", nature=" + nature + ", isDefault="
 				+ isDefault + ", grossAffected=" + grossAffected + "]";
+	}
+
+	public int getGroupLevel() {
+		return groupLevel;
+	}
+
+	public void setGroupLevel(int groupLevel) {
+		this.groupLevel = groupLevel;
 	}
 
 	public long getId() {
@@ -108,7 +117,8 @@ public class Group implements AccountsModel {
 		setConfig(r.getLong(6));		
 		setDefault(r.getInt(7) == 1);	
 		setAccountType(r.getString(8));
-		setNameOfGroupUnder(r.getString(9));
+		setGroupLevel(r.getInt(9));
+		setNameOfGroupUnder(r.getString(10));
 		return this;
 	}
 

@@ -31,6 +31,17 @@ public class Report {
 	public void setDebit(double debit) {
 		this.debit = debit;
 	}
+	
+	public void refreshClosingBalance() {
+		if(credit > debit) {
+			credit = credit - debit;
+			debit = 0;
+		}else {
+			debit = debit - credit;
+			credit = 0;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return "Report [name=" + name + ", credit=" + credit + ", debit=" + debit + "]";

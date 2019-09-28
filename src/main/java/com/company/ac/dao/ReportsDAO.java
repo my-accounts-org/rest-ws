@@ -45,8 +45,7 @@ public class ReportsDAO  implements AccountsQuery, Accounts{
 				reports.add(report);				
 			}
 			
-			trialBalanceReport.setReports(reports);
-			trialBalanceReport.calculateCrDrTotal();
+			trialBalanceReport.setReports(reports);			
 			
 			//log.info("Reports: "+trialBalanceReport);
 			

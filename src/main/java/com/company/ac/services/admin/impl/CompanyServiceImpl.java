@@ -86,20 +86,20 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 				
 		List<Long> result = dao.createGroups(sql);
 				
-		sql = "insert into groups_"+id+"(group_name,group_nature,is_gross_affected,group_under,config_id,is_default,account_type) values "
-				+ "(" + groups[15] + "," + result.get(Accounts.CAPITAL_ACCOUNT) + "," + id + ", 1, '_OTHERS_'), "
-				+ "(" + groups[16] + "," + result.get(Accounts.LOANS) + "," + id + ", 1, '_BANK_'), "
-				+ "(" + groups[17] + "," + result.get(Accounts.LOANS) + "," + id + ", 1, '_OTHERS_'), "
-				+ "(" + groups[18] + "," + result.get(Accounts.LOANS) + "," + id + ", 1, '_OTHERS_'), "
-				+ "(" + groups[19] + "," + result.get(Accounts.CURRENT_LIABILITIES) + "," + id + ", 1, '_OTHERS_'), "
-				+ "(" + groups[20] + "," + result.get(Accounts.CURRENT_LIABILITIES) + "," + id + ", 1, '_OTHERS_'),"
-				+ "(" + groups[21] + "," + result.get(Accounts.CURRENT_LIABILITIES) + "," + id + ", 1, '_CREDITORS_'),"
-				+ "(" + groups[22] + "," + result.get(Accounts.CURRENT_ASSETS) + "," + id + ", 1, '_OTHERS_'),"
-				+ "(" + groups[23] + "," + result.get(Accounts.CURRENT_ASSETS) + "," + id + ", 1, '_OTHERS_'),"
-				+ "(" + groups[24] + "," + result.get(Accounts.CURRENT_ASSETS) + "," + id + ", 1, '_OTHERS_'),"
-				+ "(" + groups[25] + "," + result.get(Accounts.CURRENT_ASSETS) + "," + id + ", 1, '_DEBTORS_'),"
-				+ "(" + groups[26] + "," + result.get(Accounts.CURRENT_ASSETS) + "," + id + ", 1, '_CASH_'),"
-				+ "(" + groups[27] + "," + result.get(Accounts.CURRENT_ASSETS) + "," + id + ", 1, '_BANK_')";		
+		sql = "insert into groups_"+id+"(group_name,group_nature,is_gross_affected,group_under,config_id,is_default,account_type, group_level) values "
+				+ "(" + groups[15] + "," + result.get(Accounts.CAPITAL_ACCOUNT) + "," + id + ", 1, '_OTHERS_', 1), "
+				+ "(" + groups[16] + "," + result.get(Accounts.LOANS) + "," + id + ", 1, '_BANK_', 1), "
+				+ "(" + groups[17] + "," + result.get(Accounts.LOANS) + "," + id + ", 1, '_OTHERS_', 1), "
+				+ "(" + groups[18] + "," + result.get(Accounts.LOANS) + "," + id + ", 1, '_OTHERS_', 1), "
+				+ "(" + groups[19] + "," + result.get(Accounts.CURRENT_LIABILITIES) + "," + id + ", 1, '_OTHERS_', 1), "
+				+ "(" + groups[20] + "," + result.get(Accounts.CURRENT_LIABILITIES) + "," + id + ", 1, '_OTHERS_', 1),"
+				+ "(" + groups[21] + "," + result.get(Accounts.CURRENT_LIABILITIES) + "," + id + ", 1, '_CREDITORS_', 1),"
+				+ "(" + groups[22] + "," + result.get(Accounts.CURRENT_ASSETS) + "," + id + ", 1, '_OTHERS_', 1),"
+				+ "(" + groups[23] + "," + result.get(Accounts.CURRENT_ASSETS) + "," + id + ", 1, '_OTHERS_', 1),"
+				+ "(" + groups[24] + "," + result.get(Accounts.CURRENT_ASSETS) + "," + id + ", 1, '_OTHERS_', 1),"
+				+ "(" + groups[25] + "," + result.get(Accounts.CURRENT_ASSETS) + "," + id + ", 1, '_DEBTORS_', 1),"
+				+ "(" + groups[26] + "," + result.get(Accounts.CURRENT_ASSETS) + "," + id + ", 1, '_CASH_', 1),"
+				+ "(" + groups[27] + "," + result.get(Accounts.CURRENT_ASSETS) + "," + id + ", 1, '_BANK_', 1)";		
 		
 		log.info(sql);
 		return !dao.createGroups(sql).isEmpty();
@@ -131,6 +131,7 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 				+ "  `config_id` BIGINT(20) NOT NULL, "
 				+ "  `is_default` SMALLINT(6) DEFAULT 0, "
 				+ "  `account_type` VARCHAR(20) COLLATE latin1_swedish_ci DEFAULT NULL, "
+				+ "  `group_level` SMALLINT(2) DEFAULT 0,"
 				+ "  PRIMARY KEY USING BTREE (`group_id`) "								
 				+ ") ENGINE=InnoDB "
 				+ "AUTO_INCREMENT=1 ROW_FORMAT=DYNAMIC CHARACTER SET 'latin1' COLLATE 'latin1_swedish_ci' "
@@ -305,36 +306,50 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 				+ "KEY_BLOCK_SIZE=0;";
 		
 		queries.add(sql);
-				
+		
 		sql = ""
 				+ "CREATE DEFINER = 'root'@'localhost' FUNCTION `getParentOf_:id`( "
-				+ "        `input` VARCHAR(20) "
+				+ "        `input` VARCHAR(20), "
+				+ "        `lvl` VARCHAR(2) "
 				+ "    ) "
-				+ "    RETURNS VARCHAR(20) CHARACTER "
+				+ "    RETURNS VARCHAR(20) CHARACTER ";
+
+
+		sql += ""
 				+ "SET latin1 "
 				+ "    NOT DETERMINISTIC "
-				+ "    READS SQL DATA "
+				+ "    READS SQL DATA"
 				+ "    SQL SECURITY DEFINER "
-				+ "    COMMENT '' "
-				+ "BEGIN "
-				+ "DECLARE tmp_value VARCHAR(20); "
-				+ "with recursive cte (group_id, group_name, group_under) as ( "
-				+ "  select     group_id, "
-				+ "             group_name, "
-				+ "             group_under "
-				+ "  from       groups_:id "
-				+ "  where      group_id = input "
-				+ "  union all "
-				+ "  select     p.group_id, "
-				+ "             p.group_name, "
-				+ "             p.group_under "
-				+ "  from       groups_:id p "
-				+ "  inner join cte "
-				+ "          on cte.group_under = p.group_id "
-				+ ") "
-				+ "select group_id into tmp_value from cte where group_under = 0; "
-				+ "RETURN tmp_value; END";
+				+ "    COMMENT '' ";
 		
+		
+		sql += ""
+				+ "BEGIN "
+				+ "  DECLARE tmp_value VARCHAR(20); "
+				+ "  WITH recursive cte (group_id, group_name, group_under, group_level) AS "
+				+ "  ( "
+				+ "         SELECT group_id, "
+				+ "                group_name, "
+				+ "                group_under, "
+				+ "                group_level "
+				+ "         FROM   groups_:id "
+				+ "         WHERE  group_id = input "
+				+ "         UNION ALL "
+				+ "         SELECT     p.group_id, "
+				+ "                    p.group_name, "
+				+ "                    p.group_under, "
+				+ "                    p.group_level "
+				+ "         FROM       groups_:id p "
+				+ "         INNER JOIN cte "
+				+ "         ON         cte.group_under = p.group_id ) "
+				+ "  SELECT group_id "
+				+ "  INTO   tmp_value "
+				+ "  FROM   cte "
+				+ "  WHERE  group_level = lvl; "
+				+ "    "
+				+ "  RETURN tmp_value; "
+				+ "END";
+				
 		queries.add(sql);
 
 		return dao.createCompanyTables(queries, company);
