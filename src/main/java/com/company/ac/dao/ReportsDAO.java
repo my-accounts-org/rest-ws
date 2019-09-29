@@ -10,7 +10,8 @@ import java.util.logging.Logger;
 
 import javax.naming.NamingException;
 
-import com.company.ac.beans.reports.Report;
+import com.company.ac.beans.reports.LedgerBalance;
+import com.company.ac.beans.reports.MonthlyBalanceReport;
 import com.company.ac.beans.reports.TrialBalanceReport;
 import com.company.ac.datasource.AccountsDataSource;
 import com.company.ac.services.admin.Accounts;
@@ -21,7 +22,7 @@ public class ReportsDAO  implements AccountsQuery, Accounts{
 	
 	public TrialBalanceReport getTrialBalanceReport(long id, String sql) {
 		
-		List<Report> reports = new LinkedList<Report>();
+		List<LedgerBalance> ledgerBalances = new LinkedList<LedgerBalance>();
 		
 		Connection c = null;
 		Statement s = null;
@@ -37,15 +38,15 @@ public class ReportsDAO  implements AccountsQuery, Accounts{
 			r = s.executeQuery(sql);
 			
 			while(r.next()) {
-				Report report = new Report();
-				report.setId(r.getLong("GroupId"));
-				report.setName(r.getString("Group"));
-				report.setDebit(r.getDouble("dr"));
-				report.setCredit(r.getDouble("cr"));				
-				reports.add(report);				
+				LedgerBalance ledgerBalance = new LedgerBalance();
+				ledgerBalance.setId(r.getLong("GroupId"));
+				ledgerBalance.setName(r.getString("Group"));
+				ledgerBalance.setDebit(r.getDouble("dr"));
+				ledgerBalance.setCredit(r.getDouble("cr"));				
+				ledgerBalances.add(ledgerBalance);				
 			}
 			
-			trialBalanceReport.setReports(reports);			
+			trialBalanceReport.setLedgerBalances(ledgerBalances);			
 			
 			//log.info("Reports: "+trialBalanceReport);
 			
@@ -59,10 +60,47 @@ public class ReportsDAO  implements AccountsQuery, Accounts{
 		
 		return trialBalanceReport;		
 		
-	}
+	}	
 
-	public TrialBalanceReport getGroupSummary(long id) {
+	public MonthlyBalanceReport getMonthlyBalanceReport(long companyId, String sql) {
 		
-		return null;
+		List<LedgerBalance> monthlyLedgerBalances = new LinkedList<LedgerBalance>();
+		
+		Connection c = null;
+		Statement s = null;
+		ResultSet r = null;		
+		
+		sql = sql.replace(":id", String.valueOf(companyId));
+		
+		MonthlyBalanceReport monthlyBalanceReport = new MonthlyBalanceReport();
+		
+		log.info(sql);
+		try {
+			c = AccountsDataSource.getMySQLConnection();
+			s = c.createStatement();
+			r = s.executeQuery(sql);
+			
+			while(r.next()) {
+				LedgerBalance ledgerBalance = new LedgerBalance();
+				ledgerBalance.setDebit(r.getDouble("dr"));
+				ledgerBalance.setCredit(r.getDouble("cr"));		
+				ledgerBalance.setDate(r.getString("dt"));				
+				monthlyLedgerBalances.add(ledgerBalance);				
+			}
+			
+			monthlyBalanceReport.setLedgerBalances(monthlyLedgerBalances);			
+			
+			//log.info("Reports: "+trialBalanceReport);
+			
+		} catch (NamingException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			AccountsDataSource.closeConnection(c, r, s);
+		}
+		
+		
+		return monthlyBalanceReport;
 	}
 }

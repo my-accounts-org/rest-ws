@@ -1,22 +1,31 @@
 package com.company.ac.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.company.ac.beans.reports.Report;
+import com.company.ac.beans.reports.LedgerBalance;
 
 public class ClosingBalanceCalculator {
 	
-	private List<Report> reports;
+	private List<LedgerBalance> ledgerBalances;
 	
-	public ClosingBalanceCalculator(List<Report> list) {
-		this.reports = list;
-		
+	public ClosingBalanceCalculator(List<LedgerBalance> ledgerBalances) {
+		this.ledgerBalances = ledgerBalances;		
 	}
 	
-	public void refreshClosingBalance(){
-		for(Report report: reports) {
-			report.refreshClosingBalance();						
+	public void refreshClosingBalance(boolean allowNull){
+		List<LedgerBalance> ledgerstWithZeroBalances = new ArrayList<LedgerBalance>();
+		for(LedgerBalance ledgerBalance: ledgerBalances) {
+			ledgerBalance.refreshClosingBalance();
+			ledgerstWithZeroBalances.add(ledgerBalance.isZeroBalanceLedger() && !allowNull ? ledgerBalance: null);
 		}
+		ledgerBalances.removeAll(ledgerstWithZeroBalances);
+	}
+
+	public void calculateClosingBalance() {
+		for(LedgerBalance ledgerBalance: ledgerBalances) {
+			ledgerBalance.calculateClosingBalance();			
+		}		
 	}
 	
 	

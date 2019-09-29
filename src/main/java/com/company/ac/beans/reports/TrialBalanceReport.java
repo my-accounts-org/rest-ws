@@ -4,7 +4,7 @@ import java.util.List;
 
 public class TrialBalanceReport {
 	
-	List<Report> reports;	
+	List<LedgerBalance> ledgerBalances;	
 	private double creditTotal;
 	private double debitTotal;
 	
@@ -18,7 +18,7 @@ public class TrialBalanceReport {
 		this.creditTotal = creditTotal;
 	}
 
-	public double getDebitTotal() {
+	public double getDebitTotal() { 
 		return debitTotal;
 	}
 
@@ -26,24 +26,26 @@ public class TrialBalanceReport {
 		this.debitTotal = debitTotal;
 	}
 
-	public List<Report> getReports() {
-		return reports;
+	
+	
+	public List<LedgerBalance> getLedgerBalances() {
+		return ledgerBalances;
 	}
 
-	public void setReports(List<Report> reports) {
-		this.reports = reports;
-	}	
-	
+	public void setLedgerBalances(List<LedgerBalance> ledgerBalances) {
+		this.ledgerBalances = ledgerBalances;
+	}
+
 	public void calculateCrDrTotal() {
-		for(Report report: reports) {
-			creditTotal += report.getCredit();
-			debitTotal += report.getDebit();
+		for(LedgerBalance ledgerBalance: ledgerBalances) {
+			creditTotal += ledgerBalance.getCredit();
+			debitTotal += ledgerBalance.getDebit();
 		}
 	}
 
 	@Override
 	public String toString() {
-		return "TrialBalanceReport [reports=" + reports + ", creditTotal=" + creditTotal + ", debitTotal=" + debitTotal
+		return "TrialBalanceReport [ledgerBalances=" + ledgerBalances + ", creditTotal=" + creditTotal + ", debitTotal=" + debitTotal
 				+ "]";
 	}
 	

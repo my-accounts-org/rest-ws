@@ -7,9 +7,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.company.ac.beans.reports.MonthlyBalanceReport;
 import com.company.ac.beans.reports.TrialBalanceReport;
 import com.company.ac.services.reports.ReportsService;
-import com.company.ac.services.vouchers.impl.TrialBalanceReportServiceImpl;
+import com.company.ac.services.reports.impl.MonthlyBalanceReportServiceImpl;
+import com.company.ac.services.reports.impl.TrialBalanceReportServiceImpl;
 
 @Path("reports")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -19,15 +21,22 @@ public class ReportResource {
 	@GET
 	@Path("trialbalance/{id}")
 	public TrialBalanceReport getTrialBalanceReport(@PathParam("id") long companyId) {
-		ReportsService service = new TrialBalanceReportServiceImpl();
-		return service.getTrialBalanceReport(companyId);
+		ReportsService<TrialBalanceReport> service = new TrialBalanceReportServiceImpl();
+		return service.getReport(companyId, 0);
 	}
 	
 	@GET
 	@Path("trialbalance/{id}/groupsummary/{accountId}")
 	public TrialBalanceReport getGroupSummary(@PathParam("id") long companyId, @PathParam("accountId")long accountId) {
-		ReportsService service = new TrialBalanceReportServiceImpl();
+		TrialBalanceReportServiceImpl service = new TrialBalanceReportServiceImpl();
 		return service.getGroupSummary(companyId,accountId);
+	}
+	
+	@GET
+	@Path("{id}/monthlybalances/{accountId}")
+	public MonthlyBalanceReport getMonthlyBalanceReport(@PathParam("id") long companyId, @PathParam("accountId")long accountId) {
+		ReportsService<MonthlyBalanceReport> service = new MonthlyBalanceReportServiceImpl();
+		return service.getReport(companyId, accountId);
 	}
 
 }

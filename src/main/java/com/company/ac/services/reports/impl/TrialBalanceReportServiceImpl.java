@@ -1,14 +1,14 @@
-package com.company.ac.services.vouchers.impl;
+package com.company.ac.services.reports.impl;
 
 import com.company.ac.beans.reports.TrialBalanceReport;
 import com.company.ac.dao.ReportsDAO;
 import com.company.ac.services.reports.ReportsService;
 import com.company.ac.utils.ClosingBalanceCalculator;
 
-public class TrialBalanceReportServiceImpl extends ReportsService {
+public class TrialBalanceReportServiceImpl implements ReportsService<TrialBalanceReport> {
 	
-	@Override
-	public TrialBalanceReport getTrialBalanceReport(long id) {
+	
+	public TrialBalanceReport getReport(long id) {
 		ReportsDAO dao = new ReportsDAO();
 		
 		
@@ -28,16 +28,15 @@ public class TrialBalanceReportServiceImpl extends ReportsService {
 		
 		TrialBalanceReport trialBalanceReport = dao.getTrialBalanceReport(id, sql);
 		
-		ClosingBalanceCalculator balanceCalculator = new ClosingBalanceCalculator(trialBalanceReport.getReports());
+		ClosingBalanceCalculator balanceCalculator = new ClosingBalanceCalculator(trialBalanceReport.getLedgerBalances());
 		
-		balanceCalculator.refreshClosingBalance();
+		balanceCalculator.refreshClosingBalance(true);
 		trialBalanceReport.calculateCrDrTotal();
 		
 		return trialBalanceReport;
 	}
 	
 	@Deprecated
-	@Override
 	public TrialBalanceReport getGroupSummary(long id, long accountId) {
 		ReportsDAO dao = new ReportsDAO();
 		
@@ -49,12 +48,20 @@ public class TrialBalanceReportServiceImpl extends ReportsService {
 		
 		TrialBalanceReport trialBalanceReport = dao.getTrialBalanceReport(id, sql);
 		
-		ClosingBalanceCalculator balanceCalculator = new ClosingBalanceCalculator(trialBalanceReport.getReports());
+		ClosingBalanceCalculator balanceCalculator = new ClosingBalanceCalculator(trialBalanceReport.getLedgerBalances());
 		
-		balanceCalculator.refreshClosingBalance();
+		balanceCalculator.refreshClosingBalance(true);
+		
 		trialBalanceReport.calculateCrDrTotal();
 		
 		return trialBalanceReport;
 	}
+
+	@Override
+	public TrialBalanceReport getReport(long companyId, long accountId) {
+		return getReport(companyId);
+	}
+
+	
 		
 }
