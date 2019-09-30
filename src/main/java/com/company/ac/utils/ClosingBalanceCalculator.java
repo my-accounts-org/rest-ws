@@ -13,13 +13,16 @@ public class ClosingBalanceCalculator {
 		this.ledgerBalances = ledgerBalances;		
 	}
 	
-	public void refreshClosingBalance(boolean allowNull){
+	public void refreshClosingBalance(boolean showNullGroups){
 		List<LedgerBalance> ledgerstWithZeroBalances = new ArrayList<LedgerBalance>();
 		for(LedgerBalance ledgerBalance: ledgerBalances) {
 			ledgerBalance.refreshClosingBalance();
-			ledgerstWithZeroBalances.add(ledgerBalance.isZeroBalanceLedger() && !allowNull ? ledgerBalance: null);
+			ledgerstWithZeroBalances.add(ledgerBalance.isZeroBalanceLedger() ? ledgerBalance: null);
 		}
-		ledgerBalances.removeAll(ledgerstWithZeroBalances);
+		if(!showNullGroups) {
+			ledgerBalances.removeAll(ledgerstWithZeroBalances);
+		}
+			
 	}
 
 	public void calculateClosingBalance() {

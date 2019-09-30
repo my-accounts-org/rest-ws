@@ -30,7 +30,8 @@ public class TrialBalanceReportServiceImpl implements ReportsService<TrialBalanc
 		
 		ClosingBalanceCalculator balanceCalculator = new ClosingBalanceCalculator(trialBalanceReport.getLedgerBalances());
 		
-		balanceCalculator.refreshClosingBalance(true);
+		balanceCalculator.refreshClosingBalance(false);
+		
 		trialBalanceReport.calculateCrDrTotal();
 		
 		return trialBalanceReport;
@@ -50,7 +51,7 @@ public class TrialBalanceReportServiceImpl implements ReportsService<TrialBalanc
 		
 		ClosingBalanceCalculator balanceCalculator = new ClosingBalanceCalculator(trialBalanceReport.getLedgerBalances());
 		
-		balanceCalculator.refreshClosingBalance(true);
+		balanceCalculator.refreshClosingBalance(false);
 		
 		trialBalanceReport.calculateCrDrTotal();
 		
