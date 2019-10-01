@@ -1,5 +1,7 @@
 package com.company.ac.beans.reports;
 
+import com.company.ac.utils.DrCrBalance;
+
 public class LedgerBalance {
 	
 	private long id; 
@@ -9,6 +11,8 @@ public class LedgerBalance {
 	private String drCr;
 	private String date;
 	private double closingBalance;
+	
+	private DrCrBalance drCrBalance = new DrCrBalance();
 	
 	
 	public long getId() {
@@ -67,31 +71,29 @@ public class LedgerBalance {
 		this.closingBalance = closingBalance;
 	}
 
+	public DrCrBalance getDrCrBalance() {
+		return drCrBalance = new DrCrBalance(debit, credit);
+	}
+
+	public void setDrCrBalance(DrCrBalance drCrBalance) {
+		this.drCrBalance = drCrBalance;
+	}
+
 	public void refreshClosingBalance() {
-		if(credit > debit) {
-			credit = credit - debit;			
-			drCr = "Cr";
-			debit = 0;
-			closingBalance = credit;
-		} else {
-			debit = debit - credit;			
-			drCr = "Dr";
-			credit = 0;
-			closingBalance = debit;
-		}	
-		
+		drCrBalance.setCr(credit);
+		drCrBalance.setDr(debit);
+		drCrBalance.calculateClosingBalance();
+		credit = drCrBalance.getCr();
+		debit = drCrBalance.getDr();
+		closingBalance = drCrBalance.getClosingBalance();
 	}
 	
 	public void calculateClosingBalance() {
-		if(credit > debit) {
-			credit = credit - debit;			
-			drCr = "Cr";			
-		} else {
-			debit = debit - credit;			
-			drCr = "Dr";			
-		}
-		
-		closingBalance = credit - debit; 
+		drCrBalance.setCr(credit);
+		drCrBalance.setDr(debit);
+		drCrBalance.calculateClosingBalance();
+		closingBalance = drCrBalance.getClosingBalance();
+		drCr = drCrBalance.getBalanceType();
 	}
 	
 	public boolean isZeroBalanceLedger() {

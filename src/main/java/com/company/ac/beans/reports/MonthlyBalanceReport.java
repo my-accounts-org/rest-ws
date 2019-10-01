@@ -5,15 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.company.ac.utils.DrCrBalance;
+
 public class MonthlyBalanceReport {
 	
 	List<LedgerBalance> ledgerBalances;
 	
 	private double creditTotal;
 	private double debitTotal;
+	private double closingBalance;
+	private String drCr;
 	
 	private String[] months = {
-			"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+			"Janaury", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
 	};
 		
 	private Map<Integer, LedgerBalance> template;	
@@ -33,6 +37,22 @@ public class MonthlyBalanceReport {
 
 	public void setCreditTotal(double creditTotal) {
 		this.creditTotal = creditTotal;
+	}
+
+	public double getClosingBalance() {
+		return closingBalance;
+	}
+
+	public void setClosingBalance(double closingBalance) {
+		this.closingBalance = closingBalance;
+	}
+
+	public String getDrCr() {
+		return drCr;
+	}
+
+	public void setDrCr(String drCr) {
+		this.drCr = drCr;
 	}
 
 	public double getDebitTotal() {
@@ -61,6 +81,12 @@ public class MonthlyBalanceReport {
 			creditTotal += ledgerBalance.getCredit();
 			debitTotal += ledgerBalance.getDebit();
 		}
+		
+	}
+	
+	public void updateClosingBalance() {
+		drCr = (creditTotal > debitTotal)? "Cr":"Dr";
+		closingBalance = Math.abs(debitTotal - creditTotal);
 	}
 
 	
@@ -71,15 +97,18 @@ public class MonthlyBalanceReport {
 		}
 		
 		ledgerBalances = new ArrayList<LedgerBalance>(12);
-		
+				
 		for(Integer key: template.keySet()) {
 			LedgerBalance balance = template.get(key);
 			balance.setDate(months[key]);
-			balance.calculateClosingBalance();
-			closingBalance += balance.getClosingBalance();
+			DrCrBalance drCrBalance = new DrCrBalance(balance.getDebit(), balance.getCredit());			
+			closingBalance += drCrBalance.getDr() - drCrBalance.getCr();
+			
 			balance.setClosingBalance(Math.abs(closingBalance));
+			drCrBalance.calculateClosingBalance();
+			balance.setDrCr(drCrBalance.getBalanceType());
+			
 			ledgerBalances.add(balance);
-			System.out.println(key + " => " + closingBalance);
 		}
 		
 		

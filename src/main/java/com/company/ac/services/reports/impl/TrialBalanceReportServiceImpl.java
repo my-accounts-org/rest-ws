@@ -23,7 +23,8 @@ public class TrialBalanceReportServiceImpl implements ReportsService<TrialBalanc
 				+ "sum(t.debit) as dr, sum(t.credit) as cr "
 				+ "from tmp t group by t.group order by t.group;";*/
 		
-		String sql ="with tmp as (select ve.voucher_id,l.ledger_id, l.name, ve.debit, ve.credit from voucher_entries_:id ve, ledgers_:id l where l.ledger_id=ve.ledger_id) "
+		String sql ="with tmp as (select ve.voucher_id,l.ledger_id, l.name, ve.debit, ve.credit from voucher_entries_:id ve, ledgers_:id l, current_period_:id p, vouchers_:id v where l.ledger_id=ve.ledger_id and "
+				+ "  ve.voucher_id = v.voucher_id and v.voucher_date between p.start_date and p.end_date) "
 				+ "select t.ledger_id as 'groupid', t.name as 'group', sum(debit) as dr, sum(credit) as cr from tmp t group by t.ledger_id";
 		
 		TrialBalanceReport trialBalanceReport = dao.getTrialBalanceReport(id, sql);
