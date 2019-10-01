@@ -1,5 +1,7 @@
 package com.company.ac.beans.vouchers;
 
+import java.util.Date;
+
 import com.company.ac.dao.VoucherEntryDAO;
 import com.company.ac.services.admin.Accounts;
 
@@ -11,7 +13,7 @@ public abstract class Voucher {
 	private int voucherNo;
 	private double amount;
 	
-	private String date;
+	private Date date;
 	private String narration;
 	
 	private int invoiceNo;
@@ -59,11 +61,13 @@ public abstract class Voucher {
 		this.voucherNo = voucherNo;
 	}
 
-	public String getDate() {
+	
+
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 

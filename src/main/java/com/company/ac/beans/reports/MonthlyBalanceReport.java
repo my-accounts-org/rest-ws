@@ -16,12 +16,27 @@ public class MonthlyBalanceReport {
 	private double closingBalance;
 	private String drCr;
 	
-	private String[] months = {
-			"Janaury", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-	};
-		
-	private Map<Integer, LedgerBalance> template;	
+	private Map<Integer, LedgerBalance> template;
 	
+	private String[] months = {
+			"January",
+			"February",
+			"March",
+			"April",
+			"May",
+			"June",
+			"July",
+			"August",
+			"September",
+			"October",
+			"November",
+			"December",
+			
+	}; 
+	
+	public MonthlyBalanceReport() {
+		createReportTemplate();
+	}
 	
 	public List<LedgerBalance> getLedgerBalances() {
 		return ledgerBalances;
@@ -63,17 +78,14 @@ public class MonthlyBalanceReport {
 		this.debitTotal = debitTotal;
 	}
 
-	public MonthlyBalanceReport() {		
-		createReportTemplate();
-	}	
-
 	private void createReportTemplate() {
 		template = new HashMap<Integer, LedgerBalance>();
 		for(int i = 0; i < 12; i++) {
 			LedgerBalance tmp = new LedgerBalance();
-			tmp.setDate(months[i]);
+			tmp.setDate(months[(i+3)%12]);
 			template.put(i, tmp);
 		}
+		
 	}	
 	
 	public void calculateCrDrTotal() {
@@ -92,26 +104,40 @@ public class MonthlyBalanceReport {
 	
 	public void generateMonthlyReport() {
 		double closingBalance = 0;
-		for (LedgerBalance ledgerBalance : ledgerBalances) {
-			template.put(Integer.valueOf(ledgerBalance.getDate()), ledgerBalance);
+		
+		for(LedgerBalance balance: ledgerBalances) {
+			int i = Integer.valueOf(balance.getDate());			
+			if(i<4) {				
+				i = 8 + i;
+			}else {
+				i = i - 4;
+			}
+			template.put(i, balance);
+			balance.setDate(getMonth(balance.getDate()));			
 		}
 		
 		ledgerBalances = new ArrayList<LedgerBalance>(12);
-				
+			
+		String drCr = "";
 		for(Integer key: template.keySet()) {
+						
 			LedgerBalance balance = template.get(key);
-			balance.setDate(months[key]);
+			
 			DrCrBalance drCrBalance = new DrCrBalance(balance.getDebit(), balance.getCredit());			
 			closingBalance += drCrBalance.getDr() - drCrBalance.getCr();
 			
 			balance.setClosingBalance(Math.abs(closingBalance));
 			drCrBalance.calculateClosingBalance();
-			balance.setDrCr(drCrBalance.getBalanceType());
+			drCr = drCrBalance.getBalanceType().equals("") ? drCr : drCrBalance.getBalanceType();  
+			balance.setDrCr(drCr);
 			
 			ledgerBalances.add(balance);
-		}
-		
+		}		
 		
 	}
-		
+
+	private String getMonth(String date) {
+		int i = Integer.valueOf(date) - 1;
+		return months[i];
+	}		
 }

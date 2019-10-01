@@ -43,7 +43,8 @@ public class DrCrBalance {
 	}
 
 	public String getBalanceType() {
-		return balanceType;
+		if(cr != dr) return balanceType;
+		return "";
 	}
 
 	public void setBalanceType(String balanceType) {

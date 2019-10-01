@@ -82,6 +82,7 @@ public class ReportsDAO  implements AccountsQuery, Accounts{
 			
 			while(r.next()) {
 				LedgerBalance ledgerBalance = new LedgerBalance();
+				ledgerBalance.setId(r.getLong("id"));
 				ledgerBalance.setDebit(r.getDouble("dr"));
 				ledgerBalance.setCredit(r.getDouble("cr"));		
 				ledgerBalance.setDate(r.getString("dt"));				
