@@ -18,10 +18,12 @@ public class ClosingBalanceCalculator {
 		for(LedgerBalance ledgerBalance: ledgerBalances) {
 			ledgerBalance.refreshClosingBalance();
 			ledgerstWithZeroBalances.add(ledgerBalance.isZeroBalanceLedger() ? ledgerBalance: null);
-		}
+		}		
 		if(!showNullGroups) {
 			ledgerBalances.removeAll(ledgerstWithZeroBalances);
 		}
+		
+		
 			
 	}
 

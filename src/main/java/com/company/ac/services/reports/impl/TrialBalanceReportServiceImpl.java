@@ -1,5 +1,6 @@
 package com.company.ac.services.reports.impl;
 
+import com.company.ac.beans.reports.LedgerBalance;
 import com.company.ac.beans.reports.TrialBalanceReport;
 import com.company.ac.dao.ReportsDAO;
 import com.company.ac.services.reports.ReportsService;
@@ -26,14 +27,20 @@ public class TrialBalanceReportServiceImpl implements ReportsService<TrialBalanc
 		String sql ="with tmp as (select ve.voucher_id,l.ledger_id, l.name, ve.debit, ve.credit from voucher_entries_:id ve, ledgers_:id l, current_period_:id p, vouchers_:id v where l.ledger_id=ve.ledger_id and "
 				+ "  ve.voucher_id = v.voucher_id and v.voucher_date between p.start_date and p.end_date) "
 				+ "select t.ledger_id as 'groupid', t.name as 'group', sum(debit) as dr, sum(credit) as cr from tmp t group by t.ledger_id";
+		sql = "with tmp as (select ve.voucher_id,l.ledger_id, p.start_date, p.end_date, l.name, ve.debit, ve.credit from voucher_entries_:id ve, ledgers_:id l, "
+				+ "current_period_:id p, vouchers_:id v where l.ledger_id=ve.ledger_id and ve.voucher_id = v.voucher_id and "
+				+ "v.voucher_date between p.start_date and p.end_date) select t.ledger_id as 'groupid', t.name as 'group', "
+				+ "(sum(debit) + (select dr_balance from opening_balances_:id o where o.ledger_id=t.ledger_id and o.balance_as_on between t.start_date "
+				+ "and t.end_date) ) as dr, (sum(credit) + (select cr_balance from opening_balances_:id o where o.ledger_id=t.ledger_id "
+				+ "and o.balance_as_on between t.start_date and t.end_date)) as cr from tmp t group by t.ledger_id, t.start_date, t.end_date";
 		
 		TrialBalanceReport trialBalanceReport = dao.getTrialBalanceReport(id, sql);
 		
 		ClosingBalanceCalculator balanceCalculator = new ClosingBalanceCalculator(trialBalanceReport.getLedgerBalances());
+						
+		balanceCalculator.refreshClosingBalance(false);		
 		
-		balanceCalculator.refreshClosingBalance(false);
-		
-		trialBalanceReport.calculateCrDrTotal();
+		trialBalanceReport.calculateCrDrTotal();	
 		
 		return trialBalanceReport;
 	}

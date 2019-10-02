@@ -25,8 +25,6 @@ public class TrialBalanceReport {
 	public void setDebitTotal(double debitTotal) {
 		this.debitTotal = debitTotal;
 	}
-
-	
 	
 	public List<LedgerBalance> getLedgerBalances() {
 		return ledgerBalances;
@@ -40,8 +38,23 @@ public class TrialBalanceReport {
 		for(LedgerBalance ledgerBalance: ledgerBalances) {
 			creditTotal += ledgerBalance.getCredit();
 			debitTotal += ledgerBalance.getDebit();
+		}		
+		
+		if(creditTotal != debitTotal) {
+			LedgerBalance balance = new LedgerBalance();
+			balance.setCredit(debitTotal);
+			balance.setDebit(creditTotal);
+			balance.refreshClosingBalance();
+			balance.setName("diff");
+			ledgerBalances.add(balance);
+			if(creditTotal > debitTotal) {
+				debitTotal = creditTotal;
+			} else {
+				creditTotal = debitTotal;
+			}
 		}
 	}
+	
 
 	@Override
 	public String toString() {

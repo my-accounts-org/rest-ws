@@ -62,33 +62,35 @@ public class ReportsDAO  implements AccountsQuery, Accounts{
 		
 	}	
 
-	public MonthlyBalanceReport getMonthlyBalanceReport(long companyId, String sql) {
+	public MonthlyBalanceReport getMonthlyBalanceReport(long companyId, List<String> queries) {
 		
 		List<LedgerBalance> monthlyLedgerBalances = new LinkedList<LedgerBalance>();
 		
 		Connection c = null;
 		Statement s = null;
 		ResultSet r = null;		
-		
-		sql = sql.replace(":id", String.valueOf(companyId));
-		
+				
 		MonthlyBalanceReport monthlyBalanceReport = new MonthlyBalanceReport();
-		
-		log.info(sql);
+				
 		try {
 			c = AccountsDataSource.getMySQLConnection();
 			s = c.createStatement();
-			r = s.executeQuery(sql);
 			
-			while(r.next()) {
-				LedgerBalance ledgerBalance = new LedgerBalance();
-				ledgerBalance.setId(r.getLong("id"));
-				ledgerBalance.setDebit(r.getDouble("dr"));
-				ledgerBalance.setCredit(r.getDouble("cr"));		
-				ledgerBalance.setDate(r.getString("dt"));				
-				monthlyLedgerBalances.add(ledgerBalance);				
-			}
-			
+			for(String sql: queries) {
+				sql = sql.replace(":id", String.valueOf(companyId));
+				
+				log.info(sql);
+				
+				r = s.executeQuery(sql);	
+				while(r.next()) {
+					LedgerBalance ledgerBalance = new LedgerBalance();
+					ledgerBalance.setId(r.getLong("id"));
+					ledgerBalance.setDebit(r.getDouble("dr"));
+					ledgerBalance.setCredit(r.getDouble("cr"));		
+					ledgerBalance.setDate(r.getString("dt"));				
+					monthlyLedgerBalances.add(ledgerBalance);				
+				}
+			}			
 			monthlyBalanceReport.setLedgerBalances(monthlyLedgerBalances);			
 			
 			//log.info("Reports: "+trialBalanceReport);

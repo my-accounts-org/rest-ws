@@ -52,6 +52,19 @@ public class LedgerServiceImpl implements LedgerService {
 		group.setUnder(ledger.getUnder());
 		return groupDao.getGroupParent(group);
 	}
+	
+	public boolean bulkCreate(List<Ledger> ledgers) {
+		List<Long> keys = dao.bulkCreate(ledgers);
+				
+		CompanyDAO companyDAO = new CompanyDAO();
+		int i = 0;
+		for(Ledger ledger: ledgers) {
+			Date financialYear = companyDAO.getFinancialYear(ledger.getConfig());
+			ledger.setId(keys.get(i++));
+			dao.updateOpeningBalance(ledger, financialYear);
+		}
+		return true;
+	}
 
 	
 }

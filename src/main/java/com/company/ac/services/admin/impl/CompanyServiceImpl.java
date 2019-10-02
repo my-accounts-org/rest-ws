@@ -6,12 +6,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.company.ac.beans.Ledger;
 import com.company.ac.beans.company.Company;
 import com.company.ac.dao.AccountsQuery;
 import com.company.ac.dao.CompanyDAO;
 import com.company.ac.dao.DBUtils;
+import com.company.ac.dao.LedgersDAO;
+import com.company.ac.exceptions.DataNotFoundException;
 import com.company.ac.services.admin.Accounts;
 import com.company.ac.services.admin.CompanyService;
+import com.company.ac.services.admin.LedgerService;
 import com.company.ac.utils.DateHandler;
 
 public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQuery{
@@ -24,13 +28,70 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 		
 		 long id = dao.create(company);
 		 company.setId(id);
-		 boolean r = configure(company)? createDefaultGroups(id) ? createDefaultLedger(id, company.getFinancialYear()) : false : false;
 		 try {
-			r = r && createFinancialYear(company);
+			boolean r = configure(company) 
+					 && createDefaultGroups(id) 
+					 && createDefaultLedger(id, company.getFinancialYear())
+					 && createFinancialYear(company)
+					 && createDiscountLeders(company)
+					 && createDefaultGSTLedgers(company);
+			if(!r)  throw new DataNotFoundException("Error while configuring company!");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		 return company;
+		 
+		return company;
+	}
+
+	private boolean createDefaultGSTLedgers(Company company) {
+		Integer[] gst = {0, 5, 12, 18, 28};		
+		
+		LedgerService service = new LedgerServiceImpl();
+		List<Ledger> ledgers = new ArrayList<Ledger>();
+		for(int i = 0; i < 5; i++) {
+			Ledger ledger = new Ledger();
+			ledger.setConfig(company.getId());		
+			ledger.setCrDr("Cr");
+			ledger.setUnder(20);
+			ledger.setName("Purchase GST ("+gst[i]+"%)");	
+			ledgers.add(ledger);
+		}
+		
+		
+		for(int i = 0; i < 5; i++) {
+			Ledger ledger = new Ledger();
+			ledger.setConfig(company.getId());		
+			ledger.setCrDr("Dr");
+			ledger.setUnder(20);
+			ledger.setName("Sales GST ("+gst[i]+"%)");
+			ledgers.add(ledger);
+		}
+		
+		return service.bulkCreate(ledgers);
+	}
+
+	private boolean createDiscountLeders(Company company) {
+		List<Ledger> ledgers = new ArrayList<Ledger>();
+		Ledger ledger = new Ledger();
+		ledger.setConfig(company.getId());
+		ledger.setName("Purchase Discount");
+		ledger.setCrDr("Cr");
+		ledger.setUnder(14);
+		ledgers.add(ledger);	
+				
+		Ledger ledger1 = new Ledger();
+		ledger1.setConfig(company.getId());
+		ledger1.setName("Sales Discount");
+		ledger1.setCrDr("Dr");
+		ledger1.setUnder(15);
+		
+		ledgers.add(ledger1);
+		
+		LedgerService service = new LedgerServiceImpl();
+		
+		log.info("Discount ledgers created successfully!");
+		
+		return service.bulkCreate(ledgers);
 	}
 
 	@Override
@@ -74,7 +135,11 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 					+ DateHandler.getInstance().format(date) + "',0,0)";
 			queries.add(sql);
 			
+			log.info(""+queries);
+			
 			result = dao.addOpeningAndClosingBalance(queries);
+			
+			log.info("Result=>"+result);
 		}
 		
 		return result;
@@ -357,6 +422,7 @@ public class CompanyServiceImpl implements CompanyService, Accounts, AccountsQue
 
 	public boolean createFinancialYear(Company company) throws ParseException {
 		Map<String, String> financialYearDates = DateHandler.getInstance().getFinancialYearDates(company.getFinancialYear());
+		log.info("------>>>"+financialYearDates);
 		return dao.createFinancialYear(company.getId(), financialYearDates.get("from"), financialYearDates.get("to"));
 	}
 

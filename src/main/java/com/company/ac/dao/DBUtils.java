@@ -18,9 +18,8 @@ import com.company.ac.datasource.AccountsDataSource;
 
 public class DBUtils {
 		
-	private static final DBUtils dbUtils = new DBUtils();
+	private static final DBUtils dbUtils = new DBUtils();	
 	
-	private Logger log = Logger.getLogger(AuthenticationDAO.class.getName());
 	
 	private static final Map<String, String> cachedQuery = new HashMap<String, String>();
 	
@@ -41,8 +40,7 @@ public class DBUtils {
 	private String getQuery(String name, String companyId) {
 		String query = cachedQuery.get(name);
 		if(query == null) {
-			query = loadQuery(name);
-			log.info("query found in cache! "+query);
+			query = loadQuery(name);			
 		}
 		return query.replace(AccountsQuery.COMPANY_ID_DELIMETER, companyId);
 	}
@@ -67,9 +65,7 @@ public class DBUtils {
 			e.printStackTrace();
 		}finally {
 			AccountsDataSource.close(c, s, r);
-		}
-		
-		log.info("fetched from DB: "+query);
+		}		
 		
 		return query;
 		
@@ -112,7 +108,7 @@ public class DBUtils {
 			for(String sql: queries) {				
 				s.addBatch(sql);					
 			}			
-			log.info("queries => "+queries);
+			
 			result = s.executeBatch().length > -1 ;
 			
 		} catch (SQLException e) {
@@ -132,7 +128,7 @@ public class DBUtils {
 		
 		
 		String sql ="delete from "+tableName+" where config_id = "+id;
-		log.info("sql => "+sql);
+		
 		boolean result = false;
 		try {
 			c = AccountsDataSource.getMySQLConnection();
@@ -173,7 +169,7 @@ public class DBUtils {
 		Statement s = null;
 		ResultSet r = null;
 		int count = 0;
-		log.info(sql);
+		
 		try {
 			c = AccountsDataSource.getMySQLConnection();
 			s = c.createStatement();

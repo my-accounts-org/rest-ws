@@ -11,5 +11,6 @@ public interface LedgerService {
 	List<Group> getGroupList(long id);
 	Ledger create(Ledger ledger);
 	boolean delete(long companyId, long ledgerId);
+	boolean bulkCreate(List<Ledger> ledgers);
 	
 }

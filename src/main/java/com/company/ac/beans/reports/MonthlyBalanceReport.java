@@ -10,10 +10,20 @@ import com.company.ac.utils.DrCrBalance;
 public class MonthlyBalanceReport {
 	
 	List<LedgerBalance> ledgerBalances;
+	LedgerBalance openingBalance;
 	
+	public LedgerBalance getOpeningBalance() {
+		return openingBalance;
+	}
+
+	public void setOpeningBalance(LedgerBalance openingBalance) {
+		this.openingBalance = openingBalance;
+	}
+
 	private double creditTotal;
 	private double debitTotal;
 	private double closingBalance;
+	
 	private String drCr;
 	
 	private Map<Integer, LedgerBalance> template;
@@ -103,8 +113,7 @@ public class MonthlyBalanceReport {
 
 	
 	public void generateMonthlyReport() {
-		double closingBalance = 0;
-		
+		LedgerBalance openingBalance = ledgerBalances.remove(0);
 		for(LedgerBalance balance: ledgerBalances) {
 			int i = Integer.valueOf(balance.getDate());			
 			if(i<4) {				
@@ -115,25 +124,32 @@ public class MonthlyBalanceReport {
 			template.put(i, balance);
 			balance.setDate(getMonth(balance.getDate()));			
 		}
+		drCr = "";
+		ledgerBalances = new ArrayList<LedgerBalance>(13);
+				
+		openingBalance.setDate("Opening Balance");
+		calculateClosingBalance(openingBalance);
 		
-		ledgerBalances = new ArrayList<LedgerBalance>(12);
-			
-		String drCr = "";
-		for(Integer key: template.keySet()) {
-						
+		for(Integer key: template.keySet()) {		
 			LedgerBalance balance = template.get(key);
-			
-			DrCrBalance drCrBalance = new DrCrBalance(balance.getDebit(), balance.getCredit());			
-			closingBalance += drCrBalance.getDr() - drCrBalance.getCr();
-			
-			balance.setClosingBalance(Math.abs(closingBalance));
-			drCrBalance.calculateClosingBalance();
-			drCr = drCrBalance.getBalanceType().equals("") ? drCr : drCrBalance.getBalanceType();  
-			balance.setDrCr(drCr);
-			
-			ledgerBalances.add(balance);
-		}		
+			calculateClosingBalance(balance);
+		}	
 		
+	}
+
+	private void calculateClosingBalance(LedgerBalance balance) {		
+		
+		DrCrBalance drCrBalance = new DrCrBalance(balance.getDebit(), balance.getCredit());			
+		closingBalance += drCrBalance.getDr() - drCrBalance.getCr();
+		
+		balance.setClosingBalance(Math.abs(closingBalance));
+		drCrBalance.calculateClosingBalance();
+		
+		drCr = drCrBalance.getBalanceType().equals("") ? drCr : drCrBalance.getBalanceType();
+		
+		balance.setDrCr(drCr);
+		
+		ledgerBalances.add(balance);		
 	}
 
 	private String getMonth(String date) {

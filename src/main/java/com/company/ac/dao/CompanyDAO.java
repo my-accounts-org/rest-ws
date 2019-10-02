@@ -143,7 +143,9 @@ public class CompanyDAO implements AccountsQuery{
 			s.setString(1, start);
 			s.setString(2, end);
 			
-			result = s.execute();
+			s.execute();
+			
+			result = true;
 			
 		} catch (NamingException e) {			
 			e.printStackTrace();

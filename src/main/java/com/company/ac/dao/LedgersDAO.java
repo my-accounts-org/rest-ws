@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,8 +18,6 @@ import com.company.ac.datasource.AccountsDataSource;
 import com.company.ac.utils.DateHandler;
 
 public class LedgersDAO implements AccountsQuery {
-	
-	private Logger log = Logger.getLogger(LedgersDAO.class.getName());
 		
 	public List<Ledger> getLedgerList(long companyId){
 		List<Ledger> ledgers = new LinkedList<Ledger>();
@@ -27,7 +26,7 @@ public class LedgersDAO implements AccountsQuery {
 		ResultSet r = null;
 		
 		String sql = DBUtils.getSQLQuery(GET_ALL_LEDGERS, String.valueOf(companyId));
-		log.info(sql);
+		
 		try {
 			c = AccountsDataSource.getMySQLConnection();
 			s = c.createStatement();
@@ -78,19 +77,54 @@ public class LedgersDAO implements AccountsQuery {
 		} finally {
 			AccountsDataSource.close(c, s);
 		}
-		
-		log.info("Created Ledger");
-		
 		return id;
+	}
+	
+	public List<Long> bulkCreate(List<Ledger> ledgers) {
+		List<Long> keys = null;
+		Connection c = null;
+		PreparedStatement s = null;
+		ResultSet r = null;
+		long id = ledgers.get(0).getConfig();
+		String sql = DBUtils.getSQLQuery(CREATE_LEDGER, ""+id);
+		
+		try {
+			c = AccountsDataSource.getMySQLConnection();
+			s = c.prepareStatement(sql,  PreparedStatement.RETURN_GENERATED_KEYS);			
+			
+			for(Ledger ledger: ledgers) {			
+				s.setString(1, ledger.getName());
+				s.setLong(2, ledger.getUnder());
+				s.setDouble(3, ledger.getOpeningBalance());
+				s.setString(4, ledger.getCrDr());
+				s.setString(5, ledger.getMailingName());
+				s.setString(6, ledger.getMailingAddress());
+				
+				s.addBatch();
+			}
+			s.executeBatch();
+			r = s.getGeneratedKeys();
+			keys = new ArrayList<Long>();
+			while(r.next()) {
+				keys.add(r.getLong(1));
+			}			
+			
+		} catch (NamingException e) {			
+			e.printStackTrace();
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		} finally {
+			AccountsDataSource.close(c, s);
+		}	
+		
+		return keys;
 	}
 
 	public boolean delete(long companyId, long ledgerId) {
 		Connection c = null;
 		PreparedStatement s = null;
 		String sql = DBUtils.getSQLQuery(DELETE_LEDGER, String.valueOf(companyId));
-		
-		log.info(sql);
-		
+				
 		int result = 0;
 		try {
 			c = AccountsDataSource.getMySQLConnection();			
@@ -114,8 +148,6 @@ public class LedgersDAO implements AccountsQuery {
 		Connection c = null;
 		PreparedStatement s = null;
 		String sql = DBUtils.getSQLQuery(UPDATE_OPENING_BALANCE, String.valueOf(ledger.getConfig()));
-		
-		log.info(sql);
 		
 		int result = 0;
 		try {
@@ -158,8 +190,6 @@ public class LedgersDAO implements AccountsQuery {
 		
 		sql = sql.replace(":id", String.valueOf(companyId));
 		sql = sql.replace(":params", ledgerTypes);
-		
-		log.info(sql);
 		try {
 			c = AccountsDataSource.getMySQLConnection();
 			s = c.createStatement();
@@ -167,8 +197,7 @@ public class LedgersDAO implements AccountsQuery {
 			
 			while(r.next()) {
 				ledgers.add(new Ledger().convert(r));
-			}
-			log.info("Ledgers: "+ledgers);
+			}		
 			
 		} catch (NamingException e) {
 			e.printStackTrace();
@@ -195,7 +224,7 @@ public class LedgersDAO implements AccountsQuery {
 		
 		sql = sql.replace(":id", String.valueOf(companyId));		
 		
-		log.info(sql);
+		
 		try {
 			c = AccountsDataSource.getMySQLConnection();
 			s = c.createStatement();
@@ -203,8 +232,7 @@ public class LedgersDAO implements AccountsQuery {
 			
 			while(r.next()) {
 				ledgers.add(new Ledger().convert(r));
-			}
-			log.info("Ledgers: "+ledgers);
+			}			
 			
 		} catch (NamingException e) {
 			e.printStackTrace();
