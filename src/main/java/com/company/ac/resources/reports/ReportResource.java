@@ -7,9 +7,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.company.ac.beans.reports.LedgerReport;
 import com.company.ac.beans.reports.MonthlyBalanceReport;
 import com.company.ac.beans.reports.TrialBalanceReport;
 import com.company.ac.services.reports.ReportsService;
+import com.company.ac.services.reports.impl.LedgerReportServiceImpl;
 import com.company.ac.services.reports.impl.MonthlyBalanceReportServiceImpl;
 import com.company.ac.services.reports.impl.TrialBalanceReportServiceImpl;
 
@@ -36,6 +38,13 @@ public class ReportResource {
 	@Path("{id}/monthlybalances/{accountId}")
 	public MonthlyBalanceReport getMonthlyBalanceReport(@PathParam("id") long companyId, @PathParam("accountId")long accountId) {
 		ReportsService<MonthlyBalanceReport> service = new MonthlyBalanceReportServiceImpl();
+		return service.getReport(companyId, accountId);
+	}
+	
+	@GET
+	@Path("{id}/ledgerreport/{accountId}")
+	public LedgerReport getLedgerReport(@PathParam("id") long companyId, @PathParam("accountId")long accountId) {
+		ReportsService<LedgerReport> service = new LedgerReportServiceImpl();
 		return service.getReport(companyId, accountId);
 	}
 

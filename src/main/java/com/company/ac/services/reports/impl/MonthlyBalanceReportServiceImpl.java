@@ -15,7 +15,8 @@ public class MonthlyBalanceReportServiceImpl implements ReportsService<MonthlyBa
 		
 		List<String> queries = new ArrayList<String>(2);
 		
-		String sql = "select ledger_id as id, dr_balance dr, cr_balance cr, balance_as_on as dt from opening_balances_:id where ledger_id = " + accountId; 
+		String sql = "select ledger_id as id, dr_balance dr, cr_balance cr, balance_as_on as dt "
+				+ "from opening_balances_:id where ledger_id = " + accountId; 
 	
 		queries.add(sql);
 		

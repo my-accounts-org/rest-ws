@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -11,6 +12,7 @@ import java.util.logging.Logger;
 import javax.naming.NamingException;
 
 import com.company.ac.beans.reports.LedgerBalance;
+import com.company.ac.beans.reports.LedgerReport;
 import com.company.ac.beans.reports.MonthlyBalanceReport;
 import com.company.ac.beans.reports.TrialBalanceReport;
 import com.company.ac.datasource.AccountsDataSource;
@@ -105,5 +107,49 @@ public class ReportsDAO  implements AccountsQuery, Accounts{
 		
 		
 		return monthlyBalanceReport;
+	}
+
+	public LedgerReport getLedgerReport(long companyId, String sql) {
+		LedgerReport report = new LedgerReport();
+		
+		Connection c = null;
+		Statement s = null;
+		ResultSet r = null;		
+		
+		sql = sql.replace(":id", String.valueOf(companyId));
+				
+		try {
+			c = AccountsDataSource.getMySQLConnection();
+			s = c.createStatement();
+			r = s.executeQuery(sql);
+			
+			List<LedgerBalance> ledgerBalances = new LinkedList<LedgerBalance>();
+			
+			while(r.next()) {
+				LedgerBalance ledgerBalance = new LedgerBalance();
+				ledgerBalance.setId(r.getLong("ledger_id"));
+				ledgerBalance.setName(r.getString("name"));
+				ledgerBalance.setDebit(r.getDouble("debit"));
+				ledgerBalance.setCredit(r.getDouble("credit"));
+				ledgerBalance.setDrCr(r.getString("by_to"));
+				ledgerBalance.setVoucherNo(r.getInt("voucher_no"));
+				ledgerBalance.setVoucherType(r.getInt("voucher_type"));
+				ledgerBalance.setDate(r.getString("vdate"));
+				ledgerBalances.add(ledgerBalance);				
+			}
+			
+			report.setLedgerBalances(ledgerBalances);			
+			
+			//log.info("Reports: "+trialBalanceReport);
+			
+		} catch (NamingException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			AccountsDataSource.closeConnection(c, r, s);
+		}
+		
+		return report;
 	}
 }

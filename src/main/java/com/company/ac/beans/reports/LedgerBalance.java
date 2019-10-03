@@ -12,6 +12,9 @@ public class LedgerBalance {
 	private String date;
 	private double closingBalance;
 	
+	private int voucherNo;
+	private int voucherType;
+	
 	private DrCrBalance drCrBalance = new DrCrBalance();
 	
 	
@@ -33,6 +36,22 @@ public class LedgerBalance {
 
 	public double getCredit() {
 		return credit;
+	}
+
+	public int getVoucherNo() {
+		return voucherNo;
+	}
+
+	public void setVoucherNo(int voucherNo) {
+		this.voucherNo = voucherNo;
+	}
+
+	public int getVoucherType() {
+		return voucherType;
+	}
+
+	public void setVoucherType(int voucherType) {
+		this.voucherType = voucherType;
 	}
 
 	public void setCredit(double credit) {

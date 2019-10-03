@@ -10,15 +10,6 @@ import com.company.ac.utils.DrCrBalance;
 public class MonthlyBalanceReport {
 	
 	List<LedgerBalance> ledgerBalances;
-	LedgerBalance openingBalance;
-	
-	public LedgerBalance getOpeningBalance() {
-		return openingBalance;
-	}
-
-	public void setOpeningBalance(LedgerBalance openingBalance) {
-		this.openingBalance = openingBalance;
-	}
 
 	private double creditTotal;
 	private double debitTotal;

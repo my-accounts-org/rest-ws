@@ -45,7 +45,7 @@ public class TrialBalanceReport {
 			balance.setCredit(debitTotal);
 			balance.setDebit(creditTotal);
 			balance.refreshClosingBalance();
-			balance.setName("diff");
+			balance.setName("difference in opening balance");
 			ledgerBalances.add(balance);
 			if(creditTotal > debitTotal) {
 				debitTotal = creditTotal;
